@@ -1,32 +1,41 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GlyphEdit.Controls.DocumentView.Input;
+using Microsoft.Xna.Framework;
 
 namespace GlyphEdit.Controls.DocumentView
 {
     public class Camera
     {
-        private bool _isPanning;
         private Vector2 _panStartCameraPosition;
         private Point _panStartMousePosition;
 
+        public Camera(GlyphMouse mouse)
+        {
+            mouse.MiddleButtonDown += (sender, args) => StartPan(args.MouseState.Position);
+            mouse.MiddleButtonUp += (sender, args) => FinishPan();
+            mouse.Moved += (sender, args) =>
+            {
+                if (IsPanning) UpdatePan(args.MouseState.Position);
+            };
+        }
+
         public void StartPan(Point position)
         {
-            _isPanning = true;
+            IsPanning = true;
             _panStartMousePosition = position;
             _panStartCameraPosition = Position;
         }
 
-        public Vector2 Position { get; set; }
-
-        public void EndPan()
+        public void FinishPan()
         {
-            _isPanning = false;
+            IsPanning = false;
         }
-
-        public bool IsPanning() => _isPanning;
 
         public void UpdatePan(Point position)
         {
             Position = _panStartCameraPosition + (_panStartMousePosition - position).ToVector2();
         }
+
+        public Vector2 Position { get; set; }
+        public bool IsPanning { get; private set; }
     }
 }

@@ -91,8 +91,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\DocumentView\Camera.cs" />
-    <Compile Include="Controls\DocumentView\GlyphDocument.cs" />
+    <Compile Include="Controls\DocumentView\DocumentBackgroundControl.cs" />
+    <Compile Include="Controls\DocumentView\DocumentControl.cs" />
+    <Compile Include="Controls\DocumentView\IGpuResource.cs" />
+    <Compile Include="Controls\DocumentView\Input\GlyphKeyboard.cs" />
+    <Compile Include="Controls\DocumentView\Input\GlyphMouse.cs" />
+    <Compile Include="Controls\DocumentView\Input\MouseEventArgs.cs" />
+    <Compile Include="Controls\DocumentView\Input\MouseMoveEventArgs.cs" />
+    <Compile Include="Controls\DocumentView\Rendering\IRenderer.cs" />
+    <Compile Include="Controls\DocumentView\Rendering\Quad.cs" />
+    <Compile Include="Controls\DocumentView\Rendering\Renderer.cs" />
+    <Compile Include="Controls\DocumentView\Rendering\Triangle.cs" />
     <Compile Include="Controls\DocumentView\Textel.cs" />
+    <Compile Include="Images\ImageMarker.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Controls\Toolbar\GlyphToolbar.xaml.cs">
       <DependentUpon>GlyphToolbar.xaml</DependentUpon>
@@ -116,7 +127,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\DocumentView\GlyphDocumentView.cs" />
+    <Compile Include="Controls\DocumentView\DocumentView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -144,6 +155,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Images\checkered.png" />
     <Resource Include="Images\eraser.png" />
     <Resource Include="Images\pencil.png" />
     <Content Include="test.png">
