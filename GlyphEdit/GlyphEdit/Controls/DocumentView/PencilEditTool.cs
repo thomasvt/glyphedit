@@ -17,11 +17,11 @@ namespace GlyphEdit.Controls.DocumentView
             _documentViewport = documentViewport;
             mouse.LeftButtonDown += MouseOnLeftButtonDown;
             mouse.LeftButtonUp += MouseOnLeftButtonUp;
-            mouse.Moved += MouseOnMoved;
+            mouse.MouseMove += MouseOnMouseMove;
             _isDrawing = false;
         }
 
-        private void MouseOnMoved(object sender, MouseMoveEventArgs e)
+        private void MouseOnMouseMove(object sender, MouseMoveEventArgs e)
         {
             if (!_isDrawing)
                 return;

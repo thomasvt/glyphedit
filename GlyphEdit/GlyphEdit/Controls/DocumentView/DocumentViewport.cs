@@ -16,13 +16,13 @@ namespace GlyphEdit.Controls.DocumentView
         private IGraphicsDeviceService _graphicsDeviceManager;
         private GlyphMouse _mouse;
         private GlyphKeyboard _keyboard;
-        private readonly DocumentRenderer _documentRenderer;
+        private DocumentRenderer _documentRenderer;
         private Renderer _renderer;
         private Camera _camera;
 
         public DocumentViewport()
         {
-            _documentRenderer = new DocumentRenderer();
+            
         }
 
         protected override void Initialize()
@@ -34,6 +34,8 @@ namespace GlyphEdit.Controls.DocumentView
 
             _mouse = new GlyphMouse(this);
             _keyboard = new GlyphKeyboard(this);
+            _camera = new Camera(_mouse, this);
+            _documentRenderer = new DocumentRenderer(_camera);
 
             ViewSettings = DocumentViewSettings.Default;
 
@@ -43,8 +45,6 @@ namespace GlyphEdit.Controls.DocumentView
 
         protected override void LoadContent()
         {
-            _camera = new Camera(_mouse);
-
             _renderer = new Renderer();
             _renderer.Load(GraphicsDevice);
 

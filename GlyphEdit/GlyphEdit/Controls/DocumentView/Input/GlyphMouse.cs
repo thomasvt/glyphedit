@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Framework.WpfInterop;
 using MonoGame.Framework.WpfInterop.Input;
@@ -44,7 +45,10 @@ namespace GlyphEdit.Controls.DocumentView.Input
             }
 
             if (mouseState.Position != _previousMouseState.Position)
-                Moved?.Invoke(this, new MouseMoveEventArgs(mouseState, _previousMouseState.Position));
+                MouseMove?.Invoke(this, new MouseMoveEventArgs(mouseState, _previousMouseState.Position));
+
+            if (mouseState.ScrollWheelValue != _previousMouseState.ScrollWheelValue)
+                MouseWheel?.Invoke(this, new MouseWheelEventArgs(mouseState, mouseState.ScrollWheelValue - _previousMouseState.ScrollWheelValue));
 
             _previousMouseState = mouseState;
         }
@@ -55,6 +59,7 @@ namespace GlyphEdit.Controls.DocumentView.Input
         public event EventHandler<MouseEventArgs> MiddleButtonUp;
         public event EventHandler<MouseEventArgs> RightButtonDown;
         public event EventHandler<MouseEventArgs> RightButtonUp;
-        public event EventHandler<MouseMoveEventArgs> Moved;
+        public event EventHandler<MouseMoveEventArgs> MouseMove;
+        public event EventHandler<MouseWheelEventArgs> MouseWheel;
     }
 }

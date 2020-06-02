@@ -95,6 +95,7 @@
     <Compile Include="Controls\DocumentView\BackgroundRenderer.cs" />
     <Compile Include="Controls\DocumentView\DocumentRenderer.cs" />
     <Compile Include="Controls\DocumentView\EditMode.cs" />
+    <Compile Include="Controls\DocumentView\Input\MouseWheelEventArgs.cs" />
     <Compile Include="Controls\DocumentView\Model\GlyphFont.cs" />
     <Compile Include="Controls\DocumentView\ICamera.cs" />
     <Compile Include="Controls\DocumentView\Input\GlyphKeyboard.cs" />

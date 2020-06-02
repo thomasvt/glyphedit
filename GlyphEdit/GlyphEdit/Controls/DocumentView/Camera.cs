@@ -1,24 +1,49 @@
-﻿using System;
-using GlyphEdit.Controls.DocumentView.Input;
+﻿using GlyphEdit.Controls.DocumentView.Input;
 using Microsoft.Xna.Framework;
 
 namespace GlyphEdit.Controls.DocumentView
 {
     public class Camera : ICamera
     {
+        private readonly DocumentViewport _documentViewport;
         private Vector2 _panStartCameraPosition;
         private Point _panStartMousePosition;
         private Vector2 _position;
         private Vector2 _viewportSize;
 
-        public Camera(GlyphMouse mouse)
+        public Camera(GlyphMouse mouse, DocumentViewport documentViewport)
         {
+            _documentViewport = documentViewport;
+            Zoom = 1f;
             mouse.MiddleButtonDown += (sender, args) => StartPan(args.MouseState.Position);
             mouse.MiddleButtonUp += (sender, args) => FinishPan();
-            mouse.Moved += (sender, args) =>
+            mouse.MouseMove += (sender, args) =>
             {
                 if (IsPanning) UpdatePan(args.MouseState.Position);
             };
+            mouse.MouseWheel += (sender, args) =>
+            {
+                if (args.WheelValueChange > 0)
+                {
+                    ZoomIn();
+                }
+                else
+                {
+                    ZoomOut();
+                }
+            };
+        }
+
+        private void ZoomIn()
+        {
+            Zoom *= 1.1f;
+            CalculateProjectionMatrix();
+        }
+
+        private void ZoomOut()
+        {
+            Zoom /= 1.1f;
+            CalculateProjectionMatrix();
         }
 
         public void StartPan(Point position)
@@ -33,6 +58,18 @@ namespace GlyphEdit.Controls.DocumentView
             Position = position;
         }
 
+        public void Reset()
+        {
+            Zoom = 1f;
+            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.ViewSettings.GlyphFont.GlyphSize.X * 0.5f,
+                _documentViewport.Document.Height * _documentViewport.ViewSettings.GlyphFont.GlyphSize.Y * 0.5f));
+        }
+
+        public void UpdatePan(Point position)
+        {
+            Position = _panStartCameraPosition + (_panStartMousePosition - position).ToVector2() / Zoom;
+        }
+
         public void FinishPan()
         {
             IsPanning = false;
@@ -44,25 +81,25 @@ namespace GlyphEdit.Controls.DocumentView
             ViewMatrixInverse = Matrix.Invert(ViewMatrix);
         }
 
-        public void UpdatePan(Point position)
-        {
-            Position = _panStartCameraPosition + (_panStartMousePosition - position).ToVector2();
-        }
-
         public Point GetDocumentPosition(Point screenPosition)
         {
             var halfScreenX = _viewportSize.X * 0.5f;
             var halfScreenY = _viewportSize.Y * 0.5f;
-            var x = screenPosition.X - halfScreenX + Position.X;
-            var y = screenPosition.Y - halfScreenY + Position.Y;
+            var x = (screenPosition.X - halfScreenX) / Zoom + Position.X;
+            var y = (screenPosition.Y - halfScreenY) / Zoom + Position.Y;
 
             return new Point((int)x, (int)y);
         }
 
-        public void SetViewport(Vector2 viewportSizePx)
+        public void SetViewport(Vector2 viewportSize)
         {
-            _viewportSize = viewportSizePx;
-            ProjectionMatrix = Matrix.CreateOrthographic(viewportSizePx.X, viewportSizePx.Y, 0.1f, 10f);
+            _viewportSize = viewportSize;
+            CalculateProjectionMatrix();
+        }
+
+        private void CalculateProjectionMatrix()
+        {
+            ProjectionMatrix = Matrix.CreateOrthographic(_viewportSize.X / Zoom, _viewportSize.Y / Zoom, 0.1f, 10f);
             ProjectionMatrixInverse = Matrix.Invert(ProjectionMatrix);
         }
 
@@ -81,5 +118,6 @@ namespace GlyphEdit.Controls.DocumentView
         public Matrix ViewMatrixInverse { get; private set; }
         public Matrix ProjectionMatrix { get; private set; }
         public Matrix ProjectionMatrixInverse { get; private set; }
+        public float Zoom { get; private set; }
     }
 }

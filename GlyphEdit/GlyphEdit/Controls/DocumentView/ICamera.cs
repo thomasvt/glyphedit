@@ -7,5 +7,6 @@ namespace GlyphEdit.Controls.DocumentView
     {
         Vector2 Position { get; }
         void MoveTo(Vector2 position);
+        void Reset();
     }
 }

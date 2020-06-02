@@ -7,18 +7,20 @@ namespace GlyphEdit.Controls.DocumentView
 {
     public class DocumentRenderer
     {
+        private readonly Camera _camera;
         private readonly BackgroundRenderer _backgroundRenderer;
         private readonly LayerRenderer _layerRenderer;
 
-        public DocumentRenderer()
+        public DocumentRenderer(Camera camera)
         {
+            _camera = camera;
             _backgroundRenderer = new BackgroundRenderer();
             _layerRenderer = new LayerRenderer();
         }
 
         public void Load(GraphicsDevice graphicsDevice)
         {
-            _backgroundRenderer.Load(graphicsDevice);
+            _backgroundRenderer.Load(graphicsDevice, _camera);
             _layerRenderer.Load(graphicsDevice);
         }
 

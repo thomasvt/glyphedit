@@ -27,9 +27,8 @@ namespace GlyphEdit
         private void HandleNewDocumentCommand(NewDocumentCommand obj)
         {
             var document = new Document(100, 100);
-            DocumentViewer.Camera.MoveTo(new Vector2(document.Width * 0.5f * 12, document.Height * 0.5f * 12));
             DocumentViewer.Document = document;
-            DocumentViewer.ViewSettings.Zoom = 1f;
+            DocumentViewer.Camera.Reset();
         }
     }
 }
