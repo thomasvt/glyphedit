@@ -1,11 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using GlyphEdit.Controls.DocumentView.Model;
 using GlyphEdit.Controls.DocumentView.Rendering;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GlyphEdit.Controls.DocumentView
 {
-    public class DocumentControl : IGpuResource
+    public class DocumentControl
     {
         private readonly DocumentBackgroundControl _background;
 
@@ -17,13 +16,15 @@ namespace GlyphEdit.Controls.DocumentView
         public void Load(GraphicsDevice graphicsDevice)
         {
             _background.Load(graphicsDevice);
-            _background.WidthPx = 100;
-            _background.HeightPx = 100;
-            _background.FillColor = Color.White;
         }
 
         public void Render(IRenderer renderer)
         {
+            if (Document == null)
+                return;
+
+            _background.WidthPx = Document.Width * ViewSettings.GlyphSize;
+            _background.HeightPx = Document.Height * ViewSettings.GlyphSize;
             _background.Render(renderer);
         }
 
@@ -31,5 +32,8 @@ namespace GlyphEdit.Controls.DocumentView
         {
             _background.Unload();
         }
+
+        public Document Document { get; set; }
+        public DocumentViewSettings ViewSettings { get; set; }
     }
 }

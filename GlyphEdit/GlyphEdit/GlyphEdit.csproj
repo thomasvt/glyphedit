@@ -93,21 +93,35 @@
     <Compile Include="Controls\DocumentView\Camera.cs" />
     <Compile Include="Controls\DocumentView\DocumentBackgroundControl.cs" />
     <Compile Include="Controls\DocumentView\DocumentControl.cs" />
-    <Compile Include="Controls\DocumentView\IGpuResource.cs" />
+    <Compile Include="Controls\DocumentView\ICamera.cs" />
     <Compile Include="Controls\DocumentView\Input\GlyphKeyboard.cs" />
     <Compile Include="Controls\DocumentView\Input\GlyphMouse.cs" />
     <Compile Include="Controls\DocumentView\Input\MouseEventArgs.cs" />
     <Compile Include="Controls\DocumentView\Input\MouseMoveEventArgs.cs" />
+    <Compile Include="Controls\DocumentView\Model\Document.cs" />
+    <Compile Include="Controls\DocumentView\Model\DocumentViewSettings.cs" />
+    <Compile Include="Controls\DocumentView\Model\GlyphColor.cs" />
     <Compile Include="Controls\DocumentView\Rendering\IRenderer.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Quad.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Renderer.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Triangle.cs" />
-    <Compile Include="Controls\DocumentView\Textel.cs" />
+    <Compile Include="Controls\DocumentView\Model\DocumentElement.cs" />
+    <Compile Include="Controls\MainMenu\GlyphMainMenu.xaml.cs">
+      <DependentUpon>GlyphMainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Images\ImageMarker.cs" />
+    <Compile Include="Messaging\IMessage.cs" />
+    <Compile Include="Messaging\IMessageBus.cs" />
+    <Compile Include="Messaging\MessageBus.cs" />
+    <Compile Include="NewDocumentCommand.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Controls\Toolbar\GlyphToolbar.xaml.cs">
       <DependentUpon>GlyphToolbar.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\MainMenu\GlyphMainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

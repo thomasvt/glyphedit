@@ -6,7 +6,7 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
     /// <summary>
     /// A very simple immediate renderer for orthographic 2D graphics where X+ is right and Y+ is down, as is common in 2D (unlike 3D where Y+ is often up).
     /// </summary>
-    public class Renderer : IGpuResource, IRenderer
+    public class Renderer : IRenderer
     {
         private const int MaxVertexCount = 1000;
 
@@ -19,7 +19,8 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
         {
             _graphicsDevice = graphicsDevice;
             _effect = new BasicEffect(graphicsDevice);
-            _vertices = new VertexPositionColorTexture[1000];
+            _vertices = new VertexPositionColorTexture[MaxVertexCount];
+            
         }
 
         public void SetCameraPosition(Vector2 position)
@@ -27,8 +28,23 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
             _cameraPosition = position;
         }
 
+        public void BeginFrame()
+        {
+            _effect.Projection = Matrix.CreateOrthographic(_graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height, 0.1f, 10f);
+            _effect.View = Matrix.CreateLookAt(new Vector3(_cameraPosition.X, _cameraPosition.Y, -5f), new Vector3(_cameraPosition.X, _cameraPosition.Y, 0f), Vector3.Down);
+            _effect.World = Matrix.Identity;
+
+            _graphicsDevice.SamplerStates[0] = new SamplerState
+            {
+                AddressU = TextureAddressMode.Wrap,
+                AddressV = TextureAddressMode.Wrap,
+                Filter = TextureFilter.Point
+            };
+        }
+
         void IRenderer.DrawQuad(Texture2D texture, Quad quad)
         {
+
             var i = 0;
             // tri 1
             _vertices[i++] = quad.TopLeft;
@@ -46,17 +62,7 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
         {
             if (triangleCount == 0)
                 return;
-
-            _graphicsDevice.SamplerStates[0] = new SamplerState
-            {
-                AddressU = TextureAddressMode.Wrap,
-                AddressV = TextureAddressMode.Wrap,
-                Filter = TextureFilter.Point
-            };
-            _effect.Projection = Matrix.CreateOrthographic(_graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height, 0.1f, 10f);
-            _effect.View = Matrix.CreateLookAt(new Vector3(_cameraPosition.X, _cameraPosition.Y, -5f), new Vector3(_cameraPosition.X, _cameraPosition.Y, 0f), Vector3.Down);
-            _effect.World = Matrix.Identity;
-
+            
             _effect.TextureEnabled = texture != null;
             _effect.Texture = texture;
 

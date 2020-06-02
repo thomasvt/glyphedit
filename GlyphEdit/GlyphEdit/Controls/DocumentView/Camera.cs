@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace GlyphEdit.Controls.DocumentView
 {
-    public class Camera
+    public class Camera : ICamera
     {
         private Vector2 _panStartCameraPosition;
         private Point _panStartMousePosition;
@@ -25,6 +25,11 @@ namespace GlyphEdit.Controls.DocumentView
             _panStartCameraPosition = Position;
         }
 
+        public void MoveTo(Vector2 position)
+        {
+            Position = position;
+        }
+
         public void FinishPan()
         {
             IsPanning = false;
@@ -35,7 +40,7 @@ namespace GlyphEdit.Controls.DocumentView
             Position = _panStartCameraPosition + (_panStartMousePosition - position).ToVector2();
         }
 
-        public Vector2 Position { get; set; }
+        public Vector2 Position { get; private set; }
         public bool IsPanning { get; private set; }
     }
 }

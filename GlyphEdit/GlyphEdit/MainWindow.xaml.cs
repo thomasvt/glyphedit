@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using GlyphEdit.Controls.DocumentView.Model;
+using GlyphEdit.Messaging;
+using Microsoft.Xna.Framework;
 
 namespace GlyphEdit
 {
@@ -23,6 +13,16 @@ namespace GlyphEdit
         public MainWindow()
         {
             InitializeComponent();
+
+            MessageBus.Subscribe<NewDocumentCommand>(HandleNewDocumentCommand);
+        }
+
+        private void HandleNewDocumentCommand(NewDocumentCommand obj)
+        {
+            var document = new Document(10, 10);
+            DocumentViewer.Camera.MoveTo(new Vector2(document.Width * 0.5f * 12, document.Height * 0.5f * 12));
+            DocumentViewer.Document = document;
+            DocumentViewer.ViewSettings.GlyphSize = 12;
         }
     }
 }

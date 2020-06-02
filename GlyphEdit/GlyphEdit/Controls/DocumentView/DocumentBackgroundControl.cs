@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GlyphEdit.Controls.DocumentView
 {
-    internal class DocumentBackgroundControl : IGpuResource
+    internal class DocumentBackgroundControl
     {
         private Texture2D _checkeredTexture;
 
