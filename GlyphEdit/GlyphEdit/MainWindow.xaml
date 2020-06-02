@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:toolbar="clr-namespace:GlyphEdit.Toolbar"
         xmlns:documentView="clr-namespace:GlyphEdit.Controls.DocumentView"
         xmlns:mainMenu="clr-namespace:GlyphEdit.Controls.MainMenu"
+        xmlns:toolbar="clr-namespace:GlyphEdit.Controls.Toolbar"
         mc:Ignorable="d"
         Title="GlyphEdit v0.1" Height="768" Width="1024">
     <DockPanel LastChildFill="True">
@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <toolbar:GlyphToolbar Grid.Column="0" />
-            <documentView:GlyphDocumentViewer x:Name="DocumentViewer" Grid.Column="1" BackgroundColor="#222222" />
+            <documentView:DocumentViewport x:Name="DocumentViewer" Grid.Column="1" BackgroundColor="#222222" />
         </Grid>
     </DockPanel>
 </Window>

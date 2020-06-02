@@ -1,8 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using GlyphEdit.Controls.DocumentView;
+using GlyphEdit.Messaging;
 
-namespace GlyphEdit.Toolbar
+namespace GlyphEdit.Controls.Toolbar
 {
     /// <summary>
     /// Interaction logic for GlyphToolbar.xaml
@@ -24,7 +27,15 @@ namespace GlyphEdit.Toolbar
         {
             foreach (var toolButton in ToolButtons)
             {
-                toolButton.IsChecked = (toolButton == sender);
+                var isClickedTool = toolButton == sender;
+                toolButton.IsChecked = isClickedTool;
+                if (isClickedTool)
+                {
+                    if (toolButton.Tag is EditMode editMode)
+                        MessageBus.Publish(new ChangeEditModeCommand(editMode));
+                    else
+                        throw new Exception("ToolButton has no EditMode tag.");
+                }
             }
         }
 

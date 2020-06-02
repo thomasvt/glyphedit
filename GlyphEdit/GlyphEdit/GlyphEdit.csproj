@@ -90,22 +90,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChangeEditModeCommand.cs" />
     <Compile Include="Controls\DocumentView\Camera.cs" />
-    <Compile Include="Controls\DocumentView\DocumentBackgroundControl.cs" />
-    <Compile Include="Controls\DocumentView\DocumentControl.cs" />
+    <Compile Include="Controls\DocumentView\BackgroundRenderer.cs" />
+    <Compile Include="Controls\DocumentView\DocumentRenderer.cs" />
+    <Compile Include="Controls\DocumentView\EditMode.cs" />
+    <Compile Include="Controls\DocumentView\Model\GlyphFont.cs" />
     <Compile Include="Controls\DocumentView\ICamera.cs" />
     <Compile Include="Controls\DocumentView\Input\GlyphKeyboard.cs" />
     <Compile Include="Controls\DocumentView\Input\GlyphMouse.cs" />
     <Compile Include="Controls\DocumentView\Input\MouseEventArgs.cs" />
     <Compile Include="Controls\DocumentView\Input\MouseMoveEventArgs.cs" />
+    <Compile Include="Controls\DocumentView\IEditTool.cs" />
+    <Compile Include="Controls\DocumentView\LayerRenderer.cs" />
     <Compile Include="Controls\DocumentView\Model\Document.cs" />
     <Compile Include="Controls\DocumentView\Model\DocumentViewSettings.cs" />
     <Compile Include="Controls\DocumentView\Model\GlyphColor.cs" />
+    <Compile Include="Controls\DocumentView\Model\Layer.cs" />
+    <Compile Include="Controls\DocumentView\PencilEditTool.cs" />
+    <Compile Include="Controls\DocumentView\Rendering\GlyphColorExtensions.cs" />
+    <Compile Include="Controls\DocumentView\Rendering\GlyphMapTexture.cs" />
     <Compile Include="Controls\DocumentView\Rendering\IRenderer.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Quad.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Renderer.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Triangle.cs" />
     <Compile Include="Controls\DocumentView\Model\DocumentElement.cs" />
+    <Compile Include="Controls\DocumentView\Rendering\UvRect.cs" />
     <Compile Include="Controls\MainMenu\GlyphMainMenu.xaml.cs">
       <DependentUpon>GlyphMainMenu.xaml</DependentUpon>
     </Compile>
@@ -141,7 +151,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\DocumentView\DocumentView.cs" />
+    <Compile Include="Controls\DocumentView\DocumentViewport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -169,6 +179,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fonts\cp437_20x20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Fonts\cp437_8x8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="Images\checkered.png" />
     <Resource Include="Images\eraser.png" />
     <Resource Include="Images\pencil.png" />

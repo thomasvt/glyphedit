@@ -6,23 +6,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GlyphEdit.Controls.DocumentView
 {
-    internal class DocumentBackgroundControl
+    internal class BackgroundRenderer
     {
         private Texture2D _checkeredTexture;
 
-        public DocumentBackgroundControl()
-        {
-            FillColor = Color.White;
-        }
-        
         public void Load(GraphicsDevice graphicsDevice)
         {
             _checkeredTexture = Texture2D.FromStream(graphicsDevice, Assembly.GetExecutingAssembly().GetManifestResourceStream(typeof(ImageMarker), "checkered.png"));
         }
 
-        public void Render(IRenderer renderer)
+        public void Render(IRenderer renderer, int width, int height)
         {
-            renderer.DrawQuad(_checkeredTexture, new Quad(new Vector2(0, 0), new Vector2(WidthPx, HeightPx), new Vector2(0, 0), new Vector2((float)WidthPx / _checkeredTexture.Width, (float)HeightPx / _checkeredTexture.Height), Color.White));
+            renderer.DrawQuad(_checkeredTexture, new Quad(new Vector2(0, 0), new Vector2(width, height), new Vector2(0, 0), new Vector2((float)width / _checkeredTexture.Width, (float)height / _checkeredTexture.Height), Color.White));
         }
 
         public void Unload()
@@ -30,8 +25,9 @@ namespace GlyphEdit.Controls.DocumentView
             _checkeredTexture.Dispose();
         }
 
-        public int WidthPx { get; set; }
-        public int HeightPx { get; set; }
-        public Color FillColor { get; set; }
+        public int GetMaxTriangleCount()
+        {
+            return 2;
+        }
     }
 }
