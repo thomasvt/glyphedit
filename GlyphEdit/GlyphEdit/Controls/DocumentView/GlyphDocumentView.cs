@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Framework.WpfInterop;
 using MonoGame.Framework.WpfInterop.Input;
-using SharpDX.Direct3D9;
 
-namespace GlyphEdit
+namespace GlyphEdit.Controls.DocumentView
 {
     public class GlyphDocumentViewer : WpfGame
     {
@@ -14,6 +14,10 @@ namespace GlyphEdit
         private WpfMouse _mouse;
         private SpriteBatch _spriteBatch;
         private Texture2D _texture;
+        private Point _position;
+        private KeyboardState _previousKeyboardState;
+        private MouseState _previousMouseState;
+        private Camera _camera;
 
         protected override void Initialize()
         {
@@ -27,20 +31,36 @@ namespace GlyphEdit
             _keyboard = new WpfKeyboard(this);
             _mouse = new WpfMouse(this);
 
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _texture = Texture2D.FromStream(GraphicsDevice, File.OpenRead("test.png"));
-
             // must be called after the WpfGraphicsDeviceService instance was created
             base.Initialize();
 
-            // content loading now possible
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _texture = Texture2D.FromStream(GraphicsDevice, File.OpenRead("test.png"));
+            _camera = new Camera();
         }
 
         protected override void Update(GameTime time)
         {
-            // every update we can now query the keyboard & mouse for our WpfGame
             var mouseState = _mouse.GetState();
             var keyboardState = _keyboard.GetState();
+
+            if (_previousMouseState.MiddleButton != mouseState.MiddleButton)
+            {
+                if (mouseState.MiddleButton == ButtonState.Pressed)
+                    _camera.StartPan(mouseState.Position);
+                else
+                    _camera.EndPan();
+            }
+            else
+            {
+                if (_camera.IsPanning())
+                    _camera.UpdatePan(mouseState.Position);
+            }
+            
+
+
+            _previousMouseState = mouseState;
+            _previousKeyboardState = keyboardState;
         }
 
         protected override void Draw(GameTime time)
@@ -48,7 +68,7 @@ namespace GlyphEdit
             GraphicsDevice.Clear(Colors.FromHex("222222"));
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_texture, Vector2.Zero, Color.White);
+            _spriteBatch.Draw(_texture, _position.ToVector2() - _camera.Position, Color.White);
             _spriteBatch.End();
         }
     }
