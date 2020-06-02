@@ -20,7 +20,6 @@ namespace GlyphEdit.Controls.DocumentView
         private Renderer _renderer;
         private Camera _camera;
 
-
         public DocumentViewport()
         {
             _documentRenderer = new DocumentRenderer();
@@ -99,9 +98,6 @@ namespace GlyphEdit.Controls.DocumentView
             _documentRenderer.Unload();
         }
 
-        public Document Document { get; set; }
-
-        public DocumentViewSettings ViewSettings { get; set; }
 
         public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.Register(
             "BackgroundColor", typeof(string), typeof(DocumentViewport), new PropertyMetadata(default(string)));
@@ -111,6 +107,10 @@ namespace GlyphEdit.Controls.DocumentView
             get => (string) GetValue(BackgroundColorProperty);
             set => SetValue(BackgroundColorProperty, value);
         }
+
+        public DocumentViewSettings ViewSettings { get; set; }
+
+        public Document Document { get; set; }
 
         public ICamera Camera => _camera;
 

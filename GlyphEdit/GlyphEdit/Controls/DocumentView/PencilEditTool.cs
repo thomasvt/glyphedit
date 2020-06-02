@@ -43,13 +43,7 @@ namespace GlyphEdit.Controls.DocumentView
             var err = dx + dy;  /* error value e_xy */
             while (true)
             {
-                var point = new Point(from.X, from.Y);
-                // draw at this point
-                if (!_documentViewport.Document.IsInRange(point))
-                    return;
-                ref var element = ref _documentViewport.Document.GetElementRef(0, point);
-                element.Glyph = 1;
-                element.Background = new GlyphColor(200, 0, 0, 255);
+                DrawGlyph(new Point(from.X, from.Y));
 
                 // Bresenham ct'd
                 if (from.X == to.X && from.Y == to.Y) break;
@@ -67,9 +61,20 @@ namespace GlyphEdit.Controls.DocumentView
             }
         }
 
+        private void DrawGlyph(Point point)
+        {
+            if (!_documentViewport.Document.IsInRange(point))
+                return;
+            ref var element = ref _documentViewport.Document.GetElementRef(0, point);
+            element.Glyph = 15;
+            element.Background = new GlyphColor(200, 0, 0, 255);
+            element.Foreground = new GlyphColor(0, 200, 0, 255);
+        }
+
         private void MouseOnLeftButtonDown(object sender, MouseEventArgs e)
         {
             _previousDrawPosition = _documentViewport.GetDocumentCoordsAt(e.MouseState.Position);
+            DrawGlyph(_previousDrawPosition);
             _isDrawing = true;
         }
 

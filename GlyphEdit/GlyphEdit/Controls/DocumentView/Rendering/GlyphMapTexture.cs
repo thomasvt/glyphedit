@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GlyphEdit.Controls.DocumentView.Rendering
@@ -16,20 +18,40 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
         public readonly float GlyphHeight;
         public readonly float GlyphWidthU;
         public readonly float GlyphHeightV;
-        private readonly Dictionary<int, UvRect> _glyphUvLookup;
+        private Dictionary<int, UvRect> _glyphUvLookup;
 
         public GlyphMapTexture(Texture2D texture, int glyphWidth, int glyphHeight)
         {
             Texture = texture;
             if (texture.Width % glyphWidth != 0)
                 throw new ArgumentOutOfRangeException($"Texture width ({texture.Width}) is not a multitude of GlyphWidth ({glyphWidth}).");
+
             ColumnCount = texture.Width / glyphWidth;
             GlyphWidth = glyphWidth;
             GlyphHeight = glyphHeight;
             GlyphWidthU = GlyphWidth / texture.Width;
             GlyphHeightV = GlyphHeight / texture.Height;
-            var rowCount = texture.Height / glyphHeight; // vertical mismatch with glyphHeight is ok
 
+            ConvertGrayValuesToAlpha(texture);
+            BuildGlyphUVLookup(texture, glyphHeight);
+        }
+
+        private static void ConvertGrayValuesToAlpha(Texture2D texture)
+        {
+            var pixels = new Color[texture.Width * texture.Height];
+            texture.GetData(pixels);
+            for (var i = 0; i < pixels.Length; i++)
+            {
+                ref var pixel = ref pixels[i];
+                var grayValue = (pixel.R + pixel.G + pixel.B) / 3;
+                pixel = new Color(255, 255, 255, grayValue);
+            }
+            texture.SetData(pixels);
+        }
+
+        private void BuildGlyphUVLookup(Texture2D texture, int glyphHeight)
+        {
+            var rowCount = texture.Height / glyphHeight; // vertical mismatch with glyphHeight is ok
             var glyphCount = ColumnCount * rowCount;
             _glyphUvLookup = new Dictionary<int, UvRect>(glyphCount);
             for (var i = 0; i < glyphCount; i++)

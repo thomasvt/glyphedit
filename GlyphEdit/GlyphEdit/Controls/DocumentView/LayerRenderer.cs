@@ -9,7 +9,7 @@ namespace GlyphEdit.Controls.DocumentView
     internal class LayerRenderer
     {
         private GlyphMapTexture _glyphMapTexture;
-
+        
         public void Load(GraphicsDevice graphicsDevice)
         {
             var texture = Texture2D.FromStream(graphicsDevice, File.OpenRead("Fonts\\cp437_20x20.png"));

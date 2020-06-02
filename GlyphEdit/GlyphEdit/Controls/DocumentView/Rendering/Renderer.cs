@@ -1,4 +1,5 @@
-﻿using GlyphEdit.Controls.DocumentView.Model;
+﻿using System;
+using GlyphEdit.Controls.DocumentView.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,13 +13,15 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
     {
         private BasicEffect _effect;
         private GraphicsDevice _graphicsDevice;
-        private VertexPositionColorTexture[] _vertices;
+        private VertexPositionColorTexture[] _texturedVertices;
+        private VertexPositionColor[] _vertices;
 
         public void Load(GraphicsDevice graphicsDevice)
         {
             _graphicsDevice = graphicsDevice;
             _effect = new BasicEffect(graphicsDevice);
-            _vertices = new VertexPositionColorTexture[1000];
+            _texturedVertices = new VertexPositionColorTexture[1000];
+            _vertices = new VertexPositionColor[1000];
         }
 
         /// <summary>
@@ -29,38 +32,31 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
         {
             return new Vector2(_graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height);
         }
-        
+
         public void BeginFrame(Matrix viewMatrix, Matrix projectionMatrix)
         {
             _effect.View = viewMatrix;
             _effect.Projection = projectionMatrix;
             _effect.World = Matrix.Identity;
             _effect.VertexColorEnabled = true;
-
-            _graphicsDevice.SamplerStates[0] = new SamplerState
-            {
-                AddressU = TextureAddressMode.Wrap,
-                AddressV = TextureAddressMode.Wrap,
-                Filter = TextureFilter.Point
-            };
         }
 
         void IRenderer.DrawQuad(Texture2D texture, Quad quad)
         {
             const int vertexCount = 6;
-            if (vertexCount > _vertices.Length)
-                ExpandVerticesPool(6);
+            if (vertexCount > _texturedVertices.Length)
+                EnsureVertexPool(6);
 
             // tri 1
-            _vertices[0] = quad.TopLeft;
-            _vertices[1] = quad.TopRight;
-            _vertices[2] = quad.BottomLeft;
+            _texturedVertices[0] = quad.TopLeft;
+            _texturedVertices[1] = quad.TopRight;
+            _texturedVertices[2] = quad.BottomLeft;
             // tri 2
-            _vertices[3] = quad.TopRight;
-            _vertices[4] = quad.BottomRight;
-            _vertices[5] = quad.BottomLeft;
+            _texturedVertices[3] = quad.TopRight;
+            _texturedVertices[4] = quad.BottomRight;
+            _texturedVertices[5] = quad.BottomLeft;
 
-            RenderCurrentVertices(texture, 2);
+            RenderVertices(_texturedVertices, texture, 2);
         }
 
         public void DrawElements(GlyphMapTexture glyphMapTexture, DocumentElement[,] elements, Vector2 glyphRenderSize)
@@ -71,12 +67,10 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
             var height = elements.GetLength(1);
 
             // pool big enough?
-            var vertexCount = width * height * 6 * 2;
-            if (vertexCount > _vertices.Length)
-                ExpandVerticesPool(vertexCount);
-            
-            // convert all to triangles
+            var vertexCount = width * height * 6;
+            EnsureVertexPool(vertexCount);
 
+            // render glyph backgrounds
             var i = 0;
             for (var y = 0; y < height; y++) // row first for less cache misses
             {
@@ -85,19 +79,18 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
                     ref var element = ref elements[x, y];
 
                     var backColor = element.Background.ToRenderColor();
-                    var frontColor = element.Foreground.ToRenderColor();
+                    if (backColor.A == 0)
+                        continue;
 
-                    var left = x * glyphRenderSize.X;
-                    var top = y * glyphRenderSize.Y;
-                    var right = left + glyphRenderSize.X;
-                    var bottom = top + glyphRenderSize.Y;
+                    var left = (int)(x * glyphRenderSize.X);
+                    var top = (int)(y * glyphRenderSize.Y);
+                    var right = (int)(left + glyphRenderSize.X);
+                    var bottom = (int)(top + glyphRenderSize.Y);
 
-                    var glyphUvRect = glyphMapTexture.GetUVRect(element.Glyph);
-
-                    var topLeft = new VertexPositionColorTexture(new Vector3(left, top, 0), backColor, new Vector2(glyphUvRect.MinU, glyphUvRect.MinV));
-                    var topRight = new VertexPositionColorTexture(new Vector3(right, top, 0), backColor, new Vector2(glyphUvRect.MaxU, glyphUvRect.MinV));
-                    var bottomLeft = new VertexPositionColorTexture(new Vector3(left, bottom, 0), backColor, new Vector2(glyphUvRect.MinU, glyphUvRect.MaxV));
-                    var bottomRight = new VertexPositionColorTexture(new Vector3(right, bottom, 0), backColor, new Vector2(glyphUvRect.MaxU, glyphUvRect.MaxV));
+                    var topLeft = new VertexPositionColor(new Vector3(left, top, 0), backColor);
+                    var topRight = new VertexPositionColor(new Vector3(right, top, 0), backColor);
+                    var bottomLeft = new VertexPositionColor(new Vector3(left, bottom, 0), backColor);
+                    var bottomRight = new VertexPositionColor(new Vector3(right, bottom, 0), backColor);
 
                     // tri 1
                     _vertices[i++] = topLeft;
@@ -110,28 +103,109 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
                 }
             }
 
-            RenderCurrentVertices(glyphMapTexture.Texture, i / 3);
+            RenderVertices(_vertices, i / 3);
+
+            // pool big enough?
+            EnsureTexturedVertexPool(vertexCount);
+
+            // render glyph foregrounds
+            i = 0;
+            for (var y = 0; y < height; y++) // row first for less cache misses
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    ref var element = ref elements[x, y];
+
+                    var frontColor = element.Foreground.ToRenderColor();
+
+                    var left = (int)(x * glyphRenderSize.X);
+                    var top = (int)(y * glyphRenderSize.Y);
+                    var right = (int)(left + glyphRenderSize.X);
+                    var bottom = (int)(top + glyphRenderSize.Y);
+
+                    var glyphUvRect = glyphMapTexture.GetUVRect(element.Glyph);
+
+                    var topLeft = new VertexPositionColorTexture(new Vector3(left, top, 0), frontColor, new Vector2(glyphUvRect.MinU, glyphUvRect.MinV));
+                    var topRight = new VertexPositionColorTexture(new Vector3(right, top, 0), frontColor, new Vector2(glyphUvRect.MaxU, glyphUvRect.MinV));
+                    var bottomLeft = new VertexPositionColorTexture(new Vector3(left, bottom, 0), frontColor, new Vector2(glyphUvRect.MinU, glyphUvRect.MaxV));
+                    var bottomRight = new VertexPositionColorTexture(new Vector3(right, bottom, 0), frontColor, new Vector2(glyphUvRect.MaxU, glyphUvRect.MaxV));
+
+                    // tri 1
+                    _texturedVertices[i++] = topLeft;
+                    _texturedVertices[i++] = topRight;
+                    _texturedVertices[i++] = bottomLeft;
+                    // tri 2
+                    _texturedVertices[i++] = topRight;
+                    _texturedVertices[i++] = bottomRight;
+                    _texturedVertices[i++] = bottomLeft;
+                }
+            }
+
+            RenderVertices(_texturedVertices, glyphMapTexture.Texture, i / 3);
         }
 
-        private void ExpandVerticesPool(int needed)
-        {
-            var newVertices = new VertexPositionColorTexture[(int)(needed * 1.2f)];
-            _vertices = newVertices;
-        }
-
-        private void RenderCurrentVertices(Texture2D texture, int triangleCount)
+        private void RenderVertices(VertexPositionColorTexture[] vertices, Texture2D texture, int triangleCount)
         {
             if (triangleCount == 0)
                 return;
-            
-            _effect.TextureEnabled = texture != null;
+            if (texture == null)
+                throw new ArgumentNullException(nameof(texture));
+
+            _graphicsDevice.SamplerStates[0] = new SamplerState
+            {
+                AddressU = TextureAddressMode.Wrap,
+                AddressV = TextureAddressMode.Wrap,
+                Filter = TextureFilter.Point
+            };
+            _graphicsDevice.BlendState = BlendState.NonPremultiplied;
+
+            _effect.TextureEnabled = true;
             _effect.Texture = texture;
 
             foreach (var pass in _effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, _vertices, 0, triangleCount);
+                _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, triangleCount);
             }
+        }
+
+        private void RenderVertices(VertexPositionColor[] vertices, int triangleCount)
+        {
+            if (triangleCount == 0)
+                return;
+
+            _graphicsDevice.SamplerStates[0] = new SamplerState
+            {
+                AddressU = TextureAddressMode.Wrap,
+                AddressV = TextureAddressMode.Wrap,
+                Filter = TextureFilter.Point
+            };
+            _graphicsDevice.BlendState = BlendState.AlphaBlend;
+
+            _effect.TextureEnabled = false;
+            _effect.Texture = null;
+
+            foreach (var pass in _effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                _graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, triangleCount);
+            }
+        }
+
+        private void EnsureTexturedVertexPool(int needed)
+        {
+            if (needed <= _texturedVertices.Length)
+                return;
+            var newVertices = new VertexPositionColorTexture[(int)(needed * 1.2f)];
+            _texturedVertices = newVertices;
+        }
+
+        private void EnsureVertexPool(int needed)
+        {
+            if (needed <= _vertices.Length)
+                return;
+            var newVertices = new VertexPositionColor[(int)(needed * 1.2f)];
+            _vertices = newVertices;
         }
 
         public void Unload()
