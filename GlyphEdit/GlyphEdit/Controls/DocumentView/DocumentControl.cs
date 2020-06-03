@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows;
 using GlyphEdit.Controls.DocumentView.Input;
-using GlyphEdit.Controls.DocumentView.Model;
 using GlyphEdit.Controls.DocumentView.Rendering;
+using GlyphEdit.Messages;
+using GlyphEdit.Messaging;
+using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework.WpfInterop;
@@ -22,7 +24,12 @@ namespace GlyphEdit.Controls.DocumentView
 
         public DocumentControl()
         {
-            
+            MessageBus.Subscribe<DocumentOpenedEvent>(e =>
+            {
+                Document = e.Document;
+                Camera.Reset();
+            });
+            MessageBus.Subscribe<EditModeChangedEvent>(e => ChangeEditMode(e.EditMode));
         }
 
         protected override void Initialize()
@@ -41,6 +48,8 @@ namespace GlyphEdit.Controls.DocumentView
 
             // must be called after the WpfGraphicsDeviceService instance was created
             base.Initialize();
+
+            RenderingInitialized?.Invoke(this, EventArgs.Empty);
         }
 
         protected override void LoadContent()
@@ -49,8 +58,6 @@ namespace GlyphEdit.Controls.DocumentView
             _renderer.Load(GraphicsDevice);
 
             _documentRenderer.Load(GraphicsDevice);
-
-            
         }
 
         protected override void Update(GameTime time)
@@ -117,5 +124,7 @@ namespace GlyphEdit.Controls.DocumentView
         public ICamera Camera => _camera;
 
         public EditMode CurrentEditMode => _currentEditTool?.EditMode ?? EditMode.None;
+
+        public event EventHandler RenderingInitialized;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using GlyphEdit.Controls.DocumentView.Model;
+using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

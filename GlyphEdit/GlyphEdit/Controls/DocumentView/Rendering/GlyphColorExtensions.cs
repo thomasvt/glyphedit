@@ -1,4 +1,4 @@
-﻿using GlyphEdit.Controls.DocumentView.Model;
+﻿using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 
 namespace GlyphEdit.Controls.DocumentView.Rendering

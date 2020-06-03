@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.Controls.DocumentView.Model
+namespace GlyphEdit.Model
 {
     public class Document
     {

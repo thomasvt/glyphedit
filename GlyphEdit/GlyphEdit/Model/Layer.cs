@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.Controls.DocumentView.Model
+namespace GlyphEdit.Model
 {
     public class Layer
     {

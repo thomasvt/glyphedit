@@ -1,4 +1,4 @@
-﻿namespace GlyphEdit.Controls.DocumentView.Model
+﻿namespace GlyphEdit.Model
 {
     public struct GlyphColor
     {

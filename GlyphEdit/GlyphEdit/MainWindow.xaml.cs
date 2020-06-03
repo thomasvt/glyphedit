@@ -1,8 +1,6 @@
-﻿using System.Windows;
-using GlyphEdit.Controls.DocumentView.Model;
-using GlyphEdit.Messaging;
-using Microsoft.Xna.Framework;
-using Point = Microsoft.Xna.Framework.Point;
+﻿using System;
+using System.Windows;
+using GlyphEdit.ViewModel;
 
 namespace GlyphEdit
 {
@@ -14,21 +12,11 @@ namespace GlyphEdit
         public MainWindow()
         {
             InitializeComponent();
-
-            MessageBus.Subscribe<NewDocumentCommand>(HandleNewDocumentCommand);
-            MessageBus.Subscribe<ChangeEditModeCommand>(HandleChangeEditModeCommand);
         }
-
-        private void HandleChangeEditModeCommand(ChangeEditModeCommand obj)
+        
+        private void DocumentViewer_OnRenderingInitialized(object sender, EventArgs e)
         {
-            DocumentViewer.ChangeEditMode(obj.EditMode);
-        }
-
-        private void HandleNewDocumentCommand(NewDocumentCommand obj)
-        {
-            var document = new Document(100, 100);
-            DocumentViewer.Document = document;
-            DocumentViewer.Camera.Reset();
+            EditorViewModel.Current.OnLoaded();
         }
     }
 }

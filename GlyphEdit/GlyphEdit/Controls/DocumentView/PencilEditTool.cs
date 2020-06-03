@@ -1,6 +1,6 @@
 ﻿using System;
 using GlyphEdit.Controls.DocumentView.Input;
-using GlyphEdit.Controls.DocumentView.Model;
+using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 
 namespace GlyphEdit.Controls.DocumentView
