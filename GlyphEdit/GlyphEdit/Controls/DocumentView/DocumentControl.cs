@@ -10,7 +10,7 @@ using Point = Microsoft.Xna.Framework.Point;
 
 namespace GlyphEdit.Controls.DocumentView
 {
-    public class DocumentViewport : WpfGame
+    public class DocumentControl : WpfGame
     {
         private EditTool _currentEditTool;
         private IGraphicsDeviceService _graphicsDeviceManager;
@@ -20,7 +20,7 @@ namespace GlyphEdit.Controls.DocumentView
         private Renderer _renderer;
         private Camera _camera;
 
-        public DocumentViewport()
+        public DocumentControl()
         {
             
         }
@@ -49,6 +49,8 @@ namespace GlyphEdit.Controls.DocumentView
             _renderer.Load(GraphicsDevice);
 
             _documentRenderer.Load(GraphicsDevice);
+
+            
         }
 
         protected override void Update(GameTime time)
@@ -100,7 +102,7 @@ namespace GlyphEdit.Controls.DocumentView
 
 
         public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.Register(
-            "BackgroundColor", typeof(string), typeof(DocumentViewport), new PropertyMetadata(default(string)));
+            "BackgroundColor", typeof(string), typeof(DocumentControl), new PropertyMetadata(default(string)));
 
         public string BackgroundColor
         {

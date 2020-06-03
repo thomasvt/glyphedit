@@ -5,13 +5,13 @@ namespace GlyphEdit.Controls.DocumentView
 {
     public class Camera : ICamera
     {
-        private readonly DocumentViewport _documentViewport;
+        private readonly DocumentControl _documentViewport;
         private Vector2 _panStartCameraPosition;
         private Point _panStartMousePosition;
         private Vector2 _position;
         private Vector2 _viewportSize;
 
-        public Camera(GlyphMouse mouse, DocumentViewport documentViewport)
+        public Camera(GlyphMouse mouse, DocumentControl documentViewport)
         {
             _documentViewport = documentViewport;
             Zoom = 1f;

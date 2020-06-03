@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <toolbar:GlyphToolbar Grid.Column="0" />
-            <documentView:DocumentViewport SnapsToDevicePixels="True" x:Name="DocumentViewer" Grid.Column="1" BackgroundColor="#222222" />
+            <documentView:DocumentControl UseDevicePixelSize="True" SnapsToDevicePixels="True" x:Name="DocumentViewer" Grid.Column="1" BackgroundColor="#222222" />
         </Grid>
     </DockPanel>
 </Window>

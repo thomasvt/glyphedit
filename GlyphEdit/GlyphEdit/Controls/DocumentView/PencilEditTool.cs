@@ -7,11 +7,11 @@ namespace GlyphEdit.Controls.DocumentView
 {
     internal class PencilEditTool : EditTool
     {
-        private readonly DocumentViewport _documentViewport;
+        private readonly DocumentControl _documentViewport;
         private bool _isDrawing;
         private Point _previousDrawPosition;
 
-        public PencilEditTool(DocumentViewport documentViewport, GlyphMouse mouse)
+        public PencilEditTool(DocumentControl documentViewport, GlyphMouse mouse)
         : base(EditMode.Pencil)
         {
             _documentViewport = documentViewport;

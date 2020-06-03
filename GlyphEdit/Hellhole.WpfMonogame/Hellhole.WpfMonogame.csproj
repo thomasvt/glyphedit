@@ -4,21 +4,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2AAB3240-3F20-427B-B333-FE4F65CC811B}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>GlyphEdit</RootNamespace>
-    <AssemblyName>GlyphEdit</AssemblyName>
+    <ProjectGuid>{34C02FAB-F641-4705-A435-87B0452C5100}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Hellhole.WpfMonogame</RootNamespace>
+    <AssemblyName>Hellhole.WpfMonogame</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -28,7 +26,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -83,73 +80,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="ChangeEditModeCommand.cs" />
-    <Compile Include="Controls\DocumentView\Camera.cs" />
-    <Compile Include="Controls\DocumentView\BackgroundRenderer.cs" />
-    <Compile Include="Controls\DocumentView\DocumentRenderer.cs" />
-    <Compile Include="Controls\DocumentView\EditMode.cs" />
-    <Compile Include="Controls\DocumentView\Input\MouseWheelEventArgs.cs" />
-    <Compile Include="Controls\DocumentView\Model\GlyphFont.cs" />
-    <Compile Include="Controls\DocumentView\ICamera.cs" />
-    <Compile Include="Controls\DocumentView\Input\GlyphKeyboard.cs" />
-    <Compile Include="Controls\DocumentView\Input\GlyphMouse.cs" />
-    <Compile Include="Controls\DocumentView\Input\MouseEventArgs.cs" />
-    <Compile Include="Controls\DocumentView\Input\MouseMoveEventArgs.cs" />
-    <Compile Include="Controls\DocumentView\IEditTool.cs" />
-    <Compile Include="Controls\DocumentView\LayerRenderer.cs" />
-    <Compile Include="Controls\DocumentView\Model\Document.cs" />
-    <Compile Include="Controls\DocumentView\Model\DocumentViewSettings.cs" />
-    <Compile Include="Controls\DocumentView\Model\GlyphColor.cs" />
-    <Compile Include="Controls\DocumentView\Model\Layer.cs" />
-    <Compile Include="Controls\DocumentView\PencilEditTool.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\GlyphColorExtensions.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\GlyphMapTexture.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\IRenderer.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\Quad.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\Renderer.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\Triangle.cs" />
-    <Compile Include="Controls\DocumentView\Model\DocumentElement.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\UvRect.cs" />
-    <Compile Include="Controls\MainMenu\GlyphMainMenu.xaml.cs">
-      <DependentUpon>GlyphMainMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Images\ImageMarker.cs" />
-    <Compile Include="Messaging\IMessage.cs" />
-    <Compile Include="Messaging\IMessageBus.cs" />
-    <Compile Include="Messaging\MessageBus.cs" />
-    <Compile Include="NewDocumentCommand.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Controls\Toolbar\GlyphToolbar.xaml.cs">
-      <DependentUpon>GlyphToolbar.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Controls\MainMenu\GlyphMainMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Colors.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Controls\Toolbar\GlyphToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Controls\DocumentView\DocumentControl.cs" />
+    <Compile Include="D3D11Host.cs" />
+    <Compile Include="Input\WpfMouse.cs" />
+    <Compile Include="Input\WindowHelper.cs" />
+    <Compile Include="Input\WpfKeyboard.cs" />
+    <Compile Include="Internals\D3D11Image.cs" />
+    <Compile Include="Internals\D3D9.cs" />
+    <Compile Include="Internals\LogicalTreeHelperEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,6 +100,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="WpfGame.cs" />
+    <Compile Include="WpfGraphicsDeviceService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -173,29 +112,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Fonts\cp437_20x20.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Fonts\cp437_8x8.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <EmbeddedResource Include="Images\checkered.png" />
-    <Resource Include="Images\eraser.png" />
-    <Resource Include="Images\pencil.png" />
-    <Content Include="test.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Hellhole.WpfMonogame\Hellhole.WpfMonogame.csproj">
-      <Project>{34C02FAB-F641-4705-A435-87B0452C5100}</Project>
-      <Name>Hellhole.WpfMonogame</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
