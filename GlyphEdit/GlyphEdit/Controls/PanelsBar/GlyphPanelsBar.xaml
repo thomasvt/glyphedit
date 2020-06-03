@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:glyphPicker="clr-namespace:GlyphEdit.Controls.PanelsBar.GlyphPicker"
+             xmlns:glyphSummary="clr-namespace:GlyphEdit.Controls.PanelsBar.GlyphSummary"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
     <StackPanel Orientation="Vertical" Background="#282828" MinWidth="150">
-        <glyphPicker:GlyphPicker />
+        <glyphSummary:GlyphSummary />
+        <glyphPicker:GlyphPicker Margin="18" />
     </StackPanel>
 </UserControl>

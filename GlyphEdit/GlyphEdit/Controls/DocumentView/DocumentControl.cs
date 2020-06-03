@@ -23,7 +23,6 @@ namespace GlyphEdit.Controls.DocumentView
         private DocumentRenderer _documentRenderer;
         private Renderer _renderer;
         private Camera _camera;
-        internal GlyphFont CurrentGlyphFont;
         internal GlyphMapTexture CurrentGlyphMapTexture;
         private readonly Dictionary<GlyphFont, GlyphMapTexture> _glyphMapTextures;
 
@@ -62,13 +61,12 @@ namespace GlyphEdit.Controls.DocumentView
 
         private void ChangeGlyph(GlyphFont glyphFont, int glyphIndex)
         {
-            if (CurrentGlyphFont != glyphFont)
+            if (CurrentGlyphMapTexture?.GlyphFont != glyphFont)
             {
                 if (!_glyphMapTextures.ContainsKey(glyphFont))
                 {
-                    CurrentGlyphFont = glyphFont;
                     var texture = Texture2D.FromStream(GraphicsDevice, File.OpenRead(glyphFont.Filename));
-                    CurrentGlyphMapTexture = new GlyphMapTexture(texture, glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y);
+                    CurrentGlyphMapTexture = new GlyphMapTexture(glyphFont, texture, glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y);
                     _glyphMapTextures.Add(glyphFont, CurrentGlyphMapTexture);
                 }
                 else

@@ -61,8 +61,8 @@ namespace GlyphEdit.Controls.DocumentView
         public void Reset()
         {
             Zoom = 1f;
-            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.CurrentGlyphFont.GlyphSize.X * 0.5f,
-                _documentViewport.Document.Height * _documentViewport.CurrentGlyphFont.GlyphSize.Y * 0.5f));
+            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.CurrentGlyphMapTexture.GlyphWidth * 0.5f,
+                _documentViewport.Document.Height * _documentViewport.CurrentGlyphMapTexture.GlyphHeight * 0.5f));
         }
 
         public void UpdatePan(Point position)

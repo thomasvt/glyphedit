@@ -40,6 +40,7 @@
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
     </Reference>
@@ -93,6 +94,11 @@
     <Compile Include="Controls\PanelsBar\GlyphPanelsBar.xaml.cs">
       <DependentUpon>GlyphPanelsBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphSizeFormatter.cs" />
+    <Compile Include="Controls\PanelsBar\GlyphSummary\GlyphSummary.xaml.cs">
+      <DependentUpon>GlyphSummary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Messages\ChangeGlyphFontCommand.cs" />
     <Compile Include="Messages\EditModeChangedEvent.cs" />
     <Compile Include="Controls\DocumentView\Camera.cs" />
     <Compile Include="Controls\DocumentView\BackgroundRenderer.cs" />
@@ -101,6 +107,7 @@
     <Compile Include="Controls\DocumentView\Input\MouseWheelEventArgs.cs" />
     <Compile Include="Messages\DocumentOpenedEvent.cs" />
     <Compile Include="Messages\GlyphChangedEvent.cs" />
+    <Compile Include="Messages\GlyphFontListLoadedEvent.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="Model\GlyphFont.cs" />
     <Compile Include="Controls\DocumentView\ICamera.cs" />
@@ -149,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\PanelsBar\GlyphPanelsBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PanelsBar\GlyphSummary\GlyphSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,9 +18,9 @@ namespace GlyphEdit.ViewModel
             for (var i = 0; i < pixels.Length; i+=4)
             {
                 var alpha = (byte)((pixels[i] + pixels[i+1] + pixels[i+2]) / 3);
-                pixels[i] = 255;
-                pixels[i + 1] = 255;
-                pixels[i + 2] = 255;
+                pixels[i] = 0xDD;
+                pixels[i + 1] = 0xDD;
+                pixels[i + 2] = 0xDD;
                 pixels[i + 3] = alpha;
             }
 

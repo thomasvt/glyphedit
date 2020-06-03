@@ -25,12 +25,13 @@ namespace GlyphEdit.ViewModel
         private void BindCommandHandlers()
         {
             MessageBus.Subscribe<NewDocumentCommand>(command => CreateNewDocument());
+            MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFont));
         }
 
         public void OnLoaded()
         {
             _glyphFontStore = new GlyphFontStore();
-            _glyphFontStore.Initialize();
+            _glyphFontStore.DetectGlyphFonts();
             CreateNewDocument();
         }
 
@@ -57,12 +58,27 @@ namespace GlyphEdit.ViewModel
             ChangeGlyph(_glyphFont, glyphIndex);
         }
 
+        public void ChangeGlyph(GlyphFont glyphFont)
+        {
+            if (glyphFont == null)
+                throw new ArgumentNullException(nameof(glyphFont));
+
+            ChangeGlyph(glyphFont, _glyphIndex >= _glyphFont.GlyphCount ? 0 : _glyphIndex);
+        }
+
         public void ChangeGlyph(GlyphFont glyphFont, int glyphIndex)
         {
-            if (glyphFont.GlyphCount <= glyphIndex)
+            if (glyphFont == null)
+                throw new ArgumentNullException(nameof(glyphFont));
+            if (!_glyphFontStore.GlyphFonts.Contains(glyphFont))
+                throw new Exception("Chosen GlyphFont is not known in the GlyphFontStore.");
+            if (glyphIndex >= glyphFont.GlyphCount)
                 throw new Exception($"GlyphFont has no glyph at index {glyphIndex}.");
+            if (glyphFont.Equals(_glyphFont) && _glyphIndex == glyphIndex)
+                return;
 
             _glyphFont = glyphFont;
+            _glyphIndex = glyphIndex;
             MessageBus.Publish(new GlyphChangedEvent(_glyphFont, glyphIndex));
         }
 
@@ -80,6 +96,6 @@ namespace GlyphEdit.ViewModel
         public EditMode EditMode { get; private set; }
 
         public static EditorViewModel Current = new EditorViewModel();
-        
+        private int _glyphIndex;
     }
 }

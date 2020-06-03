@@ -22,8 +22,13 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
         {
             InitializeComponent();
 
+            MessageBus.Subscribe<GlyphFontListLoadedEvent>(e =>
+            {
+                GlyphFontPicker.ItemsSource = e.GlyphFonts.OrderBy(f => f.FontName).ThenBy(f => f.GlyphSize.Y);
+            });
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
             {
+                GlyphFontPicker.SelectedItem = e.GlyphFont;
                 LoadGlyphFont(e.GlyphFont);
                 SelectGlyphButton(e.GlyphIndex);
             });
@@ -78,6 +83,14 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             }
 
             _currentGlyphFont = glyphFont;
+        }
+
+        private void GlyphFontPicker_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(GlyphFontPicker.SelectedItem is GlyphFont glyphFont))
+                throw new Exception("ComboBoxItem datacontext should be a GlyphFont.");
+
+            MessageBus.Publish(new ChangeGlyphFontCommand(glyphFont));
         }
     }
 }

@@ -9,7 +9,7 @@
             <Setter Property="Background" Value="#282828"/>
             <Setter Property="BorderBrush" Value="#333333"></Setter>
             <Setter Property="Height" Value="32"></Setter>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#EEEEEE"/>
             <Setter Property="BorderThickness" Value="0, 0, 0, 1" />
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
