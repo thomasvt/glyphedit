@@ -16,7 +16,8 @@ namespace GlyphEdit
         
         private void DocumentViewer_OnRenderingInitialized(object sender, EventArgs e)
         {
-            EditorViewModel.Current.OnLoaded();
+            // this event comes from the D3DHost gameloop thread, so: sync to UI thread:
+            Dispatcher.InvokeAsync(() => EditorViewModel.Current.OnLoaded());
         }
     }
 }

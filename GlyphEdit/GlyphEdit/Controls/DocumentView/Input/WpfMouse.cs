@@ -6,14 +6,14 @@ using MonoGame.Framework.WpfInterop.Input;
 
 namespace GlyphEdit.Controls.DocumentView.Input
 {
-    public class GlyphMouse
+    public class WpfMouse
     {
         private MouseState _previousMouseState;
-        private readonly WpfMouse _mouse;
+        private readonly MonoGame.Framework.WpfInterop.Input.WpfMouse _mouse;
 
-        public GlyphMouse(WpfGame wpfGame)
+        public WpfMouse(WpfGame wpfGame)
         {
-            _mouse = new WpfMouse(wpfGame);
+            _mouse = new MonoGame.Framework.WpfInterop.Input.WpfMouse(wpfGame);
         }
 
         public void Update()

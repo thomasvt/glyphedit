@@ -11,7 +11,7 @@ namespace GlyphEdit.Controls.DocumentView
         private Vector2 _position;
         private Vector2 _viewportSize;
 
-        public Camera(GlyphMouse mouse, DocumentControl documentViewport)
+        public Camera(WpfMouse mouse, DocumentControl documentViewport)
         {
             _documentViewport = documentViewport;
             Zoom = 1f;
@@ -61,8 +61,8 @@ namespace GlyphEdit.Controls.DocumentView
         public void Reset()
         {
             Zoom = 1f;
-            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.ViewSettings.GlyphFont.GlyphSize.X * 0.5f,
-                _documentViewport.Document.Height * _documentViewport.ViewSettings.GlyphFont.GlyphSize.Y * 0.5f));
+            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.CurrentGlyphFont.GlyphSize.X * 0.5f,
+                _documentViewport.Document.Height * _documentViewport.CurrentGlyphFont.GlyphSize.Y * 0.5f));
         }
 
         public void UpdatePan(Point position)

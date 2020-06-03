@@ -1,34 +1,24 @@
-﻿using System.IO;
-using GlyphEdit.Controls.DocumentView.Rendering;
+﻿using GlyphEdit.Controls.DocumentView.Rendering;
 using GlyphEdit.Model;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GlyphEdit.Controls.DocumentView
 {
     internal class LayerRenderer
     {
-        private GlyphMapTexture _glyphMapTexture;
-        
-        public void Load(GraphicsDevice graphicsDevice)
+        private readonly DocumentControl _documentControl;
+
+        public LayerRenderer(DocumentControl documentControl)
         {
-            var texture = Texture2D.FromStream(graphicsDevice, File.OpenRead("Fonts\\cp437_20x20.png"));
-            _glyphMapTexture = new GlyphMapTexture(texture, 20, 20);
+            _documentControl = documentControl;
         }
 
-        public void Render(IRenderer renderer, Layer layer, DocumentViewSettings viewSettings)
+        public void Render(IRenderer renderer, Layer layer)
         {
-            renderer.DrawElements(_glyphMapTexture, layer.Elements, GetGlyphRenderSize());
+            renderer.DrawElements(_documentControl.CurrentGlyphMapTexture, layer.Elements);
         }
 
         public void Unload()
         {
-            _glyphMapTexture.Dispose();
-        }
-
-        public Vector2 GetGlyphRenderSize()
-        {
-            return new Vector2(_glyphMapTexture.GlyphWidth, _glyphMapTexture.GlyphHeight);
         }
     }
 }

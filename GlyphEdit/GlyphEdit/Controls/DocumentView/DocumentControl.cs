@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using GlyphEdit.Controls.DocumentView.Input;
 using GlyphEdit.Controls.DocumentView.Rendering;
@@ -16,20 +18,28 @@ namespace GlyphEdit.Controls.DocumentView
     {
         private EditTool _currentEditTool;
         private IGraphicsDeviceService _graphicsDeviceManager;
-        private GlyphMouse _mouse;
-        private GlyphKeyboard _keyboard;
+        private WpfMouse _mouse;
+        private WpfKeyboard _keyboard;
         private DocumentRenderer _documentRenderer;
         private Renderer _renderer;
         private Camera _camera;
+        internal GlyphFont CurrentGlyphFont;
+        internal GlyphMapTexture CurrentGlyphMapTexture;
+        private readonly Dictionary<GlyphFont, GlyphMapTexture> _glyphMapTextures;
+
+        internal int CurrentGlyphIndex;
 
         public DocumentControl()
         {
+            _glyphMapTextures = new Dictionary<GlyphFont, GlyphMapTexture>();
             MessageBus.Subscribe<DocumentOpenedEvent>(e =>
             {
                 Document = e.Document;
                 Camera.Reset();
             });
             MessageBus.Subscribe<EditModeChangedEvent>(e => ChangeEditMode(e.EditMode));
+            MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.GlyphFont, e.GlyphIndex));
+            
         }
 
         protected override void Initialize()
@@ -39,17 +49,34 @@ namespace GlyphEdit.Controls.DocumentView
             // be called inside Initialize (before base.Initialize())
             _graphicsDeviceManager = new WpfGraphicsDeviceService(this);
 
-            _mouse = new GlyphMouse(this);
-            _keyboard = new GlyphKeyboard(this);
+            _mouse = new WpfMouse(this);
+            _keyboard = new WpfKeyboard(this);
             _camera = new Camera(_mouse, this);
-            _documentRenderer = new DocumentRenderer(_camera);
-
-            ViewSettings = DocumentViewSettings.Default;
+            _documentRenderer = new DocumentRenderer(this, _camera);
 
             // must be called after the WpfGraphicsDeviceService instance was created
             base.Initialize();
 
             RenderingInitialized?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ChangeGlyph(GlyphFont glyphFont, int glyphIndex)
+        {
+            if (CurrentGlyphFont != glyphFont)
+            {
+                if (!_glyphMapTextures.ContainsKey(glyphFont))
+                {
+                    CurrentGlyphFont = glyphFont;
+                    var texture = Texture2D.FromStream(GraphicsDevice, File.OpenRead(glyphFont.Filename));
+                    CurrentGlyphMapTexture = new GlyphMapTexture(texture, glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y);
+                    _glyphMapTextures.Add(glyphFont, CurrentGlyphMapTexture);
+                }
+                else
+                {
+                    CurrentGlyphMapTexture = _glyphMapTextures[glyphFont];
+                }
+            }
+            CurrentGlyphIndex = glyphIndex;
         }
 
         protected override void LoadContent()
@@ -74,7 +101,7 @@ namespace GlyphEdit.Controls.DocumentView
             if (Document == null)
                 return;
 
-            _documentRenderer.Render(_renderer, Document, ViewSettings);
+            _documentRenderer.Render(_renderer, Document);
         }
 
         public void ChangeEditMode(EditMode editMode)
@@ -97,8 +124,7 @@ namespace GlyphEdit.Controls.DocumentView
         public Point GetDocumentCoordsAt(Point screenPosition)
         {
             var (x, y) = _camera.GetDocumentPosition(screenPosition);
-            var glyphSize = _documentRenderer.GetGlyphRenderSize();
-            return new Point((int)(x / glyphSize.X), (int)(y / glyphSize.Y));
+            return new Point((int)(x / CurrentGlyphMapTexture.GlyphWidth), (int)(y / CurrentGlyphMapTexture.GlyphHeight));
         }
 
         protected override void UnloadContent()
@@ -116,8 +142,6 @@ namespace GlyphEdit.Controls.DocumentView
             get => (string) GetValue(BackgroundColorProperty);
             set => SetValue(BackgroundColorProperty, value);
         }
-
-        public DocumentViewSettings ViewSettings { get; set; }
 
         public Document Document { get; set; }
 

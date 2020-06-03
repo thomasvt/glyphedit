@@ -7,14 +7,14 @@ namespace GlyphEdit.Controls.DocumentView
 {
     internal class PencilEditTool : EditTool
     {
-        private readonly DocumentControl _documentViewport;
+        private readonly DocumentControl _documentControl;
         private bool _isDrawing;
         private Point _previousDrawPosition;
 
-        public PencilEditTool(DocumentControl documentViewport, GlyphMouse mouse)
+        public PencilEditTool(DocumentControl documentControl, WpfMouse mouse)
         : base(EditMode.Pencil)
         {
-            _documentViewport = documentViewport;
+            _documentControl = documentControl;
             mouse.LeftButtonDown += MouseOnLeftButtonDown;
             mouse.LeftButtonUp += MouseOnLeftButtonUp;
             mouse.MouseMove += MouseOnMouseMove;
@@ -26,7 +26,7 @@ namespace GlyphEdit.Controls.DocumentView
             if (!_isDrawing)
                 return;
 
-            var documentCoords = _documentViewport.GetDocumentCoordsAt(e.MouseState.Position);
+            var documentCoords = _documentControl.GetDocumentCoordsAt(e.MouseState.Position);
             DrawLine(_previousDrawPosition, documentCoords);
 
             _previousDrawPosition = documentCoords;
@@ -63,17 +63,17 @@ namespace GlyphEdit.Controls.DocumentView
 
         private void DrawGlyph(Point point)
         {
-            if (!_documentViewport.Document.IsInRange(point))
+            if (!_documentControl.Document.IsInRange(point))
                 return;
-            ref var element = ref _documentViewport.Document.GetElementRef(0, point);
-            element.Glyph = 15;
+            ref var element = ref _documentControl.Document.GetElementRef(0, point);
+            element.Glyph = _documentControl.CurrentGlyphIndex;
             element.Background = new GlyphColor(200, 0, 0, 255);
             element.Foreground = new GlyphColor(0, 200, 0, 255);
         }
 
         private void MouseOnLeftButtonDown(object sender, MouseEventArgs e)
         {
-            _previousDrawPosition = _documentViewport.GetDocumentCoordsAt(e.MouseState.Position);
+            _previousDrawPosition = _documentControl.GetDocumentCoordsAt(e.MouseState.Position);
             DrawGlyph(_previousDrawPosition);
             _isDrawing = true;
         }

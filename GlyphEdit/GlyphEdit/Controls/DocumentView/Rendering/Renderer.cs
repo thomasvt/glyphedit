@@ -59,7 +59,7 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
             RenderVertices(_texturedVertices, texture, 2);
         }
 
-        public void DrawElements(GlyphMapTexture glyphMapTexture, DocumentElement[,] elements, Vector2 glyphRenderSize)
+        public void DrawElements(GlyphMapTexture glyphMapTexture, DocumentElement[,] elements)
         {
             // we directly render from the document datastructures. This is a tight coupling compromise for performance.
 
@@ -82,10 +82,10 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
                     if (backColor.A == 0)
                         continue;
 
-                    var left = (int)(x * glyphRenderSize.X);
-                    var top = (int)(y * glyphRenderSize.Y);
-                    var right = (int)(left + glyphRenderSize.X);
-                    var bottom = (int)(top + glyphRenderSize.Y);
+                    var left = (int)(x * glyphMapTexture.GlyphWidth);
+                    var top = (int)(y * glyphMapTexture.GlyphHeight);
+                    var right = (int)(left + glyphMapTexture.GlyphWidth);
+                    var bottom = (int)(top + glyphMapTexture.GlyphHeight);
 
                     var topLeft = new VertexPositionColor(new Vector3(left, top, 0), backColor);
                     var topRight = new VertexPositionColor(new Vector3(right, top, 0), backColor);
@@ -118,10 +118,10 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
 
                     var frontColor = element.Foreground.ToRenderColor();
 
-                    var left = (int)(x * glyphRenderSize.X);
-                    var top = (int)(y * glyphRenderSize.Y);
-                    var right = (int)(left + glyphRenderSize.X);
-                    var bottom = (int)(top + glyphRenderSize.Y);
+                    var left = (int)(x * glyphMapTexture.GlyphWidth);
+                    var top = (int)(y * glyphMapTexture.GlyphHeight);
+                    var right = (int)(left + glyphMapTexture.GlyphWidth);
+                    var bottom = (int)(top + glyphMapTexture.GlyphHeight);
 
                     var glyphUvRect = glyphMapTexture.GetUVRect(element.Glyph);
 

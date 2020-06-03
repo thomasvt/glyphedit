@@ -81,13 +81,16 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WriteableBitmapEx.Wpf, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WriteableBitmapEx.1.6.5\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\PanelBar\GlyphPanelsBar.xaml.cs">
+    <Compile Include="Controls\PanelsBar\GlyphPanelsBar.xaml.cs">
       <DependentUpon>GlyphPanelsBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Messages\EditModeChangedEvent.cs" />
@@ -97,11 +100,12 @@
     <Compile Include="Controls\DocumentView\EditMode.cs" />
     <Compile Include="Controls\DocumentView\Input\MouseWheelEventArgs.cs" />
     <Compile Include="Messages\DocumentOpenedEvent.cs" />
+    <Compile Include="Messages\GlyphChangedEvent.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="Model\GlyphFont.cs" />
     <Compile Include="Controls\DocumentView\ICamera.cs" />
-    <Compile Include="Controls\DocumentView\Input\GlyphKeyboard.cs" />
-    <Compile Include="Controls\DocumentView\Input\GlyphMouse.cs" />
+    <Compile Include="Controls\DocumentView\Input\WpfKeyboard.cs" />
+    <Compile Include="Controls\DocumentView\Input\WpfMouse.cs" />
     <Compile Include="Controls\DocumentView\Input\MouseEventArgs.cs" />
     <Compile Include="Controls\DocumentView\Input\MouseMoveEventArgs.cs" />
     <Compile Include="Controls\DocumentView\IEditTool.cs" />
@@ -119,14 +123,13 @@
     <Compile Include="Controls\DocumentView\Rendering\Triangle.cs" />
     <Compile Include="Model\DocumentElement.cs" />
     <Compile Include="Controls\DocumentView\Rendering\UvRect.cs" />
-    <Compile Include="Controls\PanelBar\GlyphPicker\GlyphPicker.xaml.cs">
+    <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml.cs">
       <DependentUpon>GlyphPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MainMenu\GlyphMainMenu.xaml.cs">
       <DependentUpon>GlyphMainMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Images\ImageMarker.cs" />
-    <Compile Include="Messages\GlyphFontChangedEvent.cs" />
     <Compile Include="Messaging\IMessage.cs" />
     <Compile Include="Messaging\IMessageBus.cs" />
     <Compile Include="Messaging\MessageBus.cs" />
@@ -135,7 +138,9 @@
     <Compile Include="Controls\Toolbar\GlyphToolbar.xaml.cs">
       <DependentUpon>GlyphToolbar.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\PanelBar\GlyphPicker\GlyphPicker.xaml">
+    <Compile Include="ViewModel\FontBitmapLoader.cs" />
+    <Compile Include="ViewModel\GlyphFontStore.cs" />
+    <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PanelBar\GlyphPanelsBar.xaml">
+    <Page Include="Controls\PanelsBar\GlyphPanelsBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,9 +208,6 @@
     <EmbeddedResource Include="Images\checkered.png" />
     <Resource Include="Images\eraser.png" />
     <Resource Include="Images\pencil.png" />
-    <Content Include="test.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hellhole.WpfMonogame\Hellhole.WpfMonogame.csproj">

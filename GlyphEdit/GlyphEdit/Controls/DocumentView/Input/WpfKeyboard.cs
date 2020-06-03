@@ -4,14 +4,14 @@ using MonoGame.Framework.WpfInterop.Input;
 
 namespace GlyphEdit.Controls.DocumentView.Input
 {
-    public class GlyphKeyboard
+    public class WpfKeyboard
     {
-        private readonly WpfKeyboard _keyboard;
+        private readonly MonoGame.Framework.WpfInterop.Input.WpfKeyboard _keyboard;
         private KeyboardState _previousKeyboardState;
 
-        public GlyphKeyboard(WpfGame wpfGame)
+        public WpfKeyboard(WpfGame wpfGame)
         {
-            _keyboard = new WpfKeyboard(wpfGame);
+            _keyboard = new MonoGame.Framework.WpfInterop.Input.WpfKeyboard(wpfGame);
         }
 
         public void Update()
