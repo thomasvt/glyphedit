@@ -7,11 +7,16 @@ namespace GlyphEdit.Controls.DocumentView
 {
     public class Camera : ICamera
     {
+        private float _time;
+
         private readonly DocumentControl _documentViewport;
         private Vector2 _panStartCameraPosition;
         private Point _panStartMousePosition;
-        private Vector2 _position;
         private Vector2 _viewportSize;
+
+        private float _zoomAnimationDuration;
+        private float _zoomFrom, _zoomTo, _zoomStartTime;
+        private bool _isAnimatingZoom;
 
         public Camera(WpfMouse mouse, DocumentControl documentViewport)
         {
@@ -46,6 +51,34 @@ namespace GlyphEdit.Controls.DocumentView
             });
         }
 
+        public void Update(GameTime time)
+        {
+            _time = (float)time.TotalGameTime.TotalSeconds;
+
+            if (_isAnimatingZoom)
+            {
+                var t = (_time - _zoomStartTime) / _zoomAnimationDuration;
+                if (t >= 1f)
+                {
+                    ZoomTo(_zoomTo);
+                    _isAnimatingZoom = false;
+                }
+                else
+                {
+                    ZoomTo((float) (_zoomFrom * (1 - t) + _zoomTo * t));
+                }
+            }
+        }
+
+        private void ZoomSmoothTo(float zoom, float duration)
+        {
+            _zoomFrom = Zoom;
+            _zoomTo = zoom;
+            _zoomStartTime = _time;
+            _zoomAnimationDuration = duration;
+            _isAnimatingZoom = true;
+        }
+
         private void ZoomTo(float zoom)
         {
             Zoom = zoom;
@@ -55,18 +88,21 @@ namespace GlyphEdit.Controls.DocumentView
 
         private void ZoomIn()
         {
-            ZoomTo(Zoom * 1.1f);
-            
+            var zoom = _isAnimatingZoom ? _zoomTo : Zoom;
+
+            ZoomSmoothTo(zoom * 1.15f, 0.15f);
         }
 
         private void ZoomOut()
         {
-            ZoomTo(Zoom / 1.1f);
+            var zoom = _isAnimatingZoom ? _zoomTo : Zoom;
+            ZoomSmoothTo(zoom / 1.15f, 0.15f);
         }
 
         public void MoveTo(Vector2 position)
         {
             Position = position;
+            CalculateViewMatrices();
         }
 
         public void StartPan(Point position)
@@ -78,7 +114,7 @@ namespace GlyphEdit.Controls.DocumentView
 
         public void UpdatePan(Point position)
         {
-            Position = _panStartCameraPosition + (_panStartMousePosition - position).ToVector2() / Zoom;
+            MoveTo(_panStartCameraPosition + (_panStartMousePosition - position).ToVector2() / Zoom);
         }
 
         public void FinishPan()
@@ -121,15 +157,7 @@ namespace GlyphEdit.Controls.DocumentView
             ProjectionMatrixInverse = Matrix.Invert(ProjectionMatrix);
         }
 
-        public Vector2 Position
-        {
-            get => _position;
-            private set
-            {
-                _position = value;
-                CalculateViewMatrices();
-            }
-        }
+        public Vector2 Position { get; private set; }
 
         public bool IsPanning { get; private set; }
         public Matrix ViewMatrix { get; private set; }

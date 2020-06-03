@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GlyphEdit.Messages;
 using GlyphEdit.Messaging;
@@ -69,6 +70,7 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
                     {
                         Content = new Image
                         {
+                            Stretch = Stretch.Uniform,
                             SnapsToDevicePixels = true,
                             Source = imageSource,
                         },

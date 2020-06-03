@@ -88,6 +88,7 @@ namespace GlyphEdit.Controls.DocumentView
         protected override void Update(GameTime time)
         {
             _mouse.Update();
+            _camera.Update(time);
         }
 
         protected override void Draw(GameTime time)
