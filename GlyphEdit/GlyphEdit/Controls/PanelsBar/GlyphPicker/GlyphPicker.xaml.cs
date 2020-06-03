@@ -28,9 +28,9 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             });
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
             {
-                GlyphFontPicker.SelectedItem = e.GlyphFont;
-                LoadGlyphFont(e.GlyphFont);
-                SelectGlyphButton(e.GlyphIndex);
+                GlyphFontPicker.SelectedItem = e.NewGlyphFont;
+                LoadGlyphFont(e.NewGlyphFont);
+                SelectGlyphButton(e.NewGlyphIndex);
             });
         }
 

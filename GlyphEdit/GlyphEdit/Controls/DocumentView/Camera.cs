@@ -1,4 +1,6 @@
 ﻿using GlyphEdit.Controls.DocumentView.Input;
+using GlyphEdit.Messages;
+using GlyphEdit.Messaging;
 using Microsoft.Xna.Framework;
 
 namespace GlyphEdit.Controls.DocumentView
@@ -32,25 +34,34 @@ namespace GlyphEdit.Controls.DocumentView
                     ZoomOut();
                 }
             };
+            MessageBus.Subscribe<GlyphChangedEvent>(e =>
+            {
+                if (e.PreviousGlyphFont != null && e.NewGlyphFont != null &&
+                    e.PreviousGlyphFont.GlyphSize != e.NewGlyphFont.GlyphSize)
+                {
+                    var zoomChangeFactor = (float) e.NewGlyphFont.GlyphSize.Y / e.PreviousGlyphFont.GlyphSize.Y;
+                    MoveTo(Position * zoomChangeFactor);
+                    ZoomTo(Zoom / zoomChangeFactor);
+                }
+            });
+        }
+
+        private void ZoomTo(float zoom)
+        {
+            Zoom = zoom;
+            CalculateProjectionMatrix();
+            MessageBus.Publish(new ZoomChangedEvent(Zoom));
         }
 
         private void ZoomIn()
         {
-            Zoom *= 1.1f;
-            CalculateProjectionMatrix();
+            ZoomTo(Zoom * 1.1f);
+            
         }
 
         private void ZoomOut()
         {
-            Zoom /= 1.1f;
-            CalculateProjectionMatrix();
-        }
-
-        public void StartPan(Point position)
-        {
-            IsPanning = true;
-            _panStartMousePosition = position;
-            _panStartCameraPosition = Position;
+            ZoomTo(Zoom / 1.1f);
         }
 
         public void MoveTo(Vector2 position)
@@ -58,11 +69,11 @@ namespace GlyphEdit.Controls.DocumentView
             Position = position;
         }
 
-        public void Reset()
+        public void StartPan(Point position)
         {
-            Zoom = 1f;
-            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.CurrentGlyphMapTexture.GlyphWidth * 0.5f,
-                _documentViewport.Document.Height * _documentViewport.CurrentGlyphMapTexture.GlyphHeight * 0.5f));
+            IsPanning = true;
+            _panStartMousePosition = position;
+            _panStartCameraPosition = Position;
         }
 
         public void UpdatePan(Point position)
@@ -73,6 +84,13 @@ namespace GlyphEdit.Controls.DocumentView
         public void FinishPan()
         {
             IsPanning = false;
+        }
+
+        public void Reset()
+        {
+            ZoomTo(1f);
+            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.CurrentGlyphMapTexture.GlyphWidth * 0.5f,
+                _documentViewport.Document.Height * _documentViewport.CurrentGlyphMapTexture.GlyphHeight * 0.5f));
         }
 
         private void CalculateViewMatrices()

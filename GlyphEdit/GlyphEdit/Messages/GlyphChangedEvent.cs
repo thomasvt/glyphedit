@@ -4,13 +4,17 @@ namespace GlyphEdit.Messages
 {
     public class GlyphChangedEvent
     {
-        public readonly GlyphFont GlyphFont;
-        public readonly int GlyphIndex;
+        public readonly GlyphFont PreviousGlyphFont;
+        public readonly GlyphFont NewGlyphFont;
+        public readonly int PreviousGlyphIndex;
+        public readonly int NewGlyphIndex;
 
-        public GlyphChangedEvent(GlyphFont glyphFont, int glyphIndex)
+        public GlyphChangedEvent(GlyphFont previousGlyphFont, GlyphFont newNewGlyphFont, int previousGlyphIndex, int newGlyphIndex)
         {
-            GlyphFont = glyphFont;
-            GlyphIndex = glyphIndex;
+            PreviousGlyphFont = previousGlyphFont;
+            NewGlyphFont = newNewGlyphFont;
+            PreviousGlyphIndex = previousGlyphIndex;
+            NewGlyphIndex = newGlyphIndex;
         }
     }
 }

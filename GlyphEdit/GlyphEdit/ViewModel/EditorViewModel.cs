@@ -77,9 +77,10 @@ namespace GlyphEdit.ViewModel
             if (glyphFont.Equals(_glyphFont) && _glyphIndex == glyphIndex)
                 return;
 
+            var @event = new GlyphChangedEvent(_glyphFont, glyphFont, _glyphIndex, glyphIndex);
             _glyphFont = glyphFont;
             _glyphIndex = glyphIndex;
-            MessageBus.Publish(new GlyphChangedEvent(_glyphFont, glyphIndex));
+            MessageBus.Publish(@event);
         }
 
         public void ChangeEditMode(EditMode editMode)

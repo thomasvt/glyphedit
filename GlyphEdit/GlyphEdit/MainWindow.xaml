@@ -7,10 +7,12 @@
         xmlns:mainMenu="clr-namespace:GlyphEdit.Controls.MainMenu"
         xmlns:toolbar="clr-namespace:GlyphEdit.Controls.Toolbar"
         xmlns:panelBar="clr-namespace:GlyphEdit.Controls.PanelBar"
+        xmlns:statusBar="clr-namespace:GlyphEdit.Controls.StatusBar"
         mc:Ignorable="d"
         Title="GlyphEdit v0.1" Height="768" Width="1200">
     <DockPanel LastChildFill="True">
         <mainMenu:GlyphMainMenu DockPanel.Dock="Top" />
+        <statusBar:GlyphStatusBar DockPanel.Dock="Bottom" />
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

@@ -37,7 +37,7 @@ namespace GlyphEdit.Controls.DocumentView
                 Camera.Reset();
             });
             MessageBus.Subscribe<EditModeChangedEvent>(e => ChangeEditMode(e.EditMode));
-            MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.GlyphFont, e.GlyphIndex));
+            MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.NewGlyphFont, e.NewGlyphIndex));
             
         }
 
