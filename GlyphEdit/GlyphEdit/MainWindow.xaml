@@ -8,6 +8,7 @@
         xmlns:toolbar="clr-namespace:GlyphEdit.Controls.Toolbar"
         xmlns:panelBar="clr-namespace:GlyphEdit.Controls.PanelBar"
         xmlns:statusBar="clr-namespace:GlyphEdit.Controls.StatusBar"
+        xmlns:documentControl="clr-namespace:GlyphEdit.Controls.DocumentControl"
         mc:Ignorable="d"
         Title="GlyphEdit v0.1" Height="1000" Width="1400">
     <DockPanel LastChildFill="True">
@@ -20,7 +21,7 @@
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
             <toolbar:GlyphToolbar Grid.Column="0" />
-            <documentView:DocumentControl RenderingInitialized="DocumentViewer_OnRenderingInitialized" UseDevicePixelSize="True" SnapsToDevicePixels="True" x:Name="DocumentViewer" Grid.Column="1" BackgroundColor="#222222" />
+            <documentControl:DocumentControl RenderingInitialized="DocumentViewer_OnRenderingInitialized" UseDevicePixelSize="True" SnapsToDevicePixels="True" x:Name="DocumentViewer" Grid.Column="1" BackgroundColor="#222222" />
             <panelBar:GlyphPanelsBar Grid.Column="2"/>
         </Grid>
     </DockPanel>

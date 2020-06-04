@@ -5,9 +5,9 @@ namespace GlyphEdit.Controls.DocumentView
 {
     internal class LayerRenderer
     {
-        private readonly DocumentControl _documentControl;
+        private readonly DocumentControl.DocumentControl _documentControl;
 
-        public LayerRenderer(DocumentControl documentControl)
+        public LayerRenderer(DocumentControl.DocumentControl documentControl)
         {
             _documentControl = documentControl;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messaging;
 
 namespace GlyphEdit.Controls.MainMenu

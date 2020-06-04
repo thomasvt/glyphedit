@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using GlyphEdit.Controls.DocumentView;
 
-namespace GlyphEdit.Messages
+namespace GlyphEdit.Messages.Events
 {
     public class EditModeChangedEvent
     {

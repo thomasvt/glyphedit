@@ -91,6 +91,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\DocumentControl\GlyphColorExtensions.cs" />
+    <Compile Include="Controls\GlyphColorExtensions.cs" />
     <Compile Include="Controls\PanelsBar\GlyphPanelsBar.xaml.cs">
       <DependentUpon>GlyphPanelsBar.xaml</DependentUpon>
     </Compile>
@@ -100,42 +102,54 @@
     <Compile Include="Controls\PanelsBar\GlyphSummary\GlyphSummary.xaml.cs">
       <DependentUpon>GlyphSummary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PanelsBar\PalettePicker\ColorButtonViewModel.cs" />
+    <Compile Include="Controls\PanelsBar\PalettePicker\PalettePicker.xaml.cs">
+      <DependentUpon>PalettePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StatusBar\GlyphStatusBar.xaml.cs">
       <DependentUpon>GlyphStatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Messages\ChangeGlyphCommand.cs" />
-    <Compile Include="Messages\ChangeGlyphFontCommand.cs" />
-    <Compile Include="Messages\EditModeChangedEvent.cs" />
-    <Compile Include="Controls\DocumentView\Camera.cs" />
-    <Compile Include="Controls\DocumentView\BackgroundRenderer.cs" />
-    <Compile Include="Controls\DocumentView\DocumentRenderer.cs" />
-    <Compile Include="Controls\DocumentView\EditMode.cs" />
-    <Compile Include="Controls\DocumentView\Input\MouseWheelEventArgs.cs" />
-    <Compile Include="Messages\DocumentOpenedEvent.cs" />
-    <Compile Include="Messages\GlyphChangedEvent.cs" />
-    <Compile Include="Messages\GlyphFontListLoadedEvent.cs" />
-    <Compile Include="Messages\ZoomChangedEvent.cs" />
+    <Compile Include="Messages\Commands\ChangeBackgroundColorCommand.cs" />
+    <Compile Include="Messages\Commands\ChangeForegroundColorCommand.cs" />
+    <Compile Include="Messages\Commands\ChangeGlyphCommand.cs" />
+    <Compile Include="Messages\Commands\ChangeGlyphFontCommand.cs" />
+    <Compile Include="Messages\Events\ColorPaletteChangedEvent.cs" />
+    <Compile Include="Messages\Events\ColorPaletteListLoadedEvent.cs" />
+    <Compile Include="Messages\Events\EditModeChangedEvent.cs" />
+    <Compile Include="Controls\DocumentControl\Camera.cs" />
+    <Compile Include="Controls\DocumentControl\BackgroundRenderer.cs" />
+    <Compile Include="Controls\DocumentControl\DocumentRenderer.cs" />
+    <Compile Include="Controls\DocumentControl\EditMode.cs" />
+    <Compile Include="Controls\DocumentControl\Input\MouseWheelEventArgs.cs" />
+    <Compile Include="Messages\Events\DocumentOpenedEvent.cs" />
+    <Compile Include="Messages\Events\BackgroundColorChangedEvent.cs" />
+    <Compile Include="Messages\Events\ForegroundColorChangedEvent.cs" />
+    <Compile Include="Messages\Events\GlyphChangedEvent.cs" />
+    <Compile Include="Messages\Events\GlyphFontListLoadedEvent.cs" />
+    <Compile Include="Messages\Events\ZoomChangedEvent.cs" />
+    <Compile Include="Models\ColorPalette.cs" />
+    <Compile Include="ViewModels\ColorPaletteStore.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\GlyphFont.cs" />
-    <Compile Include="Controls\DocumentView\ICamera.cs" />
-    <Compile Include="Controls\DocumentView\Input\WpfKeyboard.cs" />
-    <Compile Include="Controls\DocumentView\Input\WpfMouse.cs" />
-    <Compile Include="Controls\DocumentView\Input\MouseEventArgs.cs" />
-    <Compile Include="Controls\DocumentView\Input\MouseMoveEventArgs.cs" />
-    <Compile Include="Controls\DocumentView\IEditTool.cs" />
-    <Compile Include="Controls\DocumentView\LayerRenderer.cs" />
+    <Compile Include="Controls\DocumentControl\ICamera.cs" />
+    <Compile Include="Controls\DocumentControl\Input\WpfKeyboard.cs" />
+    <Compile Include="Controls\DocumentControl\Input\WpfMouse.cs" />
+    <Compile Include="Controls\DocumentControl\Input\MouseEventArgs.cs" />
+    <Compile Include="Controls\DocumentControl\Input\MouseMoveEventArgs.cs" />
+    <Compile Include="Controls\DocumentControl\IEditTool.cs" />
+    <Compile Include="Controls\DocumentControl\LayerRenderer.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\GlyphColor.cs" />
     <Compile Include="Models\Layer.cs" />
-    <Compile Include="Controls\DocumentView\PencilEditTool.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\GlyphColorExtensions.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\GlyphMapTexture.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\IRenderer.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\Quad.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\Renderer.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\Triangle.cs" />
+    <Compile Include="Controls\DocumentControl\PencilEditTool.cs" />
+    <Compile Include="Controls\DocumentControl\Rendering\GlyphColorExtensions.cs" />
+    <Compile Include="Controls\DocumentControl\Rendering\GlyphMapTexture.cs" />
+    <Compile Include="Controls\DocumentControl\Rendering\IRenderer.cs" />
+    <Compile Include="Controls\DocumentControl\Rendering\Quad.cs" />
+    <Compile Include="Controls\DocumentControl\Rendering\Renderer.cs" />
+    <Compile Include="Controls\DocumentControl\Rendering\Triangle.cs" />
     <Compile Include="Models\DocumentElement.cs" />
-    <Compile Include="Controls\DocumentView\Rendering\UvRect.cs" />
+    <Compile Include="Controls\DocumentControl\Rendering\UvRect.cs" />
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml.cs">
       <DependentUpon>GlyphPicker.xaml</DependentUpon>
     </Compile>
@@ -146,12 +160,12 @@
     <Compile Include="Messaging\IMessage.cs" />
     <Compile Include="Messaging\IMessageBus.cs" />
     <Compile Include="Messaging\MessageBus.cs" />
-    <Compile Include="Messages\NewDocumentCommand.cs" />
+    <Compile Include="Messages\Commands\NewDocumentCommand.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Controls\Toolbar\GlyphToolbar.xaml.cs">
       <DependentUpon>GlyphToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\FontBitmapLoader.cs" />
+    <Compile Include="ViewModels\BitmapUtils.cs" />
     <Compile Include="ViewModels\GlyphFontStore.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
@@ -167,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\PanelsBar\GlyphSummary\GlyphSummary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PanelsBar\PalettePicker\PalettePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,7 +211,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\DocumentView\DocumentControl.cs" />
+    <Compile Include="Controls\DocumentControl\DocumentControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -253,6 +271,12 @@
     <None Include="Fonts\cp437_18x18.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Palettes\test.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" />

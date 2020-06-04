@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Commands;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Models;
 
@@ -29,7 +29,7 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
             {
                 GlyphFontPicker.SelectedItem = e.NewGlyphFont;
-                LoadGlyphFont(e.NewGlyphFont);
+                ChangeGlyphGridFont(e.NewGlyphFont);
                 SelectGlyphButton(e.NewGlyphIndex);
             });
         }
@@ -42,7 +42,7 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             }
         }
 
-        private void LoadGlyphFont(GlyphFont glyphFont)
+        private void ChangeGlyphGridFont(GlyphFont glyphFont)
         {
             if (_currentGlyphFontOfGlyphGrid == glyphFont)
                 return;

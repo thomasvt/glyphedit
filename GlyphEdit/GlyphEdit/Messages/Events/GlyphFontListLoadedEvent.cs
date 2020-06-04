@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using GlyphEdit.Models;
 
-namespace GlyphEdit.Messages
+namespace GlyphEdit.Messages.Events
 {
     public class GlyphFontListLoadedEvent
     {

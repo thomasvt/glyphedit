@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Models;
 using Microsoft.Xna.Framework;
@@ -26,7 +27,7 @@ namespace GlyphEdit.ViewModels
                 {
                     try
                     {
-                        var fontBitmap = FontBitmapLoader.Load(filename);
+                        var fontBitmap = BitmapUtils.LoadAndCleanGlyphFontBitmap(filename);
                         var width = int.Parse(match.Groups["width"].Value);
                         var height = int.Parse(match.Groups["height"].Value);
                         var fontName = match.Groups["name"].Value;

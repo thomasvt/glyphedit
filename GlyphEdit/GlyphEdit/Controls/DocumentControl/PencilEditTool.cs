@@ -7,11 +7,11 @@ namespace GlyphEdit.Controls.DocumentView
 {
     internal class PencilEditTool : EditTool
     {
-        private readonly DocumentControl _documentControl;
+        private readonly DocumentControl.DocumentControl _documentControl;
         private bool _isDrawing;
         private Point _previousDrawPosition;
 
-        public PencilEditTool(DocumentControl documentControl, WpfMouse mouse)
+        public PencilEditTool(DocumentControl.DocumentControl documentControl, WpfMouse mouse)
         : base(EditMode.Pencil)
         {
             _documentControl = documentControl;
@@ -67,8 +67,8 @@ namespace GlyphEdit.Controls.DocumentView
                 return;
             ref var element = ref _documentControl.Document.GetElementRef(0, point);
             element.Glyph = _documentControl.CurrentGlyphIndex;
-            element.Background = new GlyphColor(200, 0, 0, 255);
-            element.Foreground = new GlyphColor(0, 200, 0, 255);
+            element.Background = _documentControl.CurrentBackgroundColor;
+            element.Foreground = _documentControl.CurrentForegroundColor;
         }
 
         private void MouseOnLeftButtonDown(object sender, MouseEventArgs e)

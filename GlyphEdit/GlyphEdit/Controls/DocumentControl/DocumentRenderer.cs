@@ -7,12 +7,12 @@ namespace GlyphEdit.Controls.DocumentView
 {
     public class DocumentRenderer
     {
-        private readonly DocumentControl _documentControl;
+        private readonly DocumentControl.DocumentControl _documentControl;
         private readonly Camera _camera;
         private readonly BackgroundRenderer _backgroundRenderer;
         private readonly LayerRenderer _layerRenderer;
 
-        public DocumentRenderer(DocumentControl documentControl, Camera camera)
+        public DocumentRenderer(DocumentControl.DocumentControl documentControl, Camera camera)
         {
             _documentControl = documentControl;
             _camera = camera;

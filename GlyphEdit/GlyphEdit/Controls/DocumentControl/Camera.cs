@@ -1,5 +1,6 @@
 ﻿using GlyphEdit.Controls.DocumentView.Input;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using Microsoft.Xna.Framework;
 
@@ -9,7 +10,7 @@ namespace GlyphEdit.Controls.DocumentView
     {
         private float _time;
 
-        private readonly DocumentControl _documentViewport;
+        private readonly DocumentControl.DocumentControl _documentViewport;
         private Vector2 _panStartCameraPosition;
         private Point _panStartMousePosition;
         private Vector2 _viewportSize;
@@ -18,7 +19,7 @@ namespace GlyphEdit.Controls.DocumentView
         private float _zoomFrom, _zoomTo, _zoomStartTime;
         private bool _isAnimatingZoom;
 
-        public Camera(WpfMouse mouse, DocumentControl documentViewport)
+        public Camera(WpfMouse mouse, DocumentControl.DocumentControl documentViewport)
         {
             _documentViewport = documentViewport;
             Zoom = 1f;

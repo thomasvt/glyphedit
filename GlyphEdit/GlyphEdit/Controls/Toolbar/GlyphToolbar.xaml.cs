@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.ViewModels;
 

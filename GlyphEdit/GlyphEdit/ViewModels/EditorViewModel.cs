@@ -3,6 +3,8 @@ using System.Linq;
 using System.Windows;
 using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Commands;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Models;
 
@@ -15,7 +17,11 @@ namespace GlyphEdit.ViewModels
     public class EditorViewModel
     {
         private GlyphFont _glyphFont;
+        private int _glyphIndex;
+        private ColorPalette _colorPalette;
+
         private GlyphFontStore _glyphFontStore;
+        private ColorPaletteStore _colorPaletteStore;
 
         public EditorViewModel()
         {
@@ -27,12 +33,16 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<NewDocumentCommand>(command => CreateNewDocument());
             MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFont));
             MessageBus.Subscribe<ChangeGlyphCommand>(command => ChangeGlyph(command.GlyphIndex));
+            MessageBus.Subscribe<ChangeForegroundColorCommand>(c => ChangeForegroundColor(c.Color));
+            MessageBus.Subscribe<ChangeBackgroundColorCommand>(c => ChangeBackgroundColor(c.Color));
         }
 
         public void OnLoaded()
         {
             _glyphFontStore = new GlyphFontStore();
             _glyphFontStore.DetectGlyphFonts();
+            _colorPaletteStore = new ColorPaletteStore();
+            _colorPaletteStore.DetectColorPalettes();
             CreateNewDocument();
         }
 
@@ -48,6 +58,7 @@ namespace GlyphEdit.ViewModels
             if (!_glyphFontStore.GlyphFonts.Any())
                 throw new Exception("No GlyphFonts found. GlyphEdit cannot function without.");
             ChangeGlyph(_glyphFontStore.GlyphFonts.OrderBy(gf => gf.FontName).ThenBy(gf => gf.GlyphSize.Y).First(gf => gf.IsValid), 0);
+            ChangeColorPalette(_colorPaletteStore.ColorPalettes.OrderBy(cp => cp.Name).First(cp => cp.IsValid));
             ChangeEditMode(EditMode.Pencil);
         }
 
@@ -86,9 +97,30 @@ namespace GlyphEdit.ViewModels
             MessageBus.Publish(@event);
         }
 
-        private void ShowError(string message)
+        private void ChangeColorPalette(ColorPalette colorPalette)
         {
-            MessageBox.Show(message, "GlyphEdit", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (colorPalette == null)
+                throw new ArgumentNullException(nameof(colorPalette));
+            if (!_colorPaletteStore.ColorPalettes.Contains(colorPalette))
+                throw new Exception("Chosen ColorPalette is not known in the ColorPaletteStore.");
+            if (!colorPalette.IsValid)
+                throw new Exception("Cannot use an invalid ColorPalette.");
+            if (colorPalette.Equals(_colorPalette))
+                return;
+
+            var @event = new ColorPaletteChangedEvent(colorPalette);
+            _colorPalette = colorPalette;
+            MessageBus.Publish(@event);
+        }
+
+        private void ChangeForegroundColor(GlyphColor color)
+        {
+            MessageBus.Publish(new ForegroundColorChangedEvent(color));
+        }
+
+        private void ChangeBackgroundColor(GlyphColor color)
+        {
+            MessageBus.Publish(new BackgroundColorChangedEvent(color));
         }
 
         public void ChangeEditMode(EditMode editMode)
@@ -105,6 +137,6 @@ namespace GlyphEdit.ViewModels
         public EditMode EditMode { get; private set; }
 
         public static EditorViewModel Current = new EditorViewModel();
-        private int _glyphIndex;
+        
     }
 }

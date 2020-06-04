@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Controls.DocumentView.Input;
 using GlyphEdit.Controls.DocumentView.Rendering;
-using GlyphEdit.Messages;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Models;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework.WpfInterop;
 using Point = Microsoft.Xna.Framework.Point;
 
-namespace GlyphEdit.Controls.DocumentView
+namespace GlyphEdit.Controls.DocumentControl
 {
     public class DocumentControl : WpfGame
     {
@@ -24,6 +25,7 @@ namespace GlyphEdit.Controls.DocumentView
         private Renderer _renderer;
         private Camera _camera;
         internal GlyphMapTexture CurrentGlyphMapTexture;
+        internal GlyphColor CurrentForegroundColor, CurrentBackgroundColor;
         private readonly Dictionary<GlyphFont, GlyphMapTexture> _glyphMapTextures;
 
         internal int CurrentGlyphIndex;
@@ -38,7 +40,8 @@ namespace GlyphEdit.Controls.DocumentView
             });
             MessageBus.Subscribe<EditModeChangedEvent>(e => ChangeEditMode(e.EditMode));
             MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.NewGlyphFont, e.NewGlyphIndex));
-            
+            MessageBus.Subscribe<ForegroundColorChangedEvent>(w => ChangeForegroundColor(w.Color));
+            MessageBus.Subscribe<BackgroundColorChangedEvent>(w => ChangeBackgroundColor(w.Color));
         }
 
         protected override void Initialize()
@@ -75,6 +78,16 @@ namespace GlyphEdit.Controls.DocumentView
                 }
             }
             CurrentGlyphIndex = glyphIndex;
+        }
+
+        private void ChangeBackgroundColor(GlyphColor color)
+        {
+            CurrentBackgroundColor = color;
+        }
+
+        private void ChangeForegroundColor(GlyphColor color)
+        {
+            CurrentForegroundColor = color;
         }
 
         protected override void LoadContent()

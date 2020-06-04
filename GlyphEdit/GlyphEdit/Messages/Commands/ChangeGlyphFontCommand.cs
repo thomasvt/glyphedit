@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using GlyphEdit.Models;
 
-namespace GlyphEdit.Messages
+namespace GlyphEdit.Messages.Commands
 {
     public class ChangeGlyphFontCommand
     {

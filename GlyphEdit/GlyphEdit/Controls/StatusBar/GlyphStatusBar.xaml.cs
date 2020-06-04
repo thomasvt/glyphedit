@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 
 namespace GlyphEdit.Controls.StatusBar

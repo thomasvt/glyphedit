@@ -1,4 +1,7 @@
-﻿namespace GlyphEdit.Models
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Media;
+
+namespace GlyphEdit.Models
 {
     public struct GlyphColor
     {

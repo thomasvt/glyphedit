@@ -1,4 +1,4 @@
-﻿namespace GlyphEdit.Messages
+﻿namespace GlyphEdit.Messages.Commands
 {
     internal class NewDocumentCommand
     {

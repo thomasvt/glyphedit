@@ -2,18 +2,18 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using GlyphEdit.Models;
 
 namespace GlyphEdit.ViewModels
 {
-    public static class FontBitmapLoader
+    public static class BitmapUtils
     {
         // It's sad we have to program this ourselves in WPF while many less advanced frameworks offer simple API for this...
 
-        public static BitmapSource Load(string filename)
+        public static BitmapSource LoadAndCleanGlyphFontBitmap(string filename)
         {
             var bitmap = new BitmapImage(new Uri(filename, UriKind.Absolute));
-            //var writableBitmap = new WriteableBitmap(bitmap.PixelWidth, bitmap.PixelHeight, 96, 96, PixelFormats.Bgra32, null);
-            var pixels = GetPixels(bitmap);
+            var pixels = GetPixelData(bitmap);
             var writableBitmap = new WriteableBitmap(bitmap.PixelWidth, bitmap.PixelHeight, 96, 96, PixelFormats.Bgra32, null);
             for (var i = 0; i < pixels.Length; i+=4)
             {
@@ -29,7 +29,29 @@ namespace GlyphEdit.ViewModels
             return writableBitmap;
         }
 
-        private static byte[] GetPixels(BitmapSource bitmapSource)
+        public static GlyphColor[,] LoadPixelColors(string filename)
+        {
+            var bitmap = new BitmapImage(new Uri(filename, UriKind.Absolute));
+            var pixelData = GetPixelData(bitmap);
+            var pixels = new GlyphColor[bitmap.PixelWidth, bitmap.PixelHeight];
+            var i = 0;
+            for (var y = 0; y < bitmap.PixelHeight; y++)
+            {
+                for (var x = 0; x < bitmap.PixelWidth; x++)
+                {
+                    var b = pixelData[i];
+                    var g = pixelData[i+1];
+                    var r = pixelData[i+2];
+                    var a = pixelData[i+3];
+                    pixels[x, y] = new GlyphColor(r, g, b, a);
+                    i += 4;
+                }
+            }
+
+            return pixels;
+        }
+
+        private static byte[] GetPixelData(BitmapSource bitmapSource)
         {
             if (bitmapSource.Format == PixelFormats.Bgra32)
             {

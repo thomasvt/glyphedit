@@ -270,7 +270,7 @@ namespace MonoGame.Framework.WpfInterop
         private static GraphicsDevice CreateSharedGraphicsDevice(PresentationParameters presentationParameters)
         {
             // TODO: could allow user to chose which adapter to use
-            return new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef, presentationParameters);
+            return new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.Reach, presentationParameters);
         }
 
         /// <summary>

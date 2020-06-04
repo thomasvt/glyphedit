@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace GlyphEdit.Messages
+namespace GlyphEdit.Messages.Commands
 {
     public class ChangeGlyphCommand
     {
