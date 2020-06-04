@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:documentView="clr-namespace:GlyphEdit.Controls.DocumentView"
         xmlns:mainMenu="clr-namespace:GlyphEdit.Controls.MainMenu"
         xmlns:toolbar="clr-namespace:GlyphEdit.Controls.Toolbar"
         xmlns:panelBar="clr-namespace:GlyphEdit.Controls.PanelBar"
@@ -17,6 +16,9 @@
         <CommandBinding Command="{x:Static local:MainWindow.Zoom2Command}" Executed="Zoom2Command_Executed"  />
         <CommandBinding Command="{x:Static local:MainWindow.Zoom3Command}" Executed="Zoom3Command_Executed"  />
         <CommandBinding Command="{x:Static local:MainWindow.Zoom4Command}" Executed="Zoom4Command_Executed"  />
+
+        <CommandBinding Command="{x:Static local:MainWindow.SaveCommand}" Executed="SaveCommand_Executed"  />
+        <CommandBinding Command="{x:Static local:MainWindow.SaveAsCommand}" Executed="SaveAsCommand_Executed"  />
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -24,6 +26,9 @@
         <KeyBinding Command="{x:Static local:MainWindow.Zoom2Command}" Key="NumPad2" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.Zoom3Command}" Key="NumPad3" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.Zoom4Command}" Key="NumPad4" Modifiers="Ctrl"/>
+
+        <KeyBinding Command="{x:Static local:MainWindow.SaveCommand}" Key="S" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:MainWindow.SaveAsCommand}" Key="S" Modifiers="Ctrl+Shift"/>
     </Window.InputBindings>
     <DockPanel LastChildFill="True">
         <mainMenu:GlyphMainMenu DockPanel.Dock="Top" />

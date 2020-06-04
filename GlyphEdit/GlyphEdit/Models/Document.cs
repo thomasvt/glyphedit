@@ -7,7 +7,7 @@ namespace GlyphEdit.Models
     public class Document
     {
         internal readonly List<Layer> Layers;
-
+        
         public Document(int width, int height)
         {
             Width = width;

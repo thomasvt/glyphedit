@@ -135,14 +135,15 @@
     </UserControl.Resources>
     <Menu DockPanel.Dock="Top" Style="{StaticResource GlyphMainMenu}">
         <MenuItem Header="File" Style="{StaticResource GlyphMenuItemStyle}">
-            <MenuItem Header="New" Click="NewDocument_Click" Style="{StaticResource GlyphSubMenuItemStyle}" />
-            <MenuItem Header="Save" Click="Save_Click"></MenuItem>
+            <MenuItem Header="_New..." Click="NewDocument_Click" Style="{StaticResource GlyphSubMenuItemStyle}" />
+            <MenuItem Header="_Save" Command="{x:Static glyphEdit:MainWindow.SaveCommand}" InputGestureText="Ctrl+S" />
+            <MenuItem Header="Save _As..." Command="{x:Static glyphEdit:MainWindow.SaveAsCommand}" InputGestureText="Ctrl+Shift+S" />
         </MenuItem>
         <MenuItem Header="View" Style="{StaticResource GlyphMenuItemStyle}">
-            <MenuItem Header="Zoom 100%" Command="{x:Static glyphEdit:MainWindow.Zoom1Command}"  Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 1" />
-            <MenuItem Header="Zoom 200%" Command="{x:Static glyphEdit:MainWindow.Zoom2Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 2" />
-            <MenuItem Header="Zoom 400%" Command="{x:Static glyphEdit:MainWindow.Zoom3Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 3" />
-            <MenuItem Header="Zoom 800%" Command="{x:Static glyphEdit:MainWindow.Zoom4Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 4" />
+            <MenuItem Header="Zoom _100%" Command="{x:Static glyphEdit:MainWindow.Zoom1Command}"  Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 1" />
+            <MenuItem Header="Zoom _200%" Command="{x:Static glyphEdit:MainWindow.Zoom2Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 2" />
+            <MenuItem Header="Zoom _400%" Command="{x:Static glyphEdit:MainWindow.Zoom3Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 3" />
+            <MenuItem Header="Zoom _800%" Command="{x:Static glyphEdit:MainWindow.Zoom4Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 4" />
         </MenuItem>
     </Menu>
 </UserControl>

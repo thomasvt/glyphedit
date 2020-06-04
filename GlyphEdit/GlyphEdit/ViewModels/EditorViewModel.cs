@@ -6,6 +6,7 @@ using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Models;
 using GlyphEdit.Persistence;
+using Microsoft.Win32;
 
 namespace GlyphEdit.ViewModels
 {
@@ -37,7 +38,6 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
-            MessageBus.Subscribe<SaveDocumentCommand>(c => DocumentSaver.Save(Document, "test.ged"));
         }
 
         public void OnLoaded()
@@ -51,9 +51,10 @@ namespace GlyphEdit.ViewModels
 
         public void CreateNewDocument()
         {
-            Document = new Document(50, 50);
+            var document = new Document(50, 50);
+            DocumentViewModel = new DocumentViewModel(document);
             ResetUI();
-            MessageBus.Publish(new DocumentOpenedEvent(Document));
+            MessageBus.Publish(new DocumentOpenedEvent(document));
         }
 
         private void ResetUI()
@@ -64,8 +65,8 @@ namespace GlyphEdit.ViewModels
             ChangeGlyph(firstFont, 1);
             ChangeColorPalette(_colorPaletteStore.ColorPalettes.OrderBy(cp => cp.Name).First(cp => cp.IsValid));
             ChangeEditMode(EditMode.Pencil);
-            ChangeForegroundColor(new GlyphColor(255, 255, 255, 255));
-            ChangeBackgroundColor(new GlyphColor(0, 0, 0, 255));
+            ChangeBackgroundColor(new GlyphColor(255, 255, 255, 255));
+            ChangeForegroundColor(new GlyphColor(0, 0, 0, 255));
             SetBrushGlyphEnabled(true);
             SetBrushForegroundEnabled(true);
             SetBrushBackgroundEnabled(true);
@@ -156,11 +157,10 @@ namespace GlyphEdit.ViewModels
             }
         }
 
-        public Document Document { get; private set; }
+        public DocumentViewModel DocumentViewModel { get; private set; }
 
         public EditMode EditMode { get; private set; }
 
         public static EditorViewModel Current = new EditorViewModel();
-        
     }
 }

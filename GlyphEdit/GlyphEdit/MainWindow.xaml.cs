@@ -34,6 +34,9 @@ namespace GlyphEdit
         public static readonly RoutedCommand Zoom3Command = new RoutedCommand();
         public static readonly RoutedCommand Zoom4Command = new RoutedCommand();
 
+        public static readonly RoutedCommand SaveCommand = new RoutedCommand();
+        public static readonly RoutedCommand SaveAsCommand = new RoutedCommand();
+
         private void Zoom1Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBus.Publish(new ZoomToCommand(0.5f));
@@ -52,6 +55,16 @@ namespace GlyphEdit
         private void Zoom4Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBus.Publish(new ZoomToCommand(4f));
+        }
+
+        private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new SaveDocumentCommand());
+        }
+
+        private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new SaveDocumentAsCommand());
         }
     }
 }

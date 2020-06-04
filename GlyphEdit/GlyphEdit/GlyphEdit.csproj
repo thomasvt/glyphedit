@@ -82,9 +82,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WriteableBitmapEx.Wpf, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WriteableBitmapEx.1.6.5\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -113,6 +110,8 @@
     <Compile Include="Messages\Commands\ChangeForegroundColorCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphFontCommand.cs" />
+    <Compile Include="Messages\Commands\SaveDocumentAsCommand.cs" />
+    <Compile Include="Messages\Commands\SaveDocumentCommand.cs" />
     <Compile Include="Messages\Commands\SetBrushBackgroundEnabledCommand.cs" />
     <Compile Include="Messages\Commands\SetBrushForegroundEnabledCommand.cs" />
     <Compile Include="Messages\Commands\SetBrushGlyphEnabledCommand.cs" />
@@ -176,7 +175,7 @@
     </Compile>
     <Compile Include="ViewModels\BitmapUtils.cs" />
     <Compile Include="ViewModels\GlyphFontStore.cs" />
-    <Compile Include="Messages\Commands\SaveDocumentCommand.cs" />
+    <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
       <SubType>Designer</SubType>

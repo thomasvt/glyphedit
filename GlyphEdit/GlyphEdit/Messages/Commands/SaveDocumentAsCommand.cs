@@ -1,6 +1,6 @@
 ﻿namespace GlyphEdit.Messages.Commands
 {
-    class SaveDocumentCommand
+    class SaveDocumentAsCommand
     {
     }
 }
