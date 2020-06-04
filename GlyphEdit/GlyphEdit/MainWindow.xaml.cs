@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
+using GlyphEdit.Messages.Commands;
+using GlyphEdit.Messaging;
 using GlyphEdit.ViewModels;
 
 namespace GlyphEdit
@@ -22,6 +25,33 @@ namespace GlyphEdit
         {
             // this event comes from the D3DHost gameloop thread, so: sync to UI thread:
             Dispatcher.InvokeAsync(() => EditorViewModel.Current.OnLoaded());
+        }
+
+        // keyboard shortcut commands
+
+        public static readonly RoutedCommand Zoom1Command = new RoutedCommand();
+        public static readonly RoutedCommand Zoom2Command = new RoutedCommand();
+        public static readonly RoutedCommand Zoom3Command = new RoutedCommand();
+        public static readonly RoutedCommand Zoom4Command = new RoutedCommand();
+
+        private void Zoom1Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new ZoomToCommand(0.5f));
+        }
+
+        private void Zoom2Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new ZoomToCommand(1f));
+        }
+
+        private void Zoom3Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new ZoomToCommand(2f));
+        }
+
+        private void Zoom4Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new ZoomToCommand(4f));
         }
     }
 }

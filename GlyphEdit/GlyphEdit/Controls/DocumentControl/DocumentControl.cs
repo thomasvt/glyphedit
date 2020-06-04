@@ -5,6 +5,7 @@ using System.Windows;
 using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Controls.DocumentView.Input;
 using GlyphEdit.Controls.DocumentView.Rendering;
+using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Models;
@@ -43,6 +44,7 @@ namespace GlyphEdit.Controls.DocumentControl
             MessageBus.Subscribe<BrushGlyphEnabledChangedEvent>(e => Brush.IsGlyphEnabled = e.IsEnabled);
             MessageBus.Subscribe<BrushForegroundEnabledChangedEvent>(e => Brush.IsForegroundEnabled = e.IsEnabled);
             MessageBus.Subscribe<BrushBackgroundEnabledChangedEvent>(e => Brush.IsBackgroundEnabled = e.IsEnabled);
+            MessageBus.Subscribe<ZoomToCommand>(c => _camera.ZoomSmoothTo(c.Percentage, 0.2f));
         }
 
         protected override void Initialize()

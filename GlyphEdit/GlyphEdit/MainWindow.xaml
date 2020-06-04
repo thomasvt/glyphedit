@@ -9,8 +9,22 @@
         xmlns:panelBar="clr-namespace:GlyphEdit.Controls.PanelBar"
         xmlns:statusBar="clr-namespace:GlyphEdit.Controls.StatusBar"
         xmlns:documentControl="clr-namespace:GlyphEdit.Controls.DocumentControl"
+        xmlns:local="clr-namespace:GlyphEdit"
         mc:Ignorable="d"
         Title="GlyphEdit v0.1" Height="1000" Width="1400">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.Zoom1Command}" Executed="Zoom1Command_Executed"  />
+        <CommandBinding Command="{x:Static local:MainWindow.Zoom2Command}" Executed="Zoom2Command_Executed"  />
+        <CommandBinding Command="{x:Static local:MainWindow.Zoom3Command}" Executed="Zoom3Command_Executed"  />
+        <CommandBinding Command="{x:Static local:MainWindow.Zoom4Command}" Executed="Zoom4Command_Executed"  />
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static local:MainWindow.Zoom1Command}" Key="NumPad1" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:MainWindow.Zoom2Command}" Key="NumPad2" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:MainWindow.Zoom3Command}" Key="NumPad3" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:MainWindow.Zoom4Command}" Key="NumPad4" Modifiers="Ctrl"/>
+    </Window.InputBindings>
     <DockPanel LastChildFill="True">
         <mainMenu:GlyphMainMenu DockPanel.Dock="Top" />
         <statusBar:GlyphStatusBar DockPanel.Dock="Bottom" />

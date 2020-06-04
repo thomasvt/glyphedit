@@ -116,6 +116,7 @@
     <Compile Include="Messages\Commands\SetBrushBackgroundEnabledCommand.cs" />
     <Compile Include="Messages\Commands\SetBrushForegroundEnabledCommand.cs" />
     <Compile Include="Messages\Commands\SetBrushGlyphEnabledCommand.cs" />
+    <Compile Include="Messages\Commands\ZoomToCommand.cs" />
     <Compile Include="Messages\Events\BrushForegroundEnabledChangedEvent.cs" />
     <Compile Include="Messages\Events\BrushBackgroundEnabledChangedEvent.cs" />
     <Compile Include="Messages\Events\BrushGlyphEnabledChangedEvent.cs" />

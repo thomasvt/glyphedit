@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:glyphEdit="clr-namespace:GlyphEdit"
              mc:Ignorable="d" d:DesignWidth="800">
     <UserControl.Resources>
         <Style x:Key="GlyphMainMenu" TargetType="{x:Type Menu}">
@@ -135,6 +136,12 @@
     <Menu DockPanel.Dock="Top" Style="{StaticResource GlyphMainMenu}">
         <MenuItem Header="File" Style="{StaticResource GlyphMenuItemStyle}">
             <MenuItem Header="New" Click="NewDocument_Click" Style="{StaticResource GlyphSubMenuItemStyle}" />
+        </MenuItem>
+        <MenuItem Header="View" Style="{StaticResource GlyphMenuItemStyle}">
+            <MenuItem Header="Zoom 100%" Command="{x:Static glyphEdit:MainWindow.Zoom1Command}"  Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 1" />
+            <MenuItem Header="Zoom 200%" Command="{x:Static glyphEdit:MainWindow.Zoom2Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 2" />
+            <MenuItem Header="Zoom 400%" Command="{x:Static glyphEdit:MainWindow.Zoom3Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 3" />
+            <MenuItem Header="Zoom 800%" Command="{x:Static glyphEdit:MainWindow.Zoom4Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 4" />
         </MenuItem>
     </Menu>
 </UserControl>

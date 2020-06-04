@@ -71,7 +71,7 @@ namespace GlyphEdit.Controls.DocumentView
             }
         }
 
-        private void ZoomSmoothTo(float zoom, float duration)
+        public void ZoomSmoothTo(float zoom, float duration)
         {
             _zoomFrom = Zoom;
             _zoomTo = zoom;
@@ -80,7 +80,7 @@ namespace GlyphEdit.Controls.DocumentView
             _isAnimatingZoom = true;
         }
 
-        private void ZoomTo(float zoom)
+        public void ZoomTo(float zoom)
         {
             Zoom = zoom;
             CalculateProjectionMatrix();
