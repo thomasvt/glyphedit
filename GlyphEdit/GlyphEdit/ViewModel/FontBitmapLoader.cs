@@ -47,7 +47,7 @@ namespace GlyphEdit.ViewModel
                 return data;
             }
 
-            throw new NotSupportedException($"PixelFormat {bitmapSource.Format.ToString()} is not supported. Only BGRA32 and BGR32.");
+            throw new NotSupportedException($"PixelFormat {bitmapSource.Format} is not supported. Only BGRA32 and BGR32.");
         }
     }
 }

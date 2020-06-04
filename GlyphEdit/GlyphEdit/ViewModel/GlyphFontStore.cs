@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -23,18 +24,32 @@ namespace GlyphEdit.ViewModel
                 var match = FontFileRegex.Match(Path.GetFileNameWithoutExtension(filename));
                 if (match.Success)
                 {
-                    var width = int.Parse(match.Groups["width"].Value);
-                    var height = int.Parse(match.Groups["height"].Value);
-                    var fontBitmap = FontBitmapLoader.Load(filename);
-                    var glyphFont = new GlyphFont
+                    try
                     {
-                        GlyphSize = new Point(width, height),
-                        FontName = match.Groups["name"].Value,
-                        Filename = filename,
-                        BitmapSource = fontBitmap,
-                        GlyphCount = (fontBitmap.PixelWidth / width) * (fontBitmap.PixelHeight / height)
-                    };
-                    GlyphFonts.Add(glyphFont);
+                        var fontBitmap = FontBitmapLoader.Load(filename);
+                        var width = int.Parse(match.Groups["width"].Value);
+                        var height = int.Parse(match.Groups["height"].Value);
+                        var fontName = match.Groups["name"].Value;
+                        if (fontBitmap.PixelWidth / width != 16 || fontBitmap.PixelHeight / height != 16 ||
+                            fontBitmap.PixelWidth % width != 0 || fontBitmap.PixelHeight % height != 0)
+                        {
+                            GlyphFonts.Add(GlyphFont.CreateInvalid(filename,
+                                $"All fonts must fit exactly 16x16 characters: expected image of {16 * width}x{16 * height} but is {fontBitmap.PixelWidth}x{fontBitmap.PixelHeight}."));
+                        }
+                        else 
+                        {
+                            var glyphFont = GlyphFont.Create(filename, fontName, new Point(width, height), fontBitmap);
+                            GlyphFonts.Add(glyphFont);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        GlyphFonts.Add(GlyphFont.CreateInvalid(filename, "Could not load font from file: " + e.Message));
+                    }
+                }
+                else
+                {
+                    GlyphFonts.Add(GlyphFont.CreateInvalid(filename, "Filename must match pattern <name>_<charwidth>x<charheight>.png"));
                 }
             }
             MessageBus.Publish(new GlyphFontListLoadedEvent(GlyphFonts.ToArray()));

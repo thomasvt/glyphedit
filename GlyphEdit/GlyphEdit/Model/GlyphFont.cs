@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework;
 
@@ -7,11 +8,13 @@ namespace GlyphEdit.Model
     public class GlyphFont
     : IEquatable<GlyphFont>
     {
-        public string FontName { get; set; }
-        public string Filename { get; set; }
-        public Point GlyphSize { get; set; }
-        public BitmapSource BitmapSource { get; set; }
-        public int GlyphCount { get; set; }
+        public string FontName { get; private set; }
+        public string Filename { get; private set; }
+        public Point GlyphSize { get; private set; }
+        public BitmapSource BitmapSource { get; private set; }
+        public int GlyphCount { get; private set; }
+        public bool IsValid { get; private set; }
+        public string Error { get; private set; }
 
         public static bool operator ==(GlyphFont a, GlyphFont b)
         {
@@ -41,6 +44,30 @@ namespace GlyphEdit.Model
         public override int GetHashCode()
         {
             return (Filename != null ? Filename.GetHashCode() : 0);
+        }
+
+        internal static GlyphFont Create(string filename, string fontName, Point glyphSize, BitmapSource bitmapSource)
+        {
+            return new GlyphFont
+            {
+                Filename = filename,
+                FontName = fontName,
+                GlyphSize = glyphSize,
+                BitmapSource = bitmapSource,
+                GlyphCount = (bitmapSource.PixelWidth / glyphSize.X) * (bitmapSource.PixelHeight / glyphSize.Y),
+                IsValid = true
+            };
+        }
+
+        internal static GlyphFont CreateInvalid(string filename, string error)
+        {
+            return new GlyphFont 
+            {
+                Filename = filename,
+                FontName = Path.GetFileName(filename),
+                IsValid = false,
+                Error = error
+            };
         }
     }
 }

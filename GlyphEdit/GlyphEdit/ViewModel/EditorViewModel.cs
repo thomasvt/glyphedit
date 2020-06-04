@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
+using System.Windows;
 using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Messages;
 using GlyphEdit.Messaging;
@@ -46,7 +46,7 @@ namespace GlyphEdit.ViewModel
         {
             if (!_glyphFontStore.GlyphFonts.Any())
                 throw new Exception("No GlyphFonts found. GlyphEdit cannot function without.");
-            ChangeGlyph(_glyphFontStore.GlyphFonts.First(), 0);
+            ChangeGlyph(_glyphFontStore.GlyphFonts.OrderBy(gf => gf.FontName).ThenBy(gf => gf.GlyphSize.Y).First(gf => gf.IsValid), 0);
             ChangeEditMode(EditMode.Pencil);
         }
 
@@ -72,6 +72,8 @@ namespace GlyphEdit.ViewModel
                 throw new ArgumentNullException(nameof(glyphFont));
             if (!_glyphFontStore.GlyphFonts.Contains(glyphFont))
                 throw new Exception("Chosen GlyphFont is not known in the GlyphFontStore.");
+            if (!glyphFont.IsValid)
+                throw new Exception("Cannot use an invalid GlyphFont.");
             if (glyphIndex >= glyphFont.GlyphCount)
                 throw new Exception($"GlyphFont has no glyph at index {glyphIndex}.");
             if (glyphFont.Equals(_glyphFont) && _glyphIndex == glyphIndex)
@@ -81,6 +83,11 @@ namespace GlyphEdit.ViewModel
             _glyphFont = glyphFont;
             _glyphIndex = glyphIndex;
             MessageBus.Publish(@event);
+        }
+
+        private void ShowError(string message)
+        {
+            MessageBox.Show(message, "GlyphEdit", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public void ChangeEditMode(EditMode editMode)

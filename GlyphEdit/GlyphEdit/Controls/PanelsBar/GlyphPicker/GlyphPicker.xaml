@@ -45,7 +45,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="IsTabStop" Value="false"/>
@@ -107,7 +107,7 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-        
+
         <Style TargetType="{x:Type ComboBox}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="#3D3D3D"/>
@@ -152,18 +152,26 @@
         </Style>
 
         <glyphPicker:GlyphSizeFormatter x:Key="GlyphSizeFormatter" />
+
+        <glyphPicker:GlyphFontPickerItemTemplateSelector x:Key="GlyphFontPickerItemTemplateSelector" />
+
+        <DataTemplate x:Key="GlyphFontItemTemplate" DataType="{x:Type model:GlyphFont}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding FontName}" />
+                <TextBlock Text="{Binding GlyphSize, Converter={StaticResource GlyphSizeFormatter}}" Margin="10,0,0,0" Foreground="#cccccc" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="InvalidGlyphFontItemTemplate" DataType="{x:Type model:GlyphFont}">
+            <StackPanel Orientation="Horizontal" ToolTip="{Binding Error}">
+                <TextBlock Text="{Binding FontName}" Foreground="#777777" />
+            </StackPanel>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <DockPanel LastChildFill="True">
-        <ComboBox DockPanel.Dock="Top" x:Name="GlyphFontPicker" Margin="0,0,0,10" SelectionChanged="GlyphFontPicker_OnSelectionChanged">
-            <ComboBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type model:GlyphFont}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding FontName}" />
-                        <TextBlock Text="{Binding GlyphSize, Converter={StaticResource GlyphSizeFormatter}}" Margin="10,0,0,0" Foreground="#cccccc" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
+        <ComboBox DockPanel.Dock="Top" x:Name="GlyphFontPicker" ItemTemplateSelector="{StaticResource GlyphFontPickerItemTemplateSelector}" Margin="0,0,0,10" SelectionChanged="GlyphFontPicker_OnSelectionChanged">
         </ComboBox>
         <UniformGrid x:Name="Grid" Background="Transparent" />
     </DockPanel>

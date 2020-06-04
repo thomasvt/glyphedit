@@ -17,7 +17,7 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
     /// </summary>
     public partial class GlyphPicker : UserControl
     {
-        private GlyphFont _currentGlyphFont;
+        private GlyphFont _currentGlyphFontOfGlyphGrid;
 
         public GlyphPicker()
         {
@@ -52,7 +52,7 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
 
         private void LoadGlyphFont(GlyphFont glyphFont)
         {
-            if (_currentGlyphFont == glyphFont)
+            if (_currentGlyphFontOfGlyphGrid == glyphFont)
                 return;
 
             Grid.Children.Clear();
@@ -84,15 +84,24 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
                 }
             }
 
-            _currentGlyphFont = glyphFont;
+            _currentGlyphFontOfGlyphGrid = glyphFont;
         }
 
         private void GlyphFontPicker_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(GlyphFontPicker.SelectedItem is GlyphFont glyphFont))
                 throw new Exception("ComboBoxItem datacontext should be a GlyphFont.");
-
-            MessageBus.Publish(new ChangeGlyphFontCommand(glyphFont));
+            if (!glyphFont.IsValid)
+            {
+                // revert the change
+                GlyphFontPicker.SelectedItem = _currentGlyphFontOfGlyphGrid;
+                MessageBox.Show("Cannot use an invalid font: " + glyphFont.Error, "Invalid font", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
+            }
+            else
+            {
+                MessageBus.Publish(new ChangeGlyphFontCommand(glyphFont));
+            }
         }
     }
 }
