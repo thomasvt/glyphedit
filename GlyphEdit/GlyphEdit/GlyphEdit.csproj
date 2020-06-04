@@ -136,6 +136,7 @@
     <Compile Include="Messages\Events\ZoomChangedEvent.cs" />
     <Compile Include="Models\ColorPalette.cs" />
     <Compile Include="Controls\DocumentControl\GlyphBrush.cs" />
+    <Compile Include="Persistence\DocumentSaver.cs" />
     <Compile Include="ViewModels\ColorPaletteStore.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\GlyphFont.cs" />
@@ -175,6 +176,7 @@
     </Compile>
     <Compile Include="ViewModels\BitmapUtils.cs" />
     <Compile Include="ViewModels\GlyphFontStore.cs" />
+    <Compile Include="Messages\Commands\SaveDocumentCommand.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
       <SubType>Designer</SubType>

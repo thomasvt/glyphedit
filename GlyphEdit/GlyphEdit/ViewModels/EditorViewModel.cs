@@ -5,6 +5,7 @@ using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Models;
+using GlyphEdit.Persistence;
 
 namespace GlyphEdit.ViewModels
 {
@@ -36,6 +37,7 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
+            MessageBus.Subscribe<SaveDocumentCommand>(c => DocumentSaver.Save(Document, "test.ged"));
         }
 
         public void OnLoaded()

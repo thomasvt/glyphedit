@@ -136,6 +136,7 @@
     <Menu DockPanel.Dock="Top" Style="{StaticResource GlyphMainMenu}">
         <MenuItem Header="File" Style="{StaticResource GlyphMenuItemStyle}">
             <MenuItem Header="New" Click="NewDocument_Click" Style="{StaticResource GlyphSubMenuItemStyle}" />
+            <MenuItem Header="Save" Click="Save_Click"></MenuItem>
         </MenuItem>
         <MenuItem Header="View" Style="{StaticResource GlyphMenuItemStyle}">
             <MenuItem Header="Zoom 100%" Command="{x:Static glyphEdit:MainWindow.Zoom1Command}"  Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 1" />

@@ -6,13 +6,13 @@ namespace GlyphEdit.Models
 {
     public class Document
     {
-        private readonly List<Layer> _layers;
+        internal readonly List<Layer> Layers;
 
         public Document(int width, int height)
         {
             Width = width;
             Height = height;
-            _layers = new List<Layer> {new Layer(Width, Height)};
+            Layers = new List<Layer> {new Layer(Width, Height)};
 
         }
 
@@ -30,16 +30,16 @@ namespace GlyphEdit.Models
             if (!IsInRange(coords))
                 throw new ArgumentOutOfRangeException($"({coords}) are not a valid position in the document. Use IsInRange() to test first.");
 
-            return ref _layers[layerIndex].GetElementRef(coords);
+            return ref Layers[layerIndex].GetElementRef(coords);
         }
 
         public Layer GetLayer(int layerIndex)
         {
-            if (layerIndex < 0 || layerIndex >= _layers.Count)
+            if (layerIndex < 0 || layerIndex >= Layers.Count)
                 throw new ArgumentOutOfRangeException($"LayerIndex {layerIndex} does not exist.");
-            return _layers[layerIndex];
+            return Layers[layerIndex];
         }
 
-        public int LayerCount => _layers.Count;
+        public int LayerCount => Layers.Count;
     }
 }
