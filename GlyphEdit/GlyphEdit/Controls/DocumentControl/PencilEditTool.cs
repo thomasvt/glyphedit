@@ -66,9 +66,9 @@ namespace GlyphEdit.Controls.DocumentView
             if (!_documentControl.Document.IsInRange(point))
                 return;
             ref var element = ref _documentControl.Document.GetElementRef(0, point);
-            element.Glyph = _documentControl.CurrentGlyphIndex;
-            element.Background = _documentControl.CurrentBackgroundColor;
-            element.Foreground = _documentControl.CurrentForegroundColor;
+            if (_documentControl.Brush.IsGlyphEnabled) element.Glyph = _documentControl.Brush.GlyphIndex;
+            if (_documentControl.Brush.IsForegroundEnabled) element.Foreground = _documentControl.Brush.ForegroundColor;
+            if (_documentControl.Brush.IsBackgroundEnabled) element.Background = _documentControl.Brush.BackgroundColor;
         }
 
         private void MouseOnLeftButtonDown(object sender, MouseEventArgs e)

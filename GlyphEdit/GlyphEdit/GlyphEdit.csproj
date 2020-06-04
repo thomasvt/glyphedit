@@ -99,8 +99,8 @@
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphFontPickerItemTemplateSelector.cs" />
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphSizeFormatter.cs" />
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphButtonViewModel.cs" />
-    <Compile Include="Controls\PanelsBar\GlyphSummary\GlyphSummary.xaml.cs">
-      <DependentUpon>GlyphSummary.xaml</DependentUpon>
+    <Compile Include="Controls\PanelsBar\BrushState\BrushState.xaml.cs">
+      <DependentUpon>BrushState.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PanelsBar\PalettePicker\ColorButtonViewModel.cs" />
     <Compile Include="Controls\PanelsBar\PalettePicker\PalettePicker.xaml.cs">
@@ -113,6 +113,12 @@
     <Compile Include="Messages\Commands\ChangeForegroundColorCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphFontCommand.cs" />
+    <Compile Include="Messages\Commands\SetBrushBackgroundEnabledCommand.cs" />
+    <Compile Include="Messages\Commands\SetBrushForegroundEnabledCommand.cs" />
+    <Compile Include="Messages\Commands\SetBrushGlyphEnabledCommand.cs" />
+    <Compile Include="Messages\Events\BrushForegroundEnabledChangedEvent.cs" />
+    <Compile Include="Messages\Events\BrushBackgroundEnabledChangedEvent.cs" />
+    <Compile Include="Messages\Events\BrushGlyphEnabledChangedEvent.cs" />
     <Compile Include="Messages\Events\ColorPaletteChangedEvent.cs" />
     <Compile Include="Messages\Events\ColorPaletteListLoadedEvent.cs" />
     <Compile Include="Messages\Events\EditModeChangedEvent.cs" />
@@ -128,6 +134,7 @@
     <Compile Include="Messages\Events\GlyphFontListLoadedEvent.cs" />
     <Compile Include="Messages\Events\ZoomChangedEvent.cs" />
     <Compile Include="Models\ColorPalette.cs" />
+    <Compile Include="Controls\DocumentControl\GlyphBrush.cs" />
     <Compile Include="ViewModels\ColorPaletteStore.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\GlyphFont.cs" />
@@ -180,7 +187,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PanelsBar\GlyphSummary\GlyphSummary.xaml">
+    <Page Include="Controls\PanelsBar\BrushState\BrushState.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -274,6 +281,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Images\glyph_background.png" />
     <Content Include="Palettes\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

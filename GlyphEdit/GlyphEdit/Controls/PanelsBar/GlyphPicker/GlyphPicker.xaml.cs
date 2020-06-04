@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using GlyphEdit.Messages;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
@@ -49,17 +48,13 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             if (glyphFont.GlyphCount > 256)
                 throw new Exception("Only fonts allowed of up to 256 characters.");
 
-            var fontColumnCount = glyphFont.BitmapSource.PixelWidth / glyphFont.GlyphSize.X;
-
             var glyphButtonViewModels = new GlyphButtonViewModel[glyphFont.GlyphCount];
             for (var glyphIndex = 0; glyphIndex < glyphFont.GlyphCount; glyphIndex++)
             {
                 if (glyphIndex >= glyphFont.GlyphCount)
-                    continue;
+                    break;
 
-                var x = glyphIndex % fontColumnCount;
-                var y = glyphIndex / fontColumnCount;
-                var glyphCropInFontImage = new Int32Rect(x * glyphFont.GlyphSize.X, y * glyphFont.GlyphSize.Y, glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y);
+                var glyphCropInFontImage = glyphFont.GetGlyphCropRectangle(glyphIndex);
                 glyphButtonViewModels[glyphIndex] = new GlyphButtonViewModel(glyphFont, glyphIndex, glyphCropInFontImage);
             }
 

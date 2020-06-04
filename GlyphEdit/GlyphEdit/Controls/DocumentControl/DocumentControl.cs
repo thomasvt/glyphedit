@@ -24,15 +24,13 @@ namespace GlyphEdit.Controls.DocumentControl
         private DocumentRenderer _documentRenderer;
         private Renderer _renderer;
         private Camera _camera;
-        internal GlyphMapTexture CurrentGlyphMapTexture;
-        internal GlyphColor CurrentForegroundColor, CurrentBackgroundColor;
         private readonly Dictionary<GlyphFont, GlyphMapTexture> _glyphMapTextures;
-
-        internal int CurrentGlyphIndex;
-
+        
         public DocumentControl()
         {
             _glyphMapTextures = new Dictionary<GlyphFont, GlyphMapTexture>();
+            Brush = new GlyphBrush();
+
             MessageBus.Subscribe<DocumentOpenedEvent>(e =>
             {
                 Document = e.Document;
@@ -42,6 +40,9 @@ namespace GlyphEdit.Controls.DocumentControl
             MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.NewGlyphFont, e.NewGlyphIndex));
             MessageBus.Subscribe<ForegroundColorChangedEvent>(w => ChangeForegroundColor(w.Color));
             MessageBus.Subscribe<BackgroundColorChangedEvent>(w => ChangeBackgroundColor(w.Color));
+            MessageBus.Subscribe<BrushGlyphEnabledChangedEvent>(e => Brush.IsGlyphEnabled = e.IsEnabled);
+            MessageBus.Subscribe<BrushForegroundEnabledChangedEvent>(e => Brush.IsForegroundEnabled = e.IsEnabled);
+            MessageBus.Subscribe<BrushBackgroundEnabledChangedEvent>(e => Brush.IsBackgroundEnabled = e.IsEnabled);
         }
 
         protected override void Initialize()
@@ -77,17 +78,17 @@ namespace GlyphEdit.Controls.DocumentControl
                     CurrentGlyphMapTexture = _glyphMapTextures[glyphFont];
                 }
             }
-            CurrentGlyphIndex = glyphIndex;
+            Brush.GlyphIndex = glyphIndex;
         }
 
         private void ChangeBackgroundColor(GlyphColor color)
         {
-            CurrentBackgroundColor = color;
+            Brush.BackgroundColor = color;
         }
 
         private void ChangeForegroundColor(GlyphColor color)
         {
-            CurrentForegroundColor = color;
+            Brush.ForegroundColor = color;
         }
 
         protected override void LoadContent()
@@ -145,21 +146,39 @@ namespace GlyphEdit.Controls.DocumentControl
             _documentRenderer.Unload();
         }
 
-
         public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.Register(
             "BackgroundColor", typeof(string), typeof(DocumentControl), new PropertyMetadata(default(string)));
 
+        /// <summary>
+        /// Color of the background behind the document in this control.
+        /// </summary>
         public string BackgroundColor
         {
             get => (string) GetValue(BackgroundColorProperty);
             set => SetValue(BackgroundColorProperty, value);
         }
 
+        /// <summary>
+        /// The document currenlty being shown and edited by the control.
+        /// </summary>
         public Document Document { get; set; }
 
+        /// <summary>
+        /// The camera on the document.
+        /// </summary>
         public ICamera Camera => _camera;
 
         public EditMode CurrentEditMode => _currentEditTool?.EditMode ?? EditMode.None;
+
+        /// <summary>
+        /// All settings of the Brush we draw with.
+        /// </summary>
+        internal GlyphBrush Brush { get; }
+
+        /// <summary>
+        /// In what font are we rendering the glyphs of the document?
+        /// </summary>
+        public GlyphMapTexture CurrentGlyphMapTexture { get; internal set; }
 
         public event EventHandler RenderingInitialized;
     }

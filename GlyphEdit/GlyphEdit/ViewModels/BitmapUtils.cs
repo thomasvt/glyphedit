@@ -8,28 +8,52 @@ namespace GlyphEdit.ViewModels
 {
     public static class BitmapUtils
     {
-        // It's sad we have to program this ourselves in WPF while many less advanced frameworks offer simple API for this...
-
+        /// <summary>
+        /// Loads a font from file and replaces all Alpha by the average of R,G and B. Or: the amount of gray defines the amount of transparency, RGB is set to white.
+        /// </summary>
         public static BitmapSource LoadAndCleanGlyphFontBitmap(string filename)
         {
             var bitmap = new BitmapImage(new Uri(filename, UriKind.Absolute));
-            var pixels = GetPixelData(bitmap);
-            var writableBitmap = new WriteableBitmap(bitmap.PixelWidth, bitmap.PixelHeight, 96, 96, PixelFormats.Bgra32, null);
-            for (var i = 0; i < pixels.Length; i+=4)
+            return ConvertPixels(bitmap, color =>
             {
-                var alpha = (byte)((pixels[i] + pixels[i+1] + pixels[i+2]) / 3);
-                pixels[i] = 0xDD;
-                pixels[i + 1] = 0xDD;
-                pixels[i + 2] = 0xDD;
-                pixels[i + 3] = alpha;
+                color.A = (byte) ((color.R + color.G + color.B) / 3);
+                color.R = 0xFF;
+                color.G = 0xFF;
+                color.B = 0xFF;
+                return color;
+            });
+        }
+
+        /// <summary>
+        /// Calls the converter for each pixel in the bitmap and returns a new BitmapSource with the converted pixels.
+        /// </summary>
+        public static BitmapSource ConvertPixels(BitmapSource bitmap, Func<Color, Color> converter)
+        {
+            var pixels = GetPixelData(bitmap);
+
+            for (var i = 0; i < pixels.Length; i += 4)
+            {
+                ref var b = ref pixels[i];
+                ref var g = ref pixels[i+1];
+                ref var r = ref pixels[i+2];
+                ref var a = ref pixels[i+3];
+
+                var color = Color.FromArgb(a, r, g, b);
+                var newColor = converter.Invoke(color);
+
+                a = newColor.A;
+                r = newColor.R;
+                g = newColor.G;
+                b = newColor.B;
             }
 
-            writableBitmap.WritePixels(new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight), pixels, bitmap.PixelWidth * 4, 0);
-
+            var writableBitmap = new WriteableBitmap(bitmap.PixelWidth, bitmap.PixelHeight, 96, 96, PixelFormats.Bgra32, null);
+            writableBitmap.WritePixels(new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight), pixels,
+                bitmap.PixelWidth * 4, 0);
             return writableBitmap;
         }
 
-        public static GlyphColor[,] LoadPixelColors(string filename)
+        public static GlyphColor[,] LoadGlyphColors(string filename)
         {
             var bitmap = new BitmapImage(new Uri(filename, UriKind.Absolute));
             var pixelData = GetPixelData(bitmap);
@@ -70,6 +94,25 @@ namespace GlyphEdit.ViewModels
             }
 
             throw new NotSupportedException($"PixelFormat {bitmapSource.Format} is not supported. Only BGRA32 and BGR32.");
+        }
+
+        /// <summary>
+        /// Replace a certain RGB into another RGB. Alphas are combined so that replacing with a semi transparent color combines the alpha with the alpha values in the bitmap.
+        /// </summary>
+        public static ImageSource ReplaceColor(BitmapSource sourceBitmap, Color oldColor, Color newColor)
+        {
+            return ConvertPixels(sourceBitmap, color =>
+            {
+                if (color.R == oldColor.R && color.G == oldColor.G && color.B == oldColor.B)
+                {
+                    return Color.FromArgb(
+                        (byte)(newColor.A * color.A / 255), // mix both alphas
+                        newColor.R, 
+                        newColor.G, 
+                        newColor.B);
+                }
+                return color;
+            });
         }
     }
 }

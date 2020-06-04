@@ -41,7 +41,7 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="palettePicker:ColorButtonViewModel">
-                <Control Style="{StaticResource ColorSwatch}" Width="26" Height="26" MouseUp="ColorSwatch_Click">
+                <Control Style="{StaticResource ColorSwatch}" Height="26" MouseUp="ColorSwatch_Click">
                     <Control.Background>
                         <SolidColorBrush Color="{Binding Color}"/>
                     </Control.Background>

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using System.Windows.Media.Imaging;
-using Microsoft.Xna.Framework;
+using Point = Microsoft.Xna.Framework.Point;
 
 namespace GlyphEdit.Models
 {
@@ -15,6 +16,8 @@ namespace GlyphEdit.Models
         public int GlyphCount { get; private set; }
         public bool IsValid { get; private set; }
         public string Error { get; private set; }
+        public int ColumnCount => BitmapSource.PixelWidth / GlyphSize.X;
+        public int RowCount => BitmapSource.PixelHeight / GlyphSize.Y;
 
         public static bool operator ==(GlyphFont a, GlyphFont b)
         {
@@ -68,6 +71,13 @@ namespace GlyphEdit.Models
                 IsValid = false,
                 Error = error
             };
+        }
+
+        public Int32Rect GetGlyphCropRectangle(int glyphIndex)
+        {
+            var x = glyphIndex % ColumnCount;
+            var y = glyphIndex / ColumnCount;
+            return new Int32Rect(x * GlyphSize.X, y * GlyphSize.Y, GlyphSize.X, GlyphSize.Y);
         }
     }
 }

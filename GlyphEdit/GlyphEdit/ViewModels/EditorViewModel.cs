@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using GlyphEdit.Controls.DocumentView;
-using GlyphEdit.Messages;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
@@ -35,6 +33,9 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<ChangeGlyphCommand>(command => ChangeGlyph(command.GlyphIndex));
             MessageBus.Subscribe<ChangeForegroundColorCommand>(c => ChangeForegroundColor(c.Color));
             MessageBus.Subscribe<ChangeBackgroundColorCommand>(c => ChangeBackgroundColor(c.Color));
+            MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
+            MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
+            MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
         }
 
         public void OnLoaded()
@@ -57,9 +58,15 @@ namespace GlyphEdit.ViewModels
         {
             if (!_glyphFontStore.GlyphFonts.Any())
                 throw new Exception("No GlyphFonts found. GlyphEdit cannot function without.");
-            ChangeGlyph(_glyphFontStore.GlyphFonts.OrderBy(gf => gf.FontName).ThenBy(gf => gf.GlyphSize.Y).First(gf => gf.IsValid), 0);
+            var firstFont = _glyphFontStore.GlyphFonts.OrderBy(gf => gf.FontName).ThenBy(gf => gf.GlyphSize.Y).First(gf => gf.IsValid);
+            ChangeGlyph(firstFont, 1);
             ChangeColorPalette(_colorPaletteStore.ColorPalettes.OrderBy(cp => cp.Name).First(cp => cp.IsValid));
             ChangeEditMode(EditMode.Pencil);
+            ChangeForegroundColor(new GlyphColor(255, 255, 255, 255));
+            ChangeBackgroundColor(new GlyphColor(0, 0, 0, 255));
+            SetBrushGlyphEnabled(true);
+            SetBrushForegroundEnabled(true);
+            SetBrushBackgroundEnabled(true);
         }
 
         public void ChangeGlyph(int glyphIndex)
@@ -121,6 +128,21 @@ namespace GlyphEdit.ViewModels
         private void ChangeBackgroundColor(GlyphColor color)
         {
             MessageBus.Publish(new BackgroundColorChangedEvent(color));
+        }
+
+        private void SetBrushGlyphEnabled(bool isEnabled)
+        {
+            MessageBus.Publish(new BrushGlyphEnabledChangedEvent(isEnabled));
+        }
+
+        private void SetBrushForegroundEnabled(bool isEnabled)
+        {
+            MessageBus.Publish(new BrushForegroundEnabledChangedEvent(isEnabled));
+        }
+
+        private void SetBrushBackgroundEnabled(bool isEnabled)
+        {
+            MessageBus.Publish(new BrushBackgroundEnabledChangedEvent(isEnabled));
         }
 
         public void ChangeEditMode(EditMode editMode)

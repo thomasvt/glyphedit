@@ -21,7 +21,7 @@ namespace GlyphEdit.ViewModels
                 var filename = Path.GetFullPath(file);
                 try
                 {
-                    var pixelColors = BitmapUtils.LoadPixelColors(filename);
+                    var pixelColors = BitmapUtils.LoadGlyphColors(filename);
                     var name = Path.GetFileNameWithoutExtension(file);
                     var glyphFont = ColorPalette.Create(name, pixelColors);
                     ColorPalettes.Add(glyphFont);
