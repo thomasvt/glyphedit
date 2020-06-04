@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace GlyphEdit.ViewModel
+namespace GlyphEdit.ViewModels
 {
     public static class FontBitmapLoader
     {

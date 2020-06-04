@@ -7,8 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GlyphEdit.Messages;
 using GlyphEdit.Messaging;
-using GlyphEdit.Model;
-using GlyphEdit.ViewModel;
+using GlyphEdit.Models;
 
 namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
 {
@@ -37,16 +36,9 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
 
         private void SelectGlyphButton(int glyphIndex)
         {
-            foreach (var child in Grid.Children.OfType<ToggleButton>())
+            foreach (var child in GlyphGrid.ItemsSource.OfType<GlyphButtonViewModel>())
             {
-                if (child.DataContext is int buttonGlyphIndex)
-                {
-                    child.IsChecked = buttonGlyphIndex == glyphIndex;
-                }
-                else
-                {
-                    throw new Exception("Bug: All togglebuttons should have GlyphIndex as DataContext.");
-                }
+                child.IsPicked = child.GlyphIndex == glyphIndex;
             }
         }
 
@@ -54,36 +46,24 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
         {
             if (_currentGlyphFontOfGlyphGrid == glyphFont)
                 return;
+            if (glyphFont.GlyphCount > 256)
+                throw new Exception("Only fonts allowed of up to 256 characters.");
 
-            Grid.Children.Clear();
+            var fontColumnCount = glyphFont.BitmapSource.PixelWidth / glyphFont.GlyphSize.X;
 
-            Grid.Columns = (int)glyphFont.BitmapSource.Width / glyphFont.GlyphSize.X;
-            Grid.Rows = (int)glyphFont.BitmapSource.Height / glyphFont.GlyphSize.Y;
-
-            var glyphIndex = 0;
-            for (var y = 0; y < Grid.Rows; y++)
+            var glyphButtonViewModels = new GlyphButtonViewModel[glyphFont.GlyphCount];
+            for (var glyphIndex = 0; glyphIndex < glyphFont.GlyphCount; glyphIndex++)
             {
-                for (var x = 0; x < Grid.Columns; x++)
-                {
-                    var imageSource = new CroppedBitmap(glyphFont.BitmapSource, new Int32Rect(x * glyphFont.GlyphSize.X, y * glyphFont.GlyphSize.Y, glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y));
-                    var button = new ToggleButton
-                    {
-                        Content = new Image
-                        {
-                            Stretch = Stretch.Uniform,
-                            SnapsToDevicePixels = true,
-                            Source = imageSource,
-                        },
-                        DataContext = glyphIndex
-                    };
-                    var buttonGlyphIndex = glyphIndex;
-                    button.Click += (sender, args) => EditorViewModel.Current.ChangeGlyph(buttonGlyphIndex);
-                    Grid.Children.Add(button);
+                if (glyphIndex >= glyphFont.GlyphCount)
+                    continue;
 
-                    glyphIndex++;
-                }
+                var x = glyphIndex % fontColumnCount;
+                var y = glyphIndex / fontColumnCount;
+                var glyphCropInFontImage = new Int32Rect(x * glyphFont.GlyphSize.X, y * glyphFont.GlyphSize.Y, glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y);
+                glyphButtonViewModels[glyphIndex] = new GlyphButtonViewModel(glyphFont, glyphIndex, glyphCropInFontImage);
             }
 
+            GlyphGrid.ItemsSource = glyphButtonViewModels;
             _currentGlyphFontOfGlyphGrid = glyphFont;
         }
 
@@ -102,6 +82,13 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             {
                 MessageBus.Publish(new ChangeGlyphFontCommand(glyphFont));
             }
+        }
+
+        private void GlyphButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is ToggleButton glyphButton))
+                throw new Exception("Bug: should be called by Glyphbuttons only.");
+            MessageBus.Publish(new ChangeGlyphCommand((glyphButton.DataContext as GlyphButtonViewModel).GlyphIndex));
         }
     }
 }

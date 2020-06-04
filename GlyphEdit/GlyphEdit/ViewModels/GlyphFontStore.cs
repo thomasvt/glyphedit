@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using GlyphEdit.Messages;
 using GlyphEdit.Messaging;
-using GlyphEdit.Model;
+using GlyphEdit.Models;
 using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.ViewModel
+namespace GlyphEdit.ViewModels
 {
     public class GlyphFontStore
     {

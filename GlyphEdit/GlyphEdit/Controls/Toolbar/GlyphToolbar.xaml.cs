@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Messages;
 using GlyphEdit.Messaging;
-using GlyphEdit.ViewModel;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Controls.Toolbar
 {

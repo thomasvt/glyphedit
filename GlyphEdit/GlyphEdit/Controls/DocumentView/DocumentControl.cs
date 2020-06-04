@@ -6,7 +6,7 @@ using GlyphEdit.Controls.DocumentView.Input;
 using GlyphEdit.Controls.DocumentView.Rendering;
 using GlyphEdit.Messages;
 using GlyphEdit.Messaging;
-using GlyphEdit.Model;
+using GlyphEdit.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework.WpfInterop;

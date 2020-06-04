@@ -1,4 +1,5 @@
-﻿using GlyphEdit.Model;
+﻿using System.Diagnostics;
+using GlyphEdit.Models;
 
 namespace GlyphEdit.Messages
 {
@@ -6,6 +7,7 @@ namespace GlyphEdit.Messages
     {
         public readonly GlyphFont GlyphFont;
 
+        [DebuggerStepThrough]
         public ChangeGlyphFontCommand(GlyphFont glyphFont)
         {
             GlyphFont = glyphFont;

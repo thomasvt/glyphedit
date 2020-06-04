@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model="clr-namespace:GlyphEdit.Model"
              xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
              xmlns:glyphPicker="clr-namespace:GlyphEdit.Controls.PanelsBar.GlyphPicker"
+             xmlns:model="clr-namespace:GlyphEdit.Models"
              x:Class="GlyphEdit.Controls.PanelsBar.GlyphPicker.GlyphPicker"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -28,7 +28,7 @@
                                 <Setter Property="Background" TargetName="border" Value="#66E37B38"/>
                             </Trigger>
                             <Trigger Property="ToggleButton.IsChecked" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#ccE37B38"/>
+                                <Setter Property="Background" TargetName="border" Value="#ddE37B38"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -70,6 +70,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
             <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
                 <Grid.ColumnDefinitions>
@@ -173,6 +174,23 @@
     <DockPanel LastChildFill="True">
         <ComboBox DockPanel.Dock="Top" x:Name="GlyphFontPicker" ItemTemplateSelector="{StaticResource GlyphFontPickerItemTemplateSelector}" Margin="0,0,0,10" SelectionChanged="GlyphFontPicker_OnSelectionChanged">
         </ComboBox>
-        <UniformGrid x:Name="Grid" Background="Transparent" />
+        <ItemsControl x:Name="GlyphGrid" Background="Transparent" SnapsToDevicePixels="True">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="16" Rows="16" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type glyphPicker:GlyphButtonViewModel}">
+                    <ToggleButton Click="GlyphButton_Click" IsChecked="{Binding IsPicked}">
+                        <Image Stretch="{Binding Stretch}" SnapsToDevicePixels="True" Width="12" Height="12" RenderOptions.BitmapScalingMode="Fant">
+                            <Image.Source>
+                                <CroppedBitmap Source="{Binding GlyphFont.BitmapSource}" SourceRect="{Binding CropInFontBitmap}" />
+                            </Image.Source>
+                        </Image>
+                    </ToggleButton>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </DockPanel>
 </UserControl>

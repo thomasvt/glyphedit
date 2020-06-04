@@ -1,5 +1,5 @@
 ﻿using GlyphEdit.Controls.DocumentView.Rendering;
-using GlyphEdit.Model;
+using GlyphEdit.Models;
 
 namespace GlyphEdit.Controls.DocumentView
 {

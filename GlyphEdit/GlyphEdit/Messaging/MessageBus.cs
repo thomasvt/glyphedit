@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GlyphEdit.Messaging
 {
@@ -14,6 +15,7 @@ namespace GlyphEdit.Messaging
             Actions = new Dictionary<Type, List<object>>();
         }
 
+        [DebuggerStepThrough]
         public static void Subscribe<T>(Action<T> handler)
         {
             if (!Actions.TryGetValue(typeof(T), out var list))
@@ -24,6 +26,7 @@ namespace GlyphEdit.Messaging
             list.Add(handler);
         }
 
+        [DebuggerStepThrough]
         public static void Publish<T>(T message)
         {
             if (!Actions.TryGetValue(message.GetType(), out var list))

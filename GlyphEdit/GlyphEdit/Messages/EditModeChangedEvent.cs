@@ -1,4 +1,5 @@
-﻿using GlyphEdit.Controls.DocumentView;
+﻿using System.Diagnostics;
+using GlyphEdit.Controls.DocumentView;
 
 namespace GlyphEdit.Messages
 {
@@ -6,6 +7,7 @@ namespace GlyphEdit.Messages
     {
         public readonly EditMode EditMode;
 
+        [DebuggerStepThrough]
         public EditModeChangedEvent(EditMode editMode)
         {
             EditMode = editMode;

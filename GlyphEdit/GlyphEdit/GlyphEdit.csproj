@@ -96,12 +96,14 @@
     </Compile>
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphFontPickerItemTemplateSelector.cs" />
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphSizeFormatter.cs" />
+    <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphButtonViewModel.cs" />
     <Compile Include="Controls\PanelsBar\GlyphSummary\GlyphSummary.xaml.cs">
       <DependentUpon>GlyphSummary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\StatusBar\GlyphStatusBar.xaml.cs">
       <DependentUpon>GlyphStatusBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Messages\ChangeGlyphCommand.cs" />
     <Compile Include="Messages\ChangeGlyphFontCommand.cs" />
     <Compile Include="Messages\EditModeChangedEvent.cs" />
     <Compile Include="Controls\DocumentView\Camera.cs" />
@@ -113,8 +115,8 @@
     <Compile Include="Messages\GlyphChangedEvent.cs" />
     <Compile Include="Messages\GlyphFontListLoadedEvent.cs" />
     <Compile Include="Messages\ZoomChangedEvent.cs" />
-    <Compile Include="ViewModel\EditorViewModel.cs" />
-    <Compile Include="Model\GlyphFont.cs" />
+    <Compile Include="ViewModels\EditorViewModel.cs" />
+    <Compile Include="Models\GlyphFont.cs" />
     <Compile Include="Controls\DocumentView\ICamera.cs" />
     <Compile Include="Controls\DocumentView\Input\WpfKeyboard.cs" />
     <Compile Include="Controls\DocumentView\Input\WpfMouse.cs" />
@@ -122,9 +124,9 @@
     <Compile Include="Controls\DocumentView\Input\MouseMoveEventArgs.cs" />
     <Compile Include="Controls\DocumentView\IEditTool.cs" />
     <Compile Include="Controls\DocumentView\LayerRenderer.cs" />
-    <Compile Include="Model\Document.cs" />
-    <Compile Include="Model\GlyphColor.cs" />
-    <Compile Include="Model\Layer.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\GlyphColor.cs" />
+    <Compile Include="Models\Layer.cs" />
     <Compile Include="Controls\DocumentView\PencilEditTool.cs" />
     <Compile Include="Controls\DocumentView\Rendering\GlyphColorExtensions.cs" />
     <Compile Include="Controls\DocumentView\Rendering\GlyphMapTexture.cs" />
@@ -132,7 +134,7 @@
     <Compile Include="Controls\DocumentView\Rendering\Quad.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Renderer.cs" />
     <Compile Include="Controls\DocumentView\Rendering\Triangle.cs" />
-    <Compile Include="Model\DocumentElement.cs" />
+    <Compile Include="Models\DocumentElement.cs" />
     <Compile Include="Controls\DocumentView\Rendering\UvRect.cs" />
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml.cs">
       <DependentUpon>GlyphPicker.xaml</DependentUpon>
@@ -149,8 +151,9 @@
     <Compile Include="Controls\Toolbar\GlyphToolbar.xaml.cs">
       <DependentUpon>GlyphToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\FontBitmapLoader.cs" />
-    <Compile Include="ViewModel\GlyphFontStore.cs" />
+    <Compile Include="ViewModels\FontBitmapLoader.cs" />
+    <Compile Include="ViewModels\GlyphFontStore.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

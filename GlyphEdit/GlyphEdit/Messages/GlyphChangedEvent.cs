@@ -1,4 +1,5 @@
-﻿using GlyphEdit.Model;
+﻿using System.Diagnostics;
+using GlyphEdit.Models;
 
 namespace GlyphEdit.Messages
 {
@@ -9,6 +10,7 @@ namespace GlyphEdit.Messages
         public readonly int PreviousGlyphIndex;
         public readonly int NewGlyphIndex;
 
+        [DebuggerStepThrough]
         public GlyphChangedEvent(GlyphFont previousGlyphFont, GlyphFont newNewGlyphFont, int previousGlyphIndex, int newGlyphIndex)
         {
             PreviousGlyphFont = previousGlyphFont;

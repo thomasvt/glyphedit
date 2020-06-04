@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using GlyphEdit.Model;
+using System.Diagnostics;
+using GlyphEdit.Models;
 
 namespace GlyphEdit.Messages
 {
@@ -7,6 +8,7 @@ namespace GlyphEdit.Messages
     {
         public readonly GlyphFont[] GlyphFonts;
 
+        [DebuggerStepThrough]
         public GlyphFontListLoadedEvent(GlyphFont[] glyphFonts)
         {
             GlyphFonts = glyphFonts;

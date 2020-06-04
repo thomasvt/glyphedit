@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.Model
+namespace GlyphEdit.Models
 {
     public class GlyphFont
     : IEquatable<GlyphFont>

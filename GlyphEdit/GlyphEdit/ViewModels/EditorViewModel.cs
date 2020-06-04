@@ -4,9 +4,9 @@ using System.Windows;
 using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Messages;
 using GlyphEdit.Messaging;
-using GlyphEdit.Model;
+using GlyphEdit.Models;
 
-namespace GlyphEdit.ViewModel
+namespace GlyphEdit.ViewModels
 {
     /// <summary>
     /// I don't use standard MVVM because I don't like bidirectional databinding anymore.
@@ -26,6 +26,7 @@ namespace GlyphEdit.ViewModel
         {
             MessageBus.Subscribe<NewDocumentCommand>(command => CreateNewDocument());
             MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFont));
+            MessageBus.Subscribe<ChangeGlyphCommand>(command => ChangeGlyph(command.GlyphIndex));
         }
 
         public void OnLoaded()

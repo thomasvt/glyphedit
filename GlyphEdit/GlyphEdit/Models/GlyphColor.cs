@@ -1,4 +1,4 @@
-﻿namespace GlyphEdit.Model
+﻿namespace GlyphEdit.Models
 {
     public struct GlyphColor
     {

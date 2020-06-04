@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using GlyphEdit.Model;
+using GlyphEdit.Models;
 
 namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
 {

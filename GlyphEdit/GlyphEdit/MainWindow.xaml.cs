@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using GlyphEdit.ViewModel;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit
 {
@@ -12,8 +12,12 @@ namespace GlyphEdit
         public MainWindow()
         {
             InitializeComponent();
+
+#if !DEBUG
+            WindowState = WindowState.Maximized;
+#endif
         }
-        
+
         private void DocumentViewer_OnRenderingInitialized(object sender, EventArgs e)
         {
             // this event comes from the D3DHost gameloop thread, so: sync to UI thread:
