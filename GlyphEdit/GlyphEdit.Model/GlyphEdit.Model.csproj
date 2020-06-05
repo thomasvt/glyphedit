@@ -42,6 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorPalette.cs" />
+    <Compile Include="Manipulation\DocumentManipulationScope.cs" />
+    <Compile Include="Manipulation\LayerEditAccess.cs" />
+    <Compile Include="Manipulation\RestorePoint.cs" />
+    <Compile Include="Manipulation\DocumentManipulator.cs" />
+    <Compile Include="Manipulation\UndoRedoStack.cs" />
     <Compile Include="VectorI.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="DocumentElement.cs" />
@@ -51,5 +56,6 @@
     <Compile Include="Persistence\DocumentSaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

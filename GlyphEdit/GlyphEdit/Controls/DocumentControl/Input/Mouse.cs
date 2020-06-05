@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Windows.Input;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Framework.WpfInterop;
 using MonoGame.Framework.WpfInterop.Input;
 
-namespace GlyphEdit.Controls.DocumentView.Input
+namespace GlyphEdit.Controls.DocumentControl.Input
 {
-    public class WpfMouse
+    public class Mouse
     {
         private MouseState _previousMouseState;
-        private readonly MonoGame.Framework.WpfInterop.Input.WpfMouse _mouse;
+        private readonly WpfMouse _mouse;
 
-        public WpfMouse(WpfGame wpfGame)
+        public Mouse(WpfGame wpfGame)
         {
-            _mouse = new MonoGame.Framework.WpfInterop.Input.WpfMouse(wpfGame);
+            _mouse = new WpfMouse(wpfGame);
         }
 
         public void Update()

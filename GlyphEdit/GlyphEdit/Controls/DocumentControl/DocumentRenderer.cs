@@ -1,17 +1,17 @@
-﻿using GlyphEdit.Controls.DocumentView.Rendering;
+﻿using GlyphEdit.Controls.DocumentControl.Rendering;
 using GlyphEdit.Model;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GlyphEdit.Controls.DocumentView
+namespace GlyphEdit.Controls.DocumentControl
 {
     public class DocumentRenderer
     {
-        private readonly DocumentControl.DocumentControl _documentControl;
+        private readonly Controls.DocumentControl.DocumentControl _documentControl;
         private readonly Camera _camera;
         private readonly BackgroundRenderer _backgroundRenderer;
         private readonly LayerRenderer _layerRenderer;
 
-        public DocumentRenderer(DocumentControl.DocumentControl documentControl, Camera camera)
+        public DocumentRenderer(Controls.DocumentControl.DocumentControl documentControl, Camera camera)
         {
             _documentControl = documentControl;
             _camera = camera;

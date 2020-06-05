@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using GlyphEdit.Messages.Commands;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.ViewModels;
 
@@ -13,6 +16,10 @@ namespace GlyphEdit
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _canUndo;
+        private bool _canRedo;
+        private string _documentFilename;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -20,6 +27,38 @@ namespace GlyphEdit
 #if !DEBUG
             WindowState = WindowState.Maximized;
 #endif
+            MessageBus.Subscribe<DocumentOpenedEvent>(e =>
+            {
+                _documentFilename = e.Document.Filename;
+                UpdateWindowTitle();
+            });
+            MessageBus.Subscribe<DocumentFilenameChangedEvent>(e =>
+            {
+                _documentFilename = e.Filename;
+                UpdateWindowTitle();
+            });
+            MessageBus.Subscribe<UndoStackStateChangedEvent>(e =>
+            {
+                _canUndo = e.CanUndo;
+                _canRedo = e.CanRedo;
+                UpdateWindowTitle();
+            });
+        }
+
+        private void UpdateWindowTitle()
+        {
+            var version = Assembly.GetEntryAssembly().GetName().Version;
+            if (_documentFilename != null)
+            {
+                if (_canUndo)
+                    Title = $"*{Path.GetFileName(_documentFilename)} - GlyphEdit v{version.Major}.{version.Minor}";
+                else
+                    Title = $"{Path.GetFileName(_documentFilename)} - GlyphEdit v{version.Major}.{version.Minor}";
+            }
+            else
+            {
+                Title = $"<new project> - GlyphEdit v{version.Major}.{version.Minor}";
+            }
         }
 
         private void DocumentViewer_OnRenderingInitialized(object sender, EventArgs e)
@@ -40,6 +79,9 @@ namespace GlyphEdit
 
         public static readonly RoutedCommand SaveCommand = new RoutedCommand();
         public static readonly RoutedCommand SaveAsCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand UndoCommand = new RoutedCommand();
+        public static readonly RoutedCommand RedoCommand = new RoutedCommand();
 
         private void Zoom1Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -79,6 +121,26 @@ namespace GlyphEdit
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBus.Publish(new OpenDocumentCommand());
+        }
+
+        private void UndoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new UndoCommand());
+        }
+
+        private void RedoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new RedoCommand());
+        }
+
+        private void UndoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = _canUndo;
+        }
+
+        private void RedoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = _canRedo;
         }
     }
 }

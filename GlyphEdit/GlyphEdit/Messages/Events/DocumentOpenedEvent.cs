@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics;
-using GlyphEdit.Model;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Messages.Events
 {
     public class DocumentOpenedEvent
     {
-        public readonly Document Document;
+        public readonly DocumentViewModel Document;
 
         [DebuggerStepThrough]
-        public DocumentOpenedEvent(Document document)
+        public DocumentOpenedEvent(DocumentViewModel document)
         {
             Document = document;
         }

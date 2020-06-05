@@ -1,7 +1,6 @@
-﻿using GlyphEdit.Controls.DocumentView.Rendering;
-using GlyphEdit.Model;
+﻿using GlyphEdit.Model;
 
-namespace GlyphEdit.Controls.DocumentControl
+namespace GlyphEdit.Controls.DocumentControl.EditTools
 {
     public class GlyphBrush
     {

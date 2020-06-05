@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using GlyphEdit.Controls.DocumentView;
+using GlyphEdit.Controls.DocumentControl.EditTools;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
@@ -39,6 +39,19 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
+
+        }
+
+        /// <summary>
+        /// Triggered by UI when UI is initialized, WPF measured+arranged, and the DirectX render control up and running.
+        /// </summary>
+        public void OnLoaded()
+        {
+            _glyphFontStore = new GlyphFontStore();
+            _glyphFontStore.DetectGlyphFonts();
+            _colorPaletteStore = new ColorPaletteStore();
+            _colorPaletteStore.DetectColorPalettes();
+            CreateNewDocument();
         }
 
         private void OpenDocumentFromFile()
@@ -52,17 +65,8 @@ namespace GlyphEdit.ViewModels
             if (dialog.ShowDialog(App.Current.MainWindow) == true)
             {
                 var document = DocumentLoader.Load(dialog.FileName);
-                OpenDocument(document);
+                OpenDocument(document, dialog.FileName);
             }
-        }
-
-        public void OnLoaded()
-        {
-            _glyphFontStore = new GlyphFontStore();
-            _glyphFontStore.DetectGlyphFonts();
-            _colorPaletteStore = new ColorPaletteStore();
-            _colorPaletteStore.DetectColorPalettes();
-            CreateNewDocument();
         }
 
         public void CreateNewDocument()
@@ -71,12 +75,12 @@ namespace GlyphEdit.ViewModels
             OpenDocument(document);
         }
 
-        private void OpenDocument(Document document)
+        private void OpenDocument(Document document, string filename = null)
         {
             DocumentViewModel?.Dispose();
-            DocumentViewModel = new DocumentViewModel(document);
+            DocumentViewModel = new DocumentViewModel(document, filename);
             ResetUI();
-            MessageBus.Publish(new DocumentOpenedEvent(document));
+            MessageBus.Publish(new DocumentOpenedEvent(DocumentViewModel));
         }
 
         private void ResetUI()

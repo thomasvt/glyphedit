@@ -22,6 +22,9 @@
 
         <CommandBinding Command="{x:Static local:MainWindow.SaveCommand}" Executed="SaveCommand_Executed"  />
         <CommandBinding Command="{x:Static local:MainWindow.SaveAsCommand}" Executed="SaveAsCommand_Executed"  />
+
+        <CommandBinding Command="{x:Static local:MainWindow.UndoCommand}" Executed="UndoCommand_Executed" CanExecute="UndoCommand_CanExecute"  />
+        <CommandBinding Command="{x:Static local:MainWindow.RedoCommand}" Executed="RedoCommand_Executed" CanExecute="RedoCommand_CanExecute"  />
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -35,6 +38,9 @@
 
         <KeyBinding Command="{x:Static local:MainWindow.SaveCommand}" Key="S" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.SaveAsCommand}" Key="S" Modifiers="Ctrl+Shift"/>
+
+        <KeyBinding Command="{x:Static local:MainWindow.UndoCommand}" Key="Z" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:MainWindow.RedoCommand}" Key="Y" Modifiers="Ctrl"/>
     </Window.InputBindings>
     <DockPanel LastChildFill="True">
         <mainMenu:GlyphMainMenu DockPanel.Dock="Top" />

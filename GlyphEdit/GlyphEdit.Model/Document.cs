@@ -1,52 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using GlyphEdit.Model.Manipulation;
 
 namespace GlyphEdit.Model
 {
     public class Document
     {
-        internal List<Layer> Layers { get; private set; }
+        private readonly Dictionary<Guid, Layer> _layersById;
+        internal List<Layer> Layers { get; }
         
-        public Document(int width, int height)
+        internal Document(int width, int height, List<Layer> layers) // direct ctor for Persistence logic
         {
             Width = width;
             Height = height;
-            Layers = new List<Layer> {new Layer(Width, Height)};
-
+            Layers = layers;
+            _layersById = Layers.ToDictionary(l => l.Id);
         }
 
-        public readonly int Width;
-        public readonly int Height;
-
-        public bool IsInRange(VectorI documentVectorI)
+        public Document(int width, int height)
+        : this(width, height, new List<Layer> {  new Layer(Guid.NewGuid(), width, height) })
         {
-            var (x, y) = documentVectorI;
+        }
+
+        public bool IsInRange(VectorI coords)
+        {
+            var (x, y) = coords;
             return x >= 0 && y >= 0 && x < Width && y < Height;
         }
-
-        public ref DocumentElement GetElementRef(int layerIndex, VectorI vectorI)
-        {
-            if (!IsInRange(vectorI))
-                throw new ArgumentOutOfRangeException($"({vectorI}) are not a valid position in the document. Use IsInRange() to test first.");
-
-            return ref Layers[layerIndex].GetElementRef(vectorI);
-        }
-
+        
+        /// <summary>
+        /// This allows direct access to the data inside layers. For user-manipulations that are undo-able etc, create a <see cref="DocumentManipulationScope"/> through an <see cref="DocumentManipulator"/>.
+        /// </summary>
         public Layer GetLayer(int layerIndex)
         {
             if (layerIndex < 0 || layerIndex >= Layers.Count)
                 throw new ArgumentOutOfRangeException($"LayerIndex {layerIndex} does not exist.");
             return Layers[layerIndex];
         }
+        
+        internal Layer GetLayer(Guid layerId)
+        {
+            if (!_layersById.TryGetValue(layerId, out var layer))
+                throw new ArgumentOutOfRangeException(nameof(layerId));
+
+            return layer;
+        }
 
         public int LayerCount => Layers.Count;
-
-        /// <summary>
-        /// Direct access for internal bulk purposes (persistence)
-        /// </summary>
-        internal void SetLayers(List<Layer> layers)
-        {
-            Layers = layers;
-        }
+        public readonly int Width;
+        public readonly int Height;
     }
 }

@@ -4,7 +4,7 @@ using GlyphEdit.ViewModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GlyphEdit.Controls.DocumentView.Rendering
+namespace GlyphEdit.Controls.DocumentControl.Rendering
 {
     /// <summary>
     /// A special texture containing all glyphs of a ASCII art font.

@@ -3,7 +3,7 @@ using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GlyphEdit.Controls.DocumentView.Rendering
+namespace GlyphEdit.Controls.DocumentControl.Rendering
 {
     /// <summary>
     /// A very simple immediate renderer for orthographic 2D graphics where X+ is right and Y+ is down, as is common in 2D canvasses (unlike 3D where Y+ is often up).

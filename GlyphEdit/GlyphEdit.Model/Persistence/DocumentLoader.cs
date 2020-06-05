@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
@@ -17,12 +18,11 @@ namespace GlyphEdit.Model.Persistence
                     var width = reader.ReadInt16();
                     var height = reader.ReadInt16();
                     var layerCount = reader.ReadInt16();
-
-                    var document = new Document(width, height);
+                    
                     var layers = new List<Layer>(layerCount);
                     for (var i = 0; i < layerCount; i++)
                     {
-                        var layer = new Layer(width, height);
+                        var layer = new Layer(Guid.NewGuid(), width, height);
                         for (var x = 0; x < width; x++)
                         { 
                             for (var y = 0; y < height; y++)
@@ -40,8 +40,8 @@ namespace GlyphEdit.Model.Persistence
                         }
                         layers.Add(layer);
                     }
-                    
-                    document.SetLayers(layers);
+
+                    var document = new Document(width, height, layers);
 
                     return document;
                 }

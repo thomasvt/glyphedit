@@ -1,8 +1,7 @@
 ﻿using GlyphEdit.Model;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GlyphEdit.Controls.DocumentView.Rendering
+namespace GlyphEdit.Controls.DocumentControl.Rendering
 {
     public interface IRenderer
     {

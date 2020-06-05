@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using GlyphEdit.Messages.Commands;
+using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
 using GlyphEdit.Model.Persistence;
@@ -15,8 +16,9 @@ namespace GlyphEdit.ViewModels
     {
         public readonly Document Document;
 
-        public DocumentViewModel(Document document)
+        public DocumentViewModel(Document document, string filename)
         {
+            Filename = filename;
             Document = document;
             MessageBus.Subscribe<SaveDocumentCommand>(this, c => SaveDocument());
             MessageBus.Subscribe<SaveDocumentAsCommand>(this, c => SaveDocumentAs());
@@ -31,6 +33,7 @@ namespace GlyphEdit.ViewModels
                 return;
             }
             DocumentSaver.Save(Document, Filename);
+            MessageBus.Publish(new DocumentSavedEvent());
         }
 
         private void SaveDocumentAs()
@@ -50,7 +53,9 @@ namespace GlyphEdit.ViewModels
             if (dialog.ShowDialog(Application.Current.MainWindow) == true)
             {
                 Filename = dialog.FileName;
+                MessageBus.Publish(new DocumentFilenameChangedEvent(Filename));
                 DocumentSaver.Save(Document, Filename);
+                MessageBus.Publish(new DocumentSavedEvent());
             }
         }
 
@@ -60,7 +65,6 @@ namespace GlyphEdit.ViewModels
         }
 
         public string Filename { get; private set; }
-
-        public bool IsModified { get; private set; }
+        public Guid ActiveLayer { get; private set; }
     }
 }

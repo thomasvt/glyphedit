@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using GlyphEdit.Controls.DocumentView.Rendering;
+using GlyphEdit.Controls.DocumentControl.Rendering;
 using GlyphEdit.Images;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GlyphEdit.Controls.DocumentView
+namespace GlyphEdit.Controls.DocumentControl
 {
     internal class BackgroundRenderer
     {

@@ -1,21 +1,26 @@
-﻿namespace GlyphEdit.Model
+﻿using System;
+
+namespace GlyphEdit.Model
 {
     public class Layer
     {
+        public Guid Id;
+        public readonly int Width;
+        public readonly int Height;
         internal readonly DocumentElement[,] Elements;
 
-        internal Layer(int width, int height)
+        internal Layer(Guid id, int width, int height)
         {
+            Id = id;
+            Width = width;
+            Height = height;
             Elements = new DocumentElement[width, height];
         }
 
-        public ref DocumentElement GetElementRef(VectorI vectorI)
-        {
-            var (x, y) = vectorI;
-            return ref Elements[x, y];
-        }
-
-        public DocumentElement[,] GetElements()
+        /// <summary>
+        /// Provides direct access to the data for readfast -only purposes. There is no check that prevents you from writing. Use <see cref="DocumentEditScope"/>s for editing.
+        /// </summary>
+        public DocumentElement[,] GetElementsForReadOnly()
         {
             return Elements;
         }

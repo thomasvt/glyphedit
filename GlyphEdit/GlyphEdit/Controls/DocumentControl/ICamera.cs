@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.Controls.DocumentView
+namespace GlyphEdit.Controls.DocumentControl
 {
     public interface ICamera
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Input;
 
-namespace GlyphEdit.Controls.DocumentView.Input
+namespace GlyphEdit.Controls.DocumentControl.Input
 {
     public class MouseWheelEventArgs
     : EventArgs

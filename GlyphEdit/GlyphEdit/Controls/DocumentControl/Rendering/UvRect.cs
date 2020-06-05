@@ -1,4 +1,4 @@
-﻿namespace GlyphEdit.Controls.DocumentView.Rendering
+﻿namespace GlyphEdit.Controls.DocumentControl.Rendering
 {
     public class UvRect
     {

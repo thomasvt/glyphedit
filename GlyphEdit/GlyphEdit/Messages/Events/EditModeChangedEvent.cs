@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
-using GlyphEdit.Controls.DocumentView;
+using GlyphEdit.Controls.DocumentControl;
+using GlyphEdit.Controls.DocumentControl.EditTools;
 
 namespace GlyphEdit.Messages.Events
 {

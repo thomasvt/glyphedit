@@ -1,4 +1,4 @@
-﻿namespace GlyphEdit.Controls.DocumentView
+﻿namespace GlyphEdit.Controls.DocumentControl.EditTools
 {
     public enum EditMode
     {

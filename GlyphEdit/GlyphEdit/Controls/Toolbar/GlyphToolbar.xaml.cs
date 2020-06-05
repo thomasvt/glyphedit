@@ -2,7 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using GlyphEdit.Controls.DocumentView;
+using GlyphEdit.Controls.DocumentControl;
+using GlyphEdit.Controls.DocumentControl.EditTools;
 using GlyphEdit.Messages;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;

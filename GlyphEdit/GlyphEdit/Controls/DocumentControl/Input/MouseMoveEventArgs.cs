@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace GlyphEdit.Controls.DocumentView.Input
+namespace GlyphEdit.Controls.DocumentControl.Input
 {
     public class MouseMoveEventArgs
     : EventArgs

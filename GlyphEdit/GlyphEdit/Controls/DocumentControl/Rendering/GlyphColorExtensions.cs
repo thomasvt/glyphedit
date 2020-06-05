@@ -1,7 +1,7 @@
 ﻿using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.Controls.DocumentView.Rendering
+namespace GlyphEdit.Controls.DocumentControl.Rendering
 {
     internal static class GlyphColorExtensions
     {
