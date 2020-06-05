@@ -1,20 +1,20 @@
 ﻿using System.Diagnostics;
-using GlyphEdit.Models;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Messages.Events
 {
     public class GlyphChangedEvent
     {
-        public readonly GlyphFont PreviousGlyphFont;
-        public readonly GlyphFont NewGlyphFont;
+        public readonly GlyphFontViewModel PreviousGlyphFontViewModel;
+        public readonly GlyphFontViewModel NewGlyphFontViewModel;
         public readonly int PreviousGlyphIndex;
         public readonly int NewGlyphIndex;
 
         [DebuggerStepThrough]
-        public GlyphChangedEvent(GlyphFont previousGlyphFont, GlyphFont newNewGlyphFont, int previousGlyphIndex, int newGlyphIndex)
+        public GlyphChangedEvent(GlyphFontViewModel previousGlyphFontViewModel, GlyphFontViewModel newNewGlyphFontViewModel, int previousGlyphIndex, int newGlyphIndex)
         {
-            PreviousGlyphFont = previousGlyphFont;
-            NewGlyphFont = newNewGlyphFont;
+            PreviousGlyphFontViewModel = previousGlyphFontViewModel;
+            NewGlyphFontViewModel = newNewGlyphFontViewModel;
             PreviousGlyphIndex = previousGlyphIndex;
             NewGlyphIndex = newGlyphIndex;
         }

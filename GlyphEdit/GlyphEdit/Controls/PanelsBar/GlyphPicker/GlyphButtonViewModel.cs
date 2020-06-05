@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using GlyphEdit.Models;
 using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
@@ -11,16 +10,16 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
     {
         private bool _isPicked;
 
-        public GlyphButtonViewModel(GlyphFont glyphFont, int glyphIndex, Int32Rect cropInFontBitmap)
+        public GlyphButtonViewModel(GlyphFontViewModel glyphFontViewModel, int glyphIndex, Int32Rect cropInFontBitmap)
         {
-            GlyphFont = glyphFont;
+            GlyphFontViewModel = glyphFontViewModel;
             GlyphIndex = glyphIndex;
             CropInFontBitmap = cropInFontBitmap;
-            var size = Math.Max(glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y);
+            var size = Math.Max(glyphFontViewModel.GlyphSize.X, glyphFontViewModel.GlyphSize.Y);
             Stretch = size > 12 ? Stretch.Uniform : Stretch.None;
         }
 
-        public GlyphFont GlyphFont { get; }
+        public GlyphFontViewModel GlyphFontViewModel { get; }
         public int GlyphIndex { get; }
         public Int32Rect CropInFontBitmap { get; }
 

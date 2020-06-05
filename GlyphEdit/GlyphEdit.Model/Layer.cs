@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace GlyphEdit.Models
+﻿namespace GlyphEdit.Model
 {
     public class Layer
     {
@@ -11,10 +9,15 @@ namespace GlyphEdit.Models
             Elements = new DocumentElement[width, height];
         }
 
-        public ref DocumentElement GetElementRef(Point coords)
+        public ref DocumentElement GetElementRef(VectorI vectorI)
         {
-            var (x, y) = coords;
+            var (x, y) = vectorI;
             return ref Elements[x, y];
+        }
+
+        public DocumentElement[,] GetElements()
+        {
+            return Elements;
         }
     }
 }

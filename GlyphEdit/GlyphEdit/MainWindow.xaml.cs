@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using GlyphEdit.Messages.Commands;
@@ -34,6 +35,9 @@ namespace GlyphEdit
         public static readonly RoutedCommand Zoom3Command = new RoutedCommand();
         public static readonly RoutedCommand Zoom4Command = new RoutedCommand();
 
+        public static readonly RoutedCommand NewCommand = new RoutedCommand();
+        public static readonly RoutedCommand OpenCommand = new RoutedCommand();
+
         public static readonly RoutedCommand SaveCommand = new RoutedCommand();
         public static readonly RoutedCommand SaveAsCommand = new RoutedCommand();
 
@@ -65,6 +69,16 @@ namespace GlyphEdit
         private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBus.Publish(new SaveDocumentAsCommand());
+        }
+
+        private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new NewDocumentCommand());
+        }
+
+        private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new OpenDocumentCommand());
         }
     }
 }

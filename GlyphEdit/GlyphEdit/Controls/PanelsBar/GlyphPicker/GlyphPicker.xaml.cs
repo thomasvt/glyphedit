@@ -6,7 +6,7 @@ using System.Windows.Controls.Primitives;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
-using GlyphEdit.Models;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
 {
@@ -15,7 +15,7 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
     /// </summary>
     public partial class GlyphPicker : UserControl
     {
-        private GlyphFont _currentGlyphFontOfGlyphGrid;
+        private GlyphFontViewModel _currentGlyphFontViewModelOfGlyphGrid;
 
         public GlyphPicker()
         {
@@ -27,8 +27,8 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             });
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
             {
-                GlyphFontPicker.SelectedItem = e.NewGlyphFont;
-                ChangeGlyphGridFont(e.NewGlyphFont);
+                GlyphFontPicker.SelectedItem = e.NewGlyphFontViewModel;
+                ChangeGlyphGridFont(e.NewGlyphFontViewModel);
                 SelectGlyphButton(e.NewGlyphIndex);
             });
         }
@@ -41,35 +41,35 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
             }
         }
 
-        private void ChangeGlyphGridFont(GlyphFont glyphFont)
+        private void ChangeGlyphGridFont(GlyphFontViewModel glyphFontViewModel)
         {
-            if (_currentGlyphFontOfGlyphGrid == glyphFont)
+            if (_currentGlyphFontViewModelOfGlyphGrid == glyphFontViewModel)
                 return;
-            if (glyphFont.GlyphCount > 256)
+            if (glyphFontViewModel.GlyphCount > 256)
                 throw new Exception("Only fonts allowed of up to 256 characters.");
 
-            var glyphButtonViewModels = new GlyphButtonViewModel[glyphFont.GlyphCount];
-            for (var glyphIndex = 0; glyphIndex < glyphFont.GlyphCount; glyphIndex++)
+            var glyphButtonViewModels = new GlyphButtonViewModel[glyphFontViewModel.GlyphCount];
+            for (var glyphIndex = 0; glyphIndex < glyphFontViewModel.GlyphCount; glyphIndex++)
             {
-                if (glyphIndex >= glyphFont.GlyphCount)
+                if (glyphIndex >= glyphFontViewModel.GlyphCount)
                     break;
 
-                var glyphCropInFontImage = glyphFont.GetGlyphCropRectangle(glyphIndex);
-                glyphButtonViewModels[glyphIndex] = new GlyphButtonViewModel(glyphFont, glyphIndex, glyphCropInFontImage);
+                var glyphCropInFontImage = glyphFontViewModel.GetGlyphCropRectangle(glyphIndex);
+                glyphButtonViewModels[glyphIndex] = new GlyphButtonViewModel(glyphFontViewModel, glyphIndex, glyphCropInFontImage);
             }
 
             GlyphGrid.ItemsSource = glyphButtonViewModels;
-            _currentGlyphFontOfGlyphGrid = glyphFont;
+            _currentGlyphFontViewModelOfGlyphGrid = glyphFontViewModel;
         }
 
         private void GlyphFontPicker_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!(GlyphFontPicker.SelectedItem is GlyphFont glyphFont))
+            if (!(GlyphFontPicker.SelectedItem is GlyphFontViewModel glyphFont))
                 throw new Exception("ComboBoxItem datacontext should be a GlyphFont.");
             if (!glyphFont.IsValid)
             {
                 // revert the change
-                GlyphFontPicker.SelectedItem = _currentGlyphFontOfGlyphGrid;
+                GlyphFontPicker.SelectedItem = _currentGlyphFontViewModelOfGlyphGrid;
                 MessageBox.Show("Cannot use an invalid font: " + glyphFont.Error, "Invalid font", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Handled = true;
             }

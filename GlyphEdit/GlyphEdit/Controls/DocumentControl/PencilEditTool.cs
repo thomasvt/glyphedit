@@ -1,6 +1,6 @@
 ﻿using System;
 using GlyphEdit.Controls.DocumentView.Input;
-using GlyphEdit.Models;
+using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 
 namespace GlyphEdit.Controls.DocumentView
@@ -9,7 +9,7 @@ namespace GlyphEdit.Controls.DocumentView
     {
         private readonly DocumentControl.DocumentControl _documentControl;
         private bool _isDrawing;
-        private Point _previousDrawPosition;
+        private VectorI _previousDrawPosition;
 
         public PencilEditTool(DocumentControl.DocumentControl documentControl, WpfMouse mouse)
         : base(EditMode.Pencil)
@@ -32,40 +32,43 @@ namespace GlyphEdit.Controls.DocumentView
             _previousDrawPosition = documentCoords;
         }
 
-        private void DrawLine(Point from, Point to)
+        private void DrawLine(VectorI from, VectorI to)
         {
             // from https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm ("All Cases" section)
 
-            var dx = Math.Abs(to.X - from.X);
-            var sx = from.X < to.X ? 1 : -1;
-            var dy = -Math.Abs(to.Y - from.Y);
-            var sy = from.Y < to.Y ? 1 : -1;
+            var x = from.X;
+            var y = from.Y;
+            var dx = Math.Abs(to.X - x);
+            var sx = x < to.X ? 1 : -1;
+            var dy = -Math.Abs(to.Y - y);
+            var sy = y < to.Y ? 1 : -1;
             var err = dx + dy;  /* error value e_xy */
             while (true)
             {
-                DrawGlyph(new Point(from.X, from.Y));
+                DrawGlyph(new VectorI(x, y));
 
                 // Bresenham ct'd
-                if (from.X == to.X && from.Y == to.Y) break;
+                if (x == to.X && y == to.Y) break;
                 var e2 = err + err;
                 if (e2 >= dy)
                 {
                     err += dy; /* e_xy+e_x > 0 */
-                    from.X += sx;
+                    x += sx;
                 }
                 if (e2 <= dx) /* e_xy+e_y < 0 */
                 {
                     err += dx;
-                    from.Y += sy;
+                    y += sy;
                 }
             }
         }
 
-        private void DrawGlyph(Point point)
+        private void DrawGlyph(VectorI coords)
         {
-            if (!_documentControl.Document.IsInRange(point))
+            if (!_documentControl.Document.IsInRange(coords))
                 return;
-            ref var element = ref _documentControl.Document.GetElementRef(0, point);
+
+            ref var element = ref _documentControl.Document.GetElementRef(0, coords);
             if (_documentControl.Brush.IsGlyphEnabled) element.Glyph = _documentControl.Brush.GlyphIndex;
             if (_documentControl.Brush.IsForegroundEnabled) element.Foreground = _documentControl.Brush.ForegroundColor;
             if (_documentControl.Brush.IsBackgroundEnabled) element.Background = _documentControl.Brush.BackgroundColor;

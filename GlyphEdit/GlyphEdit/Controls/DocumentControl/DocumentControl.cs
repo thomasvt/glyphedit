@@ -8,7 +8,8 @@ using GlyphEdit.Controls.DocumentView.Rendering;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
-using GlyphEdit.Models;
+using GlyphEdit.Model;
+using GlyphEdit.ViewModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework.WpfInterop;
@@ -25,11 +26,11 @@ namespace GlyphEdit.Controls.DocumentControl
         private DocumentRenderer _documentRenderer;
         private Renderer _renderer;
         private Camera _camera;
-        private readonly Dictionary<GlyphFont, GlyphMapTexture> _glyphMapTextures;
+        private readonly Dictionary<GlyphFontViewModel, GlyphMapTexture> _glyphMapTextures;
         
         public DocumentControl()
         {
-            _glyphMapTextures = new Dictionary<GlyphFont, GlyphMapTexture>();
+            _glyphMapTextures = new Dictionary<GlyphFontViewModel, GlyphMapTexture>();
             Brush = new GlyphBrush();
 
             MessageBus.Subscribe<DocumentOpenedEvent>(e =>
@@ -38,7 +39,7 @@ namespace GlyphEdit.Controls.DocumentControl
                 Camera.Reset();
             });
             MessageBus.Subscribe<EditModeChangedEvent>(e => ChangeEditMode(e.EditMode));
-            MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.NewGlyphFont, e.NewGlyphIndex));
+            MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.NewGlyphFontViewModel, e.NewGlyphIndex));
             MessageBus.Subscribe<ForegroundColorChangedEvent>(w => ChangeForegroundColor(w.Color));
             MessageBus.Subscribe<BackgroundColorChangedEvent>(w => ChangeBackgroundColor(w.Color));
             MessageBus.Subscribe<BrushGlyphEnabledChangedEvent>(e => Brush.IsGlyphEnabled = e.IsEnabled);
@@ -65,19 +66,19 @@ namespace GlyphEdit.Controls.DocumentControl
             RenderingInitialized?.Invoke(this, EventArgs.Empty);
         }
 
-        private void ChangeGlyph(GlyphFont glyphFont, int glyphIndex)
+        private void ChangeGlyph(GlyphFontViewModel glyphFontViewModel, int glyphIndex)
         {
-            if (CurrentGlyphMapTexture?.GlyphFont != glyphFont)
+            if (CurrentGlyphMapTexture?.GlyphFontViewModel != glyphFontViewModel)
             {
-                if (!_glyphMapTextures.ContainsKey(glyphFont))
+                if (!_glyphMapTextures.ContainsKey(glyphFontViewModel))
                 {
-                    var texture = Texture2D.FromStream(GraphicsDevice, File.OpenRead(glyphFont.Filename));
-                    CurrentGlyphMapTexture = new GlyphMapTexture(glyphFont, texture, glyphFont.GlyphSize.X, glyphFont.GlyphSize.Y);
-                    _glyphMapTextures.Add(glyphFont, CurrentGlyphMapTexture);
+                    var texture = Texture2D.FromStream(GraphicsDevice, File.OpenRead(glyphFontViewModel.Filename));
+                    CurrentGlyphMapTexture = new GlyphMapTexture(glyphFontViewModel, texture, glyphFontViewModel.GlyphSize.X, glyphFontViewModel.GlyphSize.Y);
+                    _glyphMapTextures.Add(glyphFontViewModel, CurrentGlyphMapTexture);
                 }
                 else
                 {
-                    CurrentGlyphMapTexture = _glyphMapTextures[glyphFont];
+                    CurrentGlyphMapTexture = _glyphMapTextures[glyphFontViewModel];
                 }
             }
             Brush.GlyphIndex = glyphIndex;
@@ -136,10 +137,10 @@ namespace GlyphEdit.Controls.DocumentControl
             }
         }
 
-        public Point GetDocumentCoordsAt(Point screenPosition)
+        public VectorI GetDocumentCoordsAt(Point screenPosition)
         {
             var (x, y) = _camera.GetDocumentPosition(screenPosition);
-            return new Point((int)(x / CurrentGlyphMapTexture.GlyphWidth), (int)(y / CurrentGlyphMapTexture.GlyphHeight));
+            return new VectorI((int)(x / CurrentGlyphMapTexture.GlyphWidth), (int)(y / CurrentGlyphMapTexture.GlyphHeight));
         }
 
         protected override void UnloadContent()

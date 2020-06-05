@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
              xmlns:glyphPicker="clr-namespace:GlyphEdit.Controls.PanelsBar.GlyphPicker"
-             xmlns:model="clr-namespace:GlyphEdit.Models"
+             xmlns:viewModels="clr-namespace:GlyphEdit.ViewModels"
              x:Class="GlyphEdit.Controls.PanelsBar.GlyphPicker.GlyphPicker"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -156,14 +156,14 @@
 
         <glyphPicker:GlyphFontPickerItemTemplateSelector x:Key="GlyphFontPickerItemTemplateSelector" />
 
-        <DataTemplate x:Key="GlyphFontItemTemplate" DataType="{x:Type model:GlyphFont}">
+        <DataTemplate x:Key="GlyphFontItemTemplate" DataType="{x:Type viewModels:GlyphFontViewModel}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding FontName}" />
                 <TextBlock Text="{Binding GlyphSize, Converter={StaticResource GlyphSizeFormatter}}" Margin="10,0,0,0" Foreground="#cccccc" />
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="InvalidGlyphFontItemTemplate" DataType="{x:Type model:GlyphFont}">
+        <DataTemplate x:Key="InvalidGlyphFontItemTemplate" DataType="{x:Type viewModels:GlyphFontViewModel}">
             <StackPanel Orientation="Horizontal" ToolTip="{Binding Error}">
                 <TextBlock Text="{Binding FontName}" Foreground="#777777" />
             </StackPanel>
@@ -185,7 +185,7 @@
                     <ToggleButton Click="GlyphButton_Click" IsChecked="{Binding IsPicked}">
                         <Image Stretch="{Binding Stretch}" SnapsToDevicePixels="True" Width="12" Height="12" RenderOptions.BitmapScalingMode="Fant">
                             <Image.Source>
-                                <CroppedBitmap Source="{Binding GlyphFont.BitmapSource}" SourceRect="{Binding CropInFontBitmap}" />
+                                <CroppedBitmap Source="{Binding GlyphFontViewModel.BitmapSource}" SourceRect="{Binding CropInFontBitmap}" />
                             </Image.Source>
                         </Image>
                     </ToggleButton>

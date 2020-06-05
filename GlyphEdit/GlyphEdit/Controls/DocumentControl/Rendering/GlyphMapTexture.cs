@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GlyphEdit.Models;
+using GlyphEdit.ViewModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,7 +12,7 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
     public class GlyphMapTexture
     : IDisposable
     {
-        public readonly GlyphFont GlyphFont;
+        public readonly GlyphFontViewModel GlyphFontViewModel;
         public readonly Texture2D Texture;
         public readonly int ColumnCount;
         public readonly float GlyphWidth;
@@ -21,9 +21,9 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
         public readonly float GlyphHeightV;
         private Dictionary<int, UvRect> _glyphUvLookup;
 
-        public GlyphMapTexture(GlyphFont glyphFont, Texture2D texture, int glyphWidth, int glyphHeight)
+        public GlyphMapTexture(GlyphFontViewModel glyphFontViewModel, Texture2D texture, int glyphWidth, int glyphHeight)
         {
-            GlyphFont = glyphFont;
+            GlyphFontViewModel = glyphFontViewModel;
             Texture = texture;
             if (texture.Width % glyphWidth != 0)
                 throw new ArgumentOutOfRangeException($"Texture width ({texture.Width}) is not a multitude of GlyphWidth ({glyphWidth}).");

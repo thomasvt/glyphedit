@@ -26,7 +26,7 @@ namespace GlyphEdit.Controls.PanelsBar.BrushState
 
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
                 {
-                    _glyphBitmap = new CroppedBitmap(e.NewGlyphFont.BitmapSource, e.NewGlyphFont.GetGlyphCropRectangle(e.NewGlyphIndex));
+                    _glyphBitmap = new CroppedBitmap(e.NewGlyphFontViewModel.BitmapSource, e.NewGlyphFontViewModel.GetGlyphCropRectangle(e.NewGlyphIndex));
                     var bitmap = BitmapUtils.ReplaceColor(_glyphBitmap, System.Windows.Media.Colors.White, _foregroundColor);
                     BrushStateGlyphImage.Source = bitmap;
                 });

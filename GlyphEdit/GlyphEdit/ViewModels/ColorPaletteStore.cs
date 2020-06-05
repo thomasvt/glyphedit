@@ -5,7 +5,7 @@ using System.Linq;
 using GlyphEdit.Messages;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
-using GlyphEdit.Models;
+using GlyphEdit.Model;
 
 namespace GlyphEdit.ViewModels
 {

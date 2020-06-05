@@ -135,7 +135,9 @@
     </UserControl.Resources>
     <Menu DockPanel.Dock="Top" Style="{StaticResource GlyphMainMenu}">
         <MenuItem Header="File" Style="{StaticResource GlyphMenuItemStyle}">
-            <MenuItem Header="_New..." Click="NewDocument_Click" Style="{StaticResource GlyphSubMenuItemStyle}" />
+            <MenuItem Header="_New..." Command="{x:Static glyphEdit:MainWindow.NewCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+N" />
+            <MenuItem Header="_Open..." Command="{x:Static glyphEdit:MainWindow.OpenCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+O"/>
+            <Separator />
             <MenuItem Header="_Save" Command="{x:Static glyphEdit:MainWindow.SaveCommand}" InputGestureText="Ctrl+S" />
             <MenuItem Header="Save _As..." Command="{x:Static glyphEdit:MainWindow.SaveAsCommand}" InputGestureText="Ctrl+Shift+S" />
         </MenuItem>

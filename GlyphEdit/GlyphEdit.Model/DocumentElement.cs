@@ -1,4 +1,4 @@
-﻿namespace GlyphEdit.Models
+﻿namespace GlyphEdit.Model
 {
     public struct DocumentElement
     {

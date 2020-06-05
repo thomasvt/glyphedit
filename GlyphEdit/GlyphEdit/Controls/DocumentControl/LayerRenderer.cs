@@ -1,5 +1,5 @@
 ﻿using GlyphEdit.Controls.DocumentView.Rendering;
-using GlyphEdit.Models;
+using GlyphEdit.Model;
 
 namespace GlyphEdit.Controls.DocumentView
 {
@@ -14,7 +14,7 @@ namespace GlyphEdit.Controls.DocumentView
 
         public void Render(IRenderer renderer, Layer layer)
         {
-            renderer.DrawElements(_documentControl.CurrentGlyphMapTexture, layer.Elements);
+            renderer.DrawElements(_documentControl.CurrentGlyphMapTexture, layer.GetElements());
         }
 
         public void Unload()

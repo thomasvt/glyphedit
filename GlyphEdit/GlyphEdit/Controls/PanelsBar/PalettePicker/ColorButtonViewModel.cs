@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using GlyphEdit.Models;
+using GlyphEdit.Model;
 using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Controls.PanelsBar.PalettePicker

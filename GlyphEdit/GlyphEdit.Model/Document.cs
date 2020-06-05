@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.Models
+namespace GlyphEdit.Model
 {
     public class Document
     {
-        internal readonly List<Layer> Layers;
+        internal List<Layer> Layers { get; private set; }
         
         public Document(int width, int height)
         {
@@ -19,18 +18,18 @@ namespace GlyphEdit.Models
         public readonly int Width;
         public readonly int Height;
 
-        public bool IsInRange(Point documentCoords)
+        public bool IsInRange(VectorI documentVectorI)
         {
-            var (x, y) = documentCoords;
+            var (x, y) = documentVectorI;
             return x >= 0 && y >= 0 && x < Width && y < Height;
         }
 
-        internal ref DocumentElement GetElementRef(int layerIndex, Point coords)
+        public ref DocumentElement GetElementRef(int layerIndex, VectorI vectorI)
         {
-            if (!IsInRange(coords))
-                throw new ArgumentOutOfRangeException($"({coords}) are not a valid position in the document. Use IsInRange() to test first.");
+            if (!IsInRange(vectorI))
+                throw new ArgumentOutOfRangeException($"({vectorI}) are not a valid position in the document. Use IsInRange() to test first.");
 
-            return ref Layers[layerIndex].GetElementRef(coords);
+            return ref Layers[layerIndex].GetElementRef(vectorI);
         }
 
         public Layer GetLayer(int layerIndex)
@@ -41,5 +40,13 @@ namespace GlyphEdit.Models
         }
 
         public int LayerCount => Layers.Count;
+
+        /// <summary>
+        /// Direct access for internal bulk purposes (persistence)
+        /// </summary>
+        internal void SetLayers(List<Layer> layers)
+        {
+            Layers = layers;
+        }
     }
 }

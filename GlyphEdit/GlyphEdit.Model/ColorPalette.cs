@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GlyphEdit.Models
+namespace GlyphEdit.Model
 {
     public class ColorPalette
     : IEquatable<ColorPalette>

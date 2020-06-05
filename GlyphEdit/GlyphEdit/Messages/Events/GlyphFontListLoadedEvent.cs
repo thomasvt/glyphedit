@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics;
-using GlyphEdit.Models;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Messages.Events
 {
     public class GlyphFontListLoadedEvent
     {
-        public readonly GlyphFont[] GlyphFonts;
+        public readonly GlyphFontViewModel[] GlyphFonts;
 
         [DebuggerStepThrough]
-        public GlyphFontListLoadedEvent(GlyphFont[] glyphFonts)
+        public GlyphFontListLoadedEvent(GlyphFontViewModel[] glyphFonts)
         {
             GlyphFonts = glyphFonts;
         }

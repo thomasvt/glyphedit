@@ -6,7 +6,7 @@ using GlyphEdit.Messages;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
-using GlyphEdit.Models;
+using GlyphEdit.Model;
 
 namespace GlyphEdit.Controls.PanelsBar.PalettePicker
 {
@@ -25,8 +25,8 @@ namespace GlyphEdit.Controls.PanelsBar.PalettePicker
         private void ShowColorPalette(ColorPalette colorPalette)
         {
             var colorViewModels = new List<ColorButtonViewModel>(colorPalette.ColumnCount * colorPalette.RowCount);
-            for (var y = 0; y < colorPalette.RowCount; y++)
-            {
+            for (var y = 0; y < colorPalette.RowCount; y++) // row first because the UniformGrid works like that
+            { 
                 for (var x = 0; x < colorPalette.ColumnCount; x++)
                 {
                     colorViewModels.Add(new ColorButtonViewModel(colorPalette.Colors[x, y]));

@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Point = Microsoft.Xna.Framework.Point;
 
-namespace GlyphEdit.Models
+namespace GlyphEdit.ViewModels
 {
-    public class GlyphFont
-    : IEquatable<GlyphFont>
+    public class GlyphFontViewModel
+    : IEquatable<GlyphFontViewModel>
     {
         public string FontName { get; private set; }
         public string Filename { get; private set; }
@@ -19,17 +19,17 @@ namespace GlyphEdit.Models
         public int ColumnCount => BitmapSource.PixelWidth / GlyphSize.X;
         public int RowCount => BitmapSource.PixelHeight / GlyphSize.Y;
 
-        public static bool operator ==(GlyphFont a, GlyphFont b)
+        public static bool operator ==(GlyphFontViewModel a, GlyphFontViewModel b)
         {
             return Equals(a, b);
         }
 
-        public static bool operator !=(GlyphFont a, GlyphFont b)
+        public static bool operator !=(GlyphFontViewModel a, GlyphFontViewModel b)
         {
             return !Equals(a, b);
         }
 
-        public bool Equals(GlyphFont other)
+        public bool Equals(GlyphFontViewModel other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -41,7 +41,7 @@ namespace GlyphEdit.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((GlyphFont) obj);
+            return Equals((GlyphFontViewModel) obj);
         }
 
         public override int GetHashCode()
@@ -49,9 +49,9 @@ namespace GlyphEdit.Models
             return (Filename != null ? Filename.GetHashCode() : 0);
         }
 
-        internal static GlyphFont Create(string filename, string fontName, Point glyphSize, BitmapSource bitmapSource)
+        internal static GlyphFontViewModel Create(string filename, string fontName, Point glyphSize, BitmapSource bitmapSource)
         {
-            return new GlyphFont
+            return new GlyphFontViewModel
             {
                 Filename = filename,
                 FontName = fontName,
@@ -62,9 +62,9 @@ namespace GlyphEdit.Models
             };
         }
 
-        internal static GlyphFont CreateInvalid(string filename, string error)
+        internal static GlyphFontViewModel CreateInvalid(string filename, string error)
         {
-            return new GlyphFont 
+            return new GlyphFontViewModel 
             {
                 Filename = filename,
                 FontName = Path.GetFileName(filename),

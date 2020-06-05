@@ -4,8 +4,8 @@ using GlyphEdit.Controls.DocumentView;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
-using GlyphEdit.Models;
-using GlyphEdit.Persistence;
+using GlyphEdit.Model;
+using GlyphEdit.Model.Persistence;
 using Microsoft.Win32;
 
 namespace GlyphEdit.ViewModels
@@ -16,7 +16,7 @@ namespace GlyphEdit.ViewModels
     /// </summary>
     public class EditorViewModel
     {
-        private GlyphFont _glyphFont;
+        private GlyphFontViewModel _glyphFontViewModel;
         private int _glyphIndex;
         private ColorPalette _colorPalette;
 
@@ -31,13 +31,29 @@ namespace GlyphEdit.ViewModels
         private void BindCommandHandlers()
         {
             MessageBus.Subscribe<NewDocumentCommand>(command => CreateNewDocument());
-            MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFont));
+            MessageBus.Subscribe<OpenDocumentCommand>(command => OpenDocumentFromFile());
+            MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFontViewModel));
             MessageBus.Subscribe<ChangeGlyphCommand>(command => ChangeGlyph(command.GlyphIndex));
             MessageBus.Subscribe<ChangeForegroundColorCommand>(c => ChangeForegroundColor(c.Color));
             MessageBus.Subscribe<ChangeBackgroundColorCommand>(c => ChangeBackgroundColor(c.Color));
             MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
+        }
+
+        private void OpenDocumentFromFile()
+        {
+            var dialog = new OpenFileDialog
+            {
+                DefaultExt = ".ged",
+                Filter = "GlyphEdit Document (*.ged)|*.ged|All files (*.*)|*.*",
+                FilterIndex = 0
+            };
+            if (dialog.ShowDialog(App.Current.MainWindow) == true)
+            {
+                var document = DocumentLoader.Load(dialog.FileName);
+                OpenDocument(document);
+            }
         }
 
         public void OnLoaded()
@@ -52,6 +68,12 @@ namespace GlyphEdit.ViewModels
         public void CreateNewDocument()
         {
             var document = new Document(50, 50);
+            OpenDocument(document);
+        }
+
+        private void OpenDocument(Document document)
+        {
+            DocumentViewModel?.Dispose();
             DocumentViewModel = new DocumentViewModel(document);
             ResetUI();
             MessageBus.Publish(new DocumentOpenedEvent(document));
@@ -74,35 +96,35 @@ namespace GlyphEdit.ViewModels
 
         public void ChangeGlyph(int glyphIndex)
         {
-            if (_glyphFont == null)
+            if (_glyphFontViewModel == null)
                 throw new Exception("No GlyphFont selected yet.");
 
-            ChangeGlyph(_glyphFont, glyphIndex);
+            ChangeGlyph(_glyphFontViewModel, glyphIndex);
         }
 
-        public void ChangeGlyph(GlyphFont glyphFont)
+        public void ChangeGlyph(GlyphFontViewModel glyphFontViewModel)
         {
-            if (glyphFont == null)
-                throw new ArgumentNullException(nameof(glyphFont));
+            if (glyphFontViewModel == null)
+                throw new ArgumentNullException(nameof(glyphFontViewModel));
 
-            ChangeGlyph(glyphFont, _glyphIndex >= _glyphFont.GlyphCount ? 0 : _glyphIndex);
+            ChangeGlyph(glyphFontViewModel, _glyphIndex >= _glyphFontViewModel.GlyphCount ? 0 : _glyphIndex);
         }
 
-        public void ChangeGlyph(GlyphFont glyphFont, int glyphIndex)
+        public void ChangeGlyph(GlyphFontViewModel glyphFontViewModel, int glyphIndex)
         {
-            if (glyphFont == null)
-                throw new ArgumentNullException(nameof(glyphFont));
-            if (!_glyphFontStore.GlyphFonts.Contains(glyphFont))
+            if (glyphFontViewModel == null)
+                throw new ArgumentNullException(nameof(glyphFontViewModel));
+            if (!_glyphFontStore.GlyphFonts.Contains(glyphFontViewModel))
                 throw new Exception("Chosen GlyphFont is not known in the GlyphFontStore.");
-            if (!glyphFont.IsValid)
+            if (!glyphFontViewModel.IsValid)
                 throw new Exception("Cannot use an invalid GlyphFont.");
-            if (glyphIndex >= glyphFont.GlyphCount)
+            if (glyphIndex >= glyphFontViewModel.GlyphCount)
                 throw new Exception($"GlyphFont has no glyph at index {glyphIndex}.");
-            if (glyphFont.Equals(_glyphFont) && _glyphIndex == glyphIndex)
+            if (glyphFontViewModel.Equals(_glyphFontViewModel) && _glyphIndex == glyphIndex)
                 return;
 
-            var @event = new GlyphChangedEvent(_glyphFont, glyphFont, _glyphIndex, glyphIndex);
-            _glyphFont = glyphFont;
+            var @event = new GlyphChangedEvent(_glyphFontViewModel, glyphFontViewModel, _glyphIndex, glyphIndex);
+            _glyphFontViewModel = glyphFontViewModel;
             _glyphIndex = glyphIndex;
             MessageBus.Publish(@event);
         }

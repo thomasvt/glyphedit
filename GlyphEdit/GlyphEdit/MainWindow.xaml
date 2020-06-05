@@ -17,6 +17,9 @@
         <CommandBinding Command="{x:Static local:MainWindow.Zoom3Command}" Executed="Zoom3Command_Executed"  />
         <CommandBinding Command="{x:Static local:MainWindow.Zoom4Command}" Executed="Zoom4Command_Executed"  />
 
+        <CommandBinding Command="{x:Static local:MainWindow.NewCommand}" Executed="NewCommand_Executed"  />
+        <CommandBinding Command="{x:Static local:MainWindow.OpenCommand}" Executed="OpenCommand_Executed"  />
+
         <CommandBinding Command="{x:Static local:MainWindow.SaveCommand}" Executed="SaveCommand_Executed"  />
         <CommandBinding Command="{x:Static local:MainWindow.SaveAsCommand}" Executed="SaveAsCommand_Executed"  />
     </Window.CommandBindings>
@@ -26,6 +29,9 @@
         <KeyBinding Command="{x:Static local:MainWindow.Zoom2Command}" Key="NumPad2" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.Zoom3Command}" Key="NumPad3" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.Zoom4Command}" Key="NumPad4" Modifiers="Ctrl"/>
+
+        <KeyBinding Command="{x:Static local:MainWindow.NewCommand}" Key="N" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:MainWindow.OpenCommand}" Key="O" Modifiers="Ctrl"/>
 
         <KeyBinding Command="{x:Static local:MainWindow.SaveCommand}" Key="S" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.SaveAsCommand}" Key="S" Modifiers="Ctrl+Shift"/>

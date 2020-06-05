@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using GlyphEdit.Models;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
 {
@@ -9,7 +9,7 @@ namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is GlyphFont glyphFont)
+            if (item is GlyphFontViewModel glyphFont)
             {
                 var element = container as FrameworkElement;
 

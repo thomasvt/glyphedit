@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics;
-using GlyphEdit.Models;
+using GlyphEdit.ViewModels;
 
 namespace GlyphEdit.Messages.Commands
 {
     public class ChangeGlyphFontCommand
     {
-        public readonly GlyphFont GlyphFont;
+        public readonly GlyphFontViewModel GlyphFontViewModel;
 
         [DebuggerStepThrough]
-        public ChangeGlyphFontCommand(GlyphFont glyphFont)
+        public ChangeGlyphFontCommand(GlyphFontViewModel glyphFontViewModel)
         {
-            GlyphFont = glyphFont;
+            GlyphFontViewModel = glyphFontViewModel;
         }
     }
 }

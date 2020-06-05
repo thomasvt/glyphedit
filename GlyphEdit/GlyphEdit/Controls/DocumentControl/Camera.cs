@@ -42,10 +42,10 @@ namespace GlyphEdit.Controls.DocumentView
             };
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
             {
-                if (e.PreviousGlyphFont != null && e.NewGlyphFont != null &&
-                    e.PreviousGlyphFont.GlyphSize != e.NewGlyphFont.GlyphSize)
+                if (e.PreviousGlyphFontViewModel != null && e.NewGlyphFontViewModel != null &&
+                    e.PreviousGlyphFontViewModel.GlyphSize != e.NewGlyphFontViewModel.GlyphSize)
                 {
-                    var zoomChangeFactor = (float) e.NewGlyphFont.GlyphSize.Y / e.PreviousGlyphFont.GlyphSize.Y;
+                    var zoomChangeFactor = (float) e.NewGlyphFontViewModel.GlyphSize.Y / e.PreviousGlyphFontViewModel.GlyphSize.Y;
                     MoveTo(Position * zoomChangeFactor);
                     ZoomTo(Zoom / zoomChangeFactor);
                 }

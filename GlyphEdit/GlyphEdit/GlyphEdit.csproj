@@ -110,6 +110,7 @@
     <Compile Include="Messages\Commands\ChangeForegroundColorCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphFontCommand.cs" />
+    <Compile Include="Messages\Commands\OpenDocumentCommand.cs" />
     <Compile Include="Messages\Commands\SaveDocumentAsCommand.cs" />
     <Compile Include="Messages\Commands\SaveDocumentCommand.cs" />
     <Compile Include="Messages\Commands\SetBrushBackgroundEnabledCommand.cs" />
@@ -133,12 +134,10 @@
     <Compile Include="Messages\Events\GlyphChangedEvent.cs" />
     <Compile Include="Messages\Events\GlyphFontListLoadedEvent.cs" />
     <Compile Include="Messages\Events\ZoomChangedEvent.cs" />
-    <Compile Include="Models\ColorPalette.cs" />
     <Compile Include="Controls\DocumentControl\GlyphBrush.cs" />
-    <Compile Include="Persistence\DocumentSaver.cs" />
+    <Compile Include="Messaging\Subscription.cs" />
     <Compile Include="ViewModels\ColorPaletteStore.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
-    <Compile Include="Models\GlyphFont.cs" />
     <Compile Include="Controls\DocumentControl\ICamera.cs" />
     <Compile Include="Controls\DocumentControl\Input\WpfKeyboard.cs" />
     <Compile Include="Controls\DocumentControl\Input\WpfMouse.cs" />
@@ -146,9 +145,6 @@
     <Compile Include="Controls\DocumentControl\Input\MouseMoveEventArgs.cs" />
     <Compile Include="Controls\DocumentControl\IEditTool.cs" />
     <Compile Include="Controls\DocumentControl\LayerRenderer.cs" />
-    <Compile Include="Models\Document.cs" />
-    <Compile Include="Models\GlyphColor.cs" />
-    <Compile Include="Models\Layer.cs" />
     <Compile Include="Controls\DocumentControl\PencilEditTool.cs" />
     <Compile Include="Controls\DocumentControl\Rendering\GlyphColorExtensions.cs" />
     <Compile Include="Controls\DocumentControl\Rendering\GlyphMapTexture.cs" />
@@ -156,7 +152,6 @@
     <Compile Include="Controls\DocumentControl\Rendering\Quad.cs" />
     <Compile Include="Controls\DocumentControl\Rendering\Renderer.cs" />
     <Compile Include="Controls\DocumentControl\Rendering\Triangle.cs" />
-    <Compile Include="Models\DocumentElement.cs" />
     <Compile Include="Controls\DocumentControl\Rendering\UvRect.cs" />
     <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml.cs">
       <DependentUpon>GlyphPicker.xaml</DependentUpon>
@@ -174,6 +169,8 @@
       <DependentUpon>GlyphToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BitmapUtils.cs" />
+    <Compile Include="ViewModels\GlyphFontViewModel.cs" />
+    <Compile Include="ViewModels\GlyphFontExtensions.cs" />
     <Compile Include="ViewModels\GlyphFontStore.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
@@ -259,6 +256,10 @@
     <Resource Include="Images\pencil.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GlyphEdit.Model\GlyphEdit.Model.csproj">
+      <Project>{592C7013-B334-479F-B30F-7D83505A5884}</Project>
+      <Name>GlyphEdit.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hellhole.WpfMonogame\Hellhole.WpfMonogame.csproj">
       <Project>{34C02FAB-F641-4705-A435-87B0452C5100}</Project>
       <Name>Hellhole.WpfMonogame</Name>

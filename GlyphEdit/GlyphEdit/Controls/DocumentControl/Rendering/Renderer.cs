@@ -1,5 +1,5 @@
 ﻿using System;
-using GlyphEdit.Models;
+using GlyphEdit.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -72,9 +72,9 @@ namespace GlyphEdit.Controls.DocumentView.Rendering
 
             // render glyph backgrounds
             var i = 0;
-            for (var y = 0; y < height; y++) // row first for less cache misses
+            for (var x = 0; x < width; x++) // loop per column for less cache misses
             {
-                for (var x = 0; x < width; x++)
+                for (var y = 0; y < height; y++) 
                 {
                     ref var element = ref elements[x, y];
 

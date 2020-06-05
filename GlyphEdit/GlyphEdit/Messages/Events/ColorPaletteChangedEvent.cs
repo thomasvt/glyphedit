@@ -1,4 +1,4 @@
-﻿using GlyphEdit.Models;
+﻿using GlyphEdit.Model;
 
 namespace GlyphEdit.Messages.Events
 {

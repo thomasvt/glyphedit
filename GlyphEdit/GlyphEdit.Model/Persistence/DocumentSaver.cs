@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
-using GlyphEdit.Models;
 
-namespace GlyphEdit.Persistence
+namespace GlyphEdit.Model.Persistence
 {
     public static class DocumentSaver
     {
@@ -18,9 +17,9 @@ namespace GlyphEdit.Persistence
                 using (var writer = new BinaryWriter(zipStream))
                 {
                     writer.Write(documentVersion);
-                    writer.Write(document.Width);
-                    writer.Write(document.Height);
-                    writer.Write(document.LayerCount);
+                    writer.Write((ushort)document.Width);
+                    writer.Write((ushort)document.Height);
+                    writer.Write((ushort)document.LayerCount);
                     foreach (var layer in document.Layers)
                     {
                         foreach (var element in layer.Elements)
