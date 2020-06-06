@@ -13,10 +13,6 @@
         WindowCaptionHeight="32" mc:Ignorable="d"
         Title="GlyphEdit v0.1" Height="1000" Width="1400">
 
-    <Window.Resources>
-        
-    </Window.Resources>
-
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.Zoom0Command}" Executed="Zoom0Command_Executed"  />
         <CommandBinding Command="{x:Static local:MainWindow.Zoom1Command}" Executed="Zoom1Command_Executed"  />

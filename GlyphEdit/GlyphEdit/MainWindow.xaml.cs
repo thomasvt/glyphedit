@@ -74,17 +74,14 @@ namespace GlyphEdit
         private void UpdateWindowTitle()
         {
             var version = Assembly.GetEntryAssembly().GetName().Version;
-            if (_documentFilename != null)
-            {
-                if (_canUndo)
-                    Title = $"*{Path.GetFileName(_documentFilename)} - GlyphEdit v{version.Major}.{version.Minor}";
-                else
-                    Title = $"{Path.GetFileName(_documentFilename)} - GlyphEdit v{version.Major}.{version.Minor}";
-            }
-            else
-            {
-                Title = $"<new project> - GlyphEdit v{version.Major}.{version.Minor}";
-            }
+            var appName = $"GlyphEdit v{version.Major}.{version.Minor}";
+            var documentName = _documentFilename != null
+                ? Path.GetFileName(_documentFilename)
+                : "<new document>";
+
+            Title = _canUndo 
+                ? $"*{documentName} - {appName}" 
+                : $"{documentName} - {appName}";
         }
 
         private void DocumentViewer_OnRenderingInitialized(object sender, EventArgs e)
@@ -144,7 +141,7 @@ namespace GlyphEdit
 
         private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBus.Publish(new NewDocumentCommand());
+            MessageBus.Publish(new ShowNewDocumentDialogCommand());
         }
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)

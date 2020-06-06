@@ -7,7 +7,6 @@ using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
 using GlyphEdit.Model.Persistence;
-using GlyphEdit.ViewModels.Workflows;
 using Microsoft.Win32;
 
 namespace GlyphEdit.ViewModels
@@ -28,7 +27,7 @@ namespace GlyphEdit.ViewModels
 
         private void BindCommandHandlers()
         {
-            MessageBus.Subscribe<NewDocumentCommand>(command => DoNewDocumentWorkflow());
+            MessageBus.Subscribe<ShowNewDocumentDialogCommand>(command => DoNewDocumentWorkflow());
             MessageBus.Subscribe<OpenDocumentCommand>(command => OpenDocumentFromFile());
             MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFontViewModel));
             MessageBus.Subscribe<ChangeGlyphCommand>(command => ChangeGlyph(command.GlyphIndex));
@@ -49,7 +48,7 @@ namespace GlyphEdit.ViewModels
             _glyphFontStore.DetectGlyphFonts();
             _colorPaletteStore = new ColorPaletteStore();
             _colorPaletteStore.DetectColorPalettes();
-            CreateAndOpenNewDocument(50, 50);
+            CreateAndOpenNewDocument(50, 50, true);
         }
 
         private void DoExitApplicationWorkflow()
@@ -100,13 +99,13 @@ namespace GlyphEdit.ViewModels
             var newDocumentDialog = new NewDocumentDialog();
             if (newDocumentDialog.ShowDialog() == true)
             {
-                CreateAndOpenNewDocument(50, 50);
+                CreateAndOpenNewDocument(newDocumentDialog.DocumentWidth, newDocumentDialog.DocumentHeight, newDocumentDialog.EnableCompression);
             }
         }
 
-        private void CreateAndOpenNewDocument(int width, int height)
+        private void CreateAndOpenNewDocument(int width, int height, bool enableCompression)
         {
-            var document = new Document(width, height);
+            var document = new Document(width, height, enableCompression);
             OpenDocument(document);
         }
 

@@ -8,19 +8,21 @@ namespace GlyphEdit.Model
     public class Document
     {
         private readonly Dictionary<Guid, Layer> _layersById;
+        public bool EnableCompression { get; }
         internal List<Layer> Layers { get; }
         
-        internal Document(int width, int height, List<Layer> layers) // direct ctor for Persistence logic
+        internal Document(int width, int height, bool enableCompression, List<Layer> layers) // direct ctor for Persistence logic
         {
             Width = width;
             Height = height;
+            EnableCompression = enableCompression;
             Layers = layers;
             _layersById = Layers.ToDictionary(l => l.Id);
             Manipulator = new DocumentManipulator(this);
         }
 
-        public Document(int width, int height)
-        : this(width, height, new List<Layer> {  new Layer(Guid.NewGuid(), width, height) })
+        public Document(int width, int height, bool enableCompression)
+        : this(width, height, enableCompression, new List<Layer> {  new Layer(Guid.NewGuid(), width, height) })
         {
         }
 

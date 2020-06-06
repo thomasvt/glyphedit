@@ -41,7 +41,7 @@ namespace GlyphEdit.Model.Persistence
                         layers.Add(layer);
                     }
 
-                    var document = new Document(width, height, layers);
+                    var document = new Document(width, height, true, layers);
 
                     return document;
                 }

@@ -7,7 +7,7 @@
     <SolidColorBrush x:Key="BrushBorder3DLight" Color="#22ffffff" />
     <SolidColorBrush x:Key="BrushBorder3DDark" Color="#44000000" />
 
-
     <SolidColorBrush x:Key="BrushText" Color="#eeeeee" />
+    <SolidColorBrush x:Key="BrushTextDisabled" Color="#999999" />
 
 </ResourceDictionary>

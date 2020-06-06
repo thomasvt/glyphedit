@@ -175,7 +175,7 @@
     <Compile Include="Messaging\IMessage.cs" />
     <Compile Include="Messaging\IMessageBus.cs" />
     <Compile Include="Messaging\MessageBus.cs" />
-    <Compile Include="Messages\Commands\NewDocumentCommand.cs" />
+    <Compile Include="Messages\Commands\ShowNewDocumentDialogCommand.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Controls\Toolbar\GlyphToolbar.xaml.cs">
       <DependentUpon>GlyphToolbar.xaml</DependentUpon>
@@ -186,7 +186,7 @@
     <Compile Include="ViewModels\GlyphFontStore.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
-    <Compile Include="ViewModels\Workflows\NewDocumentDialog.xaml.cs">
+    <Compile Include="NewDocumentDialog.xaml.cs">
       <DependentUpon>NewDocumentDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
@@ -230,7 +230,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\Workflows\NewDocumentDialog.xaml">
+    <Page Include="NewDocumentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

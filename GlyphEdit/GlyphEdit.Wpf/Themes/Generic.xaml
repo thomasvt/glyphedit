@@ -3,9 +3,18 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Theme.xaml" />
 
+        <!-- basic controls -->
+
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/CheckBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ComboBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Icon.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ModernWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Label.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/TextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ToggleButton.xaml" />
+
+        <!-- the custom styled window -->
+
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ModernWindow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -52,12 +52,12 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Background" Value="#282828" />
         <Setter Property="Foreground" Value="#eeeeee" />
-        <Setter Property="BorderBrush" Value="#272727" />
+        <Setter Property="BorderBrush" Value="#111111" />
         <Setter Property="Width" Value="800" />
         <Setter Property="Height" Value="640" />
         <Setter Property="MinWidth" Value="320" />
         <Setter Property="WindowCaptionHeight" Value="32" />
-        <Setter Property="MinHeight" Value="320" />
+        <Setter Property="MinHeight" Value="200" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
@@ -79,7 +79,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Title -->
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="34" VerticalAlignment="Top">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Height="26" VerticalAlignment="Top">
                                     <Path Data="{TemplateBinding Logo}" x:Name="Logo" Fill="{TemplateBinding Foreground}" Margin="12,4"  Width="16" Height="16" VerticalAlignment="Center" Stretch="Uniform"/>
                                     <TextBlock x:Name="Title" Foreground="{TemplateBinding Foreground}" 
                                                    Text="{TemplateBinding Title}" FontSize="14" TextWrapping="NoWrap" 
