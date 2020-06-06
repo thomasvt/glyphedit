@@ -6,6 +6,6 @@ namespace GlyphEdit.Controls.DocumentControl
     {
         Vector2 Position { get; }
         void MoveTo(Vector2 position);
-        void Reset();
+        void ZoomToFitDocument(float duration);
     }
 }

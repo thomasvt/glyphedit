@@ -37,7 +37,8 @@ namespace GlyphEdit.Controls.DocumentControl
 
             // this is a control, only subscribe to Events. All Commands must go through a ViewModel.
             MessageBus.Subscribe<DocumentOpenedEvent>(e => { OpenDocument(e.Document.Document); });
-            MessageBus.Subscribe<ZoomChangeRequestedEvent>(e => { _camera.ZoomSmoothTo(e.Zoom, 0.2f); });
+            MessageBus.Subscribe<ZoomChangeRequestedEvent>(e => { _camera.ZoomSmoothTo(e.Zoom, 0.15f); });
+            MessageBus.Subscribe<ZoomToFitRequestedEvent>(e => { _camera.ZoomToFitDocument(0.15f); });
             MessageBus.Subscribe<EditModeChangedEvent>(e => ChangeEditMode(e.EditMode));
             MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.NewGlyphFontViewModel, e.NewGlyphIndex));
             MessageBus.Subscribe<ForegroundColorChangedEvent>(w => ChangeForegroundColor(w.Color));
@@ -54,7 +55,7 @@ namespace GlyphEdit.Controls.DocumentControl
 
             Document = document;
             ActiveLayerId = Document.GetLayer(0).Id;
-            Camera.Reset();
+            Camera.ZoomToFitDocument(0);
         }
 
         protected override void Initialize()

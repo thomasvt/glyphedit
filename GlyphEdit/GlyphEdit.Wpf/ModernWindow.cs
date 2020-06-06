@@ -78,7 +78,7 @@ namespace GlyphEdit.Wpf
 
         public static readonly DependencyProperty WindowCaptionHeightProperty = DependencyProperty.Register(
             "WindowCaptionHeight", typeof(double), typeof(ModernWindow), new PropertyMetadata(default(double)));
-
+        
         /// <summary>
         /// The height of the interactive hotzone on top of the window (for dragging, maximizing, right click Windows menu, etc)
         /// </summary>

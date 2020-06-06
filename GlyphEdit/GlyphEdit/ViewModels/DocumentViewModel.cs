@@ -26,6 +26,7 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<SaveDocumentAsCommand>(this, c => DoSaveAsWorkflow());
             MessageBus.Subscribe<UndoCommand>(this, c => Undo());
             MessageBus.Subscribe<RedoCommand>(this, c => Redo());
+            MessageBus.Subscribe<ZoomToFitCommand>(c => ZoomToFit());
             MessageBus.Subscribe<ZoomToCommand>(c => ZoomTo(c.Percentage));
         }
 
@@ -73,6 +74,11 @@ namespace GlyphEdit.ViewModels
             Document.Manipulator.ResetUndoStack();
 
             MessageBus.Publish(new DocumentSavedEvent());
+        }
+
+        private void ZoomToFit()
+        {
+            MessageBus.Publish(new ZoomToFitRequestedEvent());
         }
 
         private void ZoomTo(float zoom)

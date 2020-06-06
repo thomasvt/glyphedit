@@ -85,7 +85,7 @@
 
                                 <!-- System buttons -->
                                 <StackPanel x:Name="SystemButtons"  Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True">
-                                    <Button Focusable="False" Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="Minimize" Style="{StaticResource Window.Title.Button}">
+                                    <Button Focusable="False" x:Name="Minimize" Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="Minimize" Style="{StaticResource Window.Title.Button}">
                                         <Button.Content>
                                             <Grid Width="13" Height="12" RenderTransform="1,0,0,1,0,1">
                                                 <Path Data="M0,6 L8,6 Z" Width="8" Height="7" VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -155,6 +155,11 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="ResizeGrip" Property="Visibility" Value="Visible" />
                         </MultiTrigger>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter TargetName="Minimize" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="Maximize" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="ResizeGrip" Property="Visibility" Value="Hidden" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

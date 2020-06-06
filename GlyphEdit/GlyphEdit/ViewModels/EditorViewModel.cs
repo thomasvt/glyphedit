@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using GlyphEdit.Controls.DocumentControl.EditTools;
@@ -8,14 +7,11 @@ using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
 using GlyphEdit.Model.Persistence;
+using GlyphEdit.ViewModels.Workflows;
 using Microsoft.Win32;
 
 namespace GlyphEdit.ViewModels
 {
-    /// <summary>
-    /// I don't use standard MVVM because I don't like bidirectional databinding anymore.
-    /// Instead, we use a fully separated "viewmodel" singleton and communicate towards controls using the MessageBus. The data is in dedicated, separate Models.
-    /// </summary>
     public class EditorViewModel
     {
         private GlyphFontViewModel _glyphFontViewModel;
@@ -32,7 +28,7 @@ namespace GlyphEdit.ViewModels
 
         private void BindCommandHandlers()
         {
-            MessageBus.Subscribe<NewDocumentCommand>(command => CreateNewDocument());
+            MessageBus.Subscribe<NewDocumentCommand>(command => DoNewDocumentWorkflow());
             MessageBus.Subscribe<OpenDocumentCommand>(command => OpenDocumentFromFile());
             MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFontViewModel));
             MessageBus.Subscribe<ChangeGlyphCommand>(command => ChangeGlyph(command.GlyphIndex));
@@ -53,7 +49,7 @@ namespace GlyphEdit.ViewModels
             _glyphFontStore.DetectGlyphFonts();
             _colorPaletteStore = new ColorPaletteStore();
             _colorPaletteStore.DetectColorPalettes();
-            CreateNewDocument();
+            CreateAndOpenNewDocument(50, 50);
         }
 
         private void DoExitApplicationWorkflow()
@@ -99,9 +95,18 @@ namespace GlyphEdit.ViewModels
             }
         }
 
-        public void CreateNewDocument()
+        public void DoNewDocumentWorkflow()
         {
-            var document = new Document(50, 50);
+            var newDocumentDialog = new NewDocumentDialog();
+            if (newDocumentDialog.ShowDialog() == true)
+            {
+                CreateAndOpenNewDocument(50, 50);
+            }
+        }
+
+        private void CreateAndOpenNewDocument(int width, int height)
+        {
+            var document = new Document(width, height);
             OpenDocument(document);
         }
 

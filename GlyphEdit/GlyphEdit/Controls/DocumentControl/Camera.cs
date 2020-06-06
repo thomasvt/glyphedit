@@ -9,7 +9,7 @@ namespace GlyphEdit.Controls.DocumentControl
     {
         private float _time;
 
-        private readonly Controls.DocumentControl.DocumentControl _documentViewport;
+        private readonly DocumentControl _documentControl;
         private Vector2 _panStartCameraPosition;
         private Point _panStartMousePosition;
         private Vector2 _viewportSize;
@@ -18,9 +18,9 @@ namespace GlyphEdit.Controls.DocumentControl
         private float _zoomFrom, _zoomTo, _zoomStartTime;
         private bool _isAnimatingZoom;
 
-        public Camera(Mouse mouse, Controls.DocumentControl.DocumentControl documentViewport)
+        public Camera(Mouse mouse, DocumentControl documentControl)
         {
-            _documentViewport = documentViewport;
+            _documentControl = documentControl;
             Zoom = 1f;
             mouse.MiddleButtonDown += (sender, args) => StartPan(args.MouseState.Position);
             mouse.MiddleButtonUp += (sender, args) => FinishPan();
@@ -79,6 +79,18 @@ namespace GlyphEdit.Controls.DocumentControl
             _isAnimatingZoom = true;
         }
 
+        public void ZoomToFitDocument(float duration)
+        {
+            
+            var documentPixelSize =
+                new Vector2(_documentControl.Document.Width * _documentControl.CurrentGlyphMapTexture.GlyphWidth,
+                    _documentControl.Document.Height * _documentControl.CurrentGlyphMapTexture.GlyphHeight);
+            var zoomX = _viewportSize.X * 0.9f / documentPixelSize.X;
+            var zoomY = _viewportSize.Y * 0.9f / documentPixelSize.Y;
+            ZoomSmoothTo(MathHelper.Min(zoomX, zoomY), duration);
+            MoveTo(documentPixelSize * 0.5f);
+        }
+
         public void ZoomTo(float zoom)
         {
             Zoom = zoom;
@@ -120,13 +132,6 @@ namespace GlyphEdit.Controls.DocumentControl
         public void FinishPan()
         {
             IsPanning = false;
-        }
-
-        public void Reset()
-        {
-            ZoomTo(1f);
-            MoveTo(new Vector2(_documentViewport.Document.Width * _documentViewport.CurrentGlyphMapTexture.GlyphWidth * 0.5f,
-                _documentViewport.Document.Height * _documentViewport.CurrentGlyphMapTexture.GlyphHeight * 0.5f));
         }
 
         private void CalculateViewMatrices()

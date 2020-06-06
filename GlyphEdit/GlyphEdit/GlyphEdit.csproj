@@ -122,6 +122,7 @@
     <Compile Include="Messages\Commands\SetBrushGlyphEnabledCommand.cs" />
     <Compile Include="Messages\Commands\UndoCommand.cs" />
     <Compile Include="Messages\Commands\ZoomToCommand.cs" />
+    <Compile Include="Messages\Commands\ZoomToFitCommand.cs" />
     <Compile Include="Messages\Events\BrushForegroundEnabledChangedEvent.cs" />
     <Compile Include="Messages\Events\BrushBackgroundEnabledChangedEvent.cs" />
     <Compile Include="Messages\Events\BrushGlyphEnabledChangedEvent.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Messages\Events\UndoStackStateChangedEvent.cs" />
     <Compile Include="Messages\Events\ZoomChangedEvent.cs" />
     <Compile Include="Controls\DocumentControl\EditTools\GlyphBrush.cs" />
+    <Compile Include="Messages\Events\ZoomToFitRequestedEvent.cs" />
     <Compile Include="Messages\Events\ZoomChangeRequestedEvent.cs" />
     <Compile Include="Messaging\Subscription.cs" />
     <Compile Include="ViewModels\ColorPaletteStore.cs" />
@@ -184,6 +186,9 @@
     <Compile Include="ViewModels\GlyphFontStore.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="ViewModels\Workflows\NewDocumentDialog.xaml.cs">
+      <DependentUpon>NewDocumentDialog.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -222,6 +227,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Controls\Toolbar\GlyphToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\Workflows\NewDocumentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

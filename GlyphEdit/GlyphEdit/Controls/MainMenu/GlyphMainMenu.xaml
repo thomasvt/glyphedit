@@ -165,7 +165,7 @@
             <MenuItem Header="Zoom _100%" Command="{x:Static glyphEdit:MainWindow.Zoom1Command}"  Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 1" />
             <MenuItem Header="Zoom _200%" Command="{x:Static glyphEdit:MainWindow.Zoom2Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 2" />
             <MenuItem Header="Zoom _400%" Command="{x:Static glyphEdit:MainWindow.Zoom3Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 3" />
-            <MenuItem Header="Zoom _800%" Command="{x:Static glyphEdit:MainWindow.Zoom4Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 4" />
+            <MenuItem Header="Zoom to _Fit" Command="{x:Static glyphEdit:MainWindow.Zoom0Command}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+num 0" />
         </MenuItem>
     </Menu>
 </UserControl>
