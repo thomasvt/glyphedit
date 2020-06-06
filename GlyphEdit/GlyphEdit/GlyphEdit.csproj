@@ -112,7 +112,7 @@
     <Compile Include="Messages\Commands\ChangeForegroundColorCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphFontCommand.cs" />
-    <Compile Include="Messages\Commands\ExitCommand.cs" />
+    <Compile Include="Messages\Commands\ExitApplicationCommand.cs" />
     <Compile Include="Messages\Commands\OpenDocumentCommand.cs" />
     <Compile Include="Messages\Commands\RedoCommand.cs" />
     <Compile Include="Messages\Commands\SaveDocumentAsCommand.cs" />
@@ -137,6 +137,7 @@
     <Compile Include="Controls\DocumentControl\Input\MouseWheelEventArgs.cs" />
     <Compile Include="Messages\Events\DocumentOpenedEvent.cs" />
     <Compile Include="Messages\Events\BackgroundColorChangedEvent.cs" />
+    <Compile Include="Messages\Events\ExitApplicationEvent.cs" />
     <Compile Include="Messages\Events\ForegroundColorChangedEvent.cs" />
     <Compile Include="Messages\Events\GlyphChangedEvent.cs" />
     <Compile Include="Messages\Events\GlyphFontListLoadedEvent.cs" />

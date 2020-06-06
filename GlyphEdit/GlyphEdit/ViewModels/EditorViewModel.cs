@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using GlyphEdit.Controls.DocumentControl.EditTools;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
@@ -39,15 +41,7 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
-            MessageBus.Subscribe<ExitCommand>(c => Exit());
-        }
-
-        private void Exit()
-        {
-            if (DocumentViewModel.DocumentIsModified)
-            {
-
-            }
+            MessageBus.Subscribe<ExitApplicationCommand>(c => DoExitApplicationWorkflow());
         }
 
         /// <summary>
@@ -60,6 +54,34 @@ namespace GlyphEdit.ViewModels
             _colorPaletteStore = new ColorPaletteStore();
             _colorPaletteStore.DetectColorPalettes();
             CreateNewDocument();
+        }
+
+        private void DoExitApplicationWorkflow()
+        {
+            if (!DoCloseDocumentWorkflow()) 
+                return; // closing was canceled
+            MessageBus.Publish(new ExitApplicationEvent());
+        }
+
+        /// <summary>
+        /// Checks if the current document can be closed. Asks for save if modified. Returns false if the user chooses to cancel the close.
+        /// </summary>
+        private bool DoCloseDocumentWorkflow()
+        {
+            if (DocumentViewModel.DocumentIsModified)
+            {
+                var result = MessageBox.Show("Save your changes before closing?", "Close application",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Cancel)
+                    return false;
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (!DocumentViewModel.DoSaveWorkflow())
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         private void OpenDocumentFromFile()

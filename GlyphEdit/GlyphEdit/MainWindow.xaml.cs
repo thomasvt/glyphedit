@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Input;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
@@ -14,6 +16,7 @@ namespace GlyphEdit
     /// </summary>
     public partial class MainWindow
     {
+        private bool _isExiting;
         private bool _canUndo;
         private bool _canRedo;
         private string _documentFilename;
@@ -41,6 +44,31 @@ namespace GlyphEdit
                 _canRedo = e.CanRedo;
                 UpdateWindowTitle();
             });
+            MessageBus.Subscribe<ExitApplicationEvent>(e =>
+            {
+                // shutdown initiated from ViewModel
+                _isExiting = true;
+                Application.Current.Shutdown(0); // healthy shutdown
+            });
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // our workflow passes this method for 2 reasons: viewmodel decides to exit, or user presses Close button in window chrome.
+            if (_isExiting) 
+            {
+                // viewmodel decided to exit app, do that.
+                e.Cancel = false;
+                return;
+            }
+            // user pressed the Close button on the window: initiate close workflow
+            e.Cancel = true; // cancel the normal workflow, we go through messagebus command and event
+            PostExitApplicationCommand(); // messagebus is synchronous, so we'll be shutting down before this method runs out anyway.
+        }
+
+        private static void PostExitApplicationCommand()
+        {
+            MessageBus.Publish(new ExitApplicationCommand());
         }
 
         private void UpdateWindowTitle()
@@ -82,6 +110,7 @@ namespace GlyphEdit
         public static readonly RoutedCommand RedoCommand = new RoutedCommand();
 
         public static readonly RoutedCommand ExitCommand = new RoutedCommand();
+        
 
         private void Zoom1Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -145,7 +174,7 @@ namespace GlyphEdit
 
         private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBus.Publish(new ExitCommand());
+            PostExitApplicationCommand();
         }
     }
 }

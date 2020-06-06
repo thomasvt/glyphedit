@@ -1,6 +1,6 @@
 ﻿namespace GlyphEdit.Messages.Commands
 {
-    public class ExitCommand
+    public class ExitApplicationCommand
     {
     }
 }

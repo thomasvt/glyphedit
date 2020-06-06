@@ -29,18 +29,21 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<ZoomToCommand>(c => ZoomTo(c.Percentage));
         }
 
-        private void DoSaveWorkflow()
+        /// <summary>
+        /// Saves if there is a file, or asks the user for a file selection. Returns true if saved, false if user canceled out.
+        /// </summary>
+        public bool DoSaveWorkflow()
         {
             if (Filename == null)
             {
-                DoSaveAsWorkflow();
-                return;
+                return DoSaveAsWorkflow();
             }
 
             SaveDocument();
+            return true;
         }
 
-        private void DoSaveAsWorkflow()
+        private bool DoSaveAsWorkflow()
         {
             var dialog = new SaveFileDialog
             {
@@ -58,7 +61,10 @@ namespace GlyphEdit.ViewModels
                 Filename = dialog.FileName;
                 MessageBus.Publish(new DocumentFilenameChangedEvent(Filename));
                 SaveDocument();
+                return true;
             }
+
+            return false; // user canceled
         }
 
         private void SaveDocument()

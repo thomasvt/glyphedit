@@ -152,10 +152,10 @@
             <MenuItem Header="_New..." Command="{x:Static glyphEdit:MainWindow.NewCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+N" />
             <MenuItem Header="_Open..." Command="{x:Static glyphEdit:MainWindow.OpenCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+O"/>
             <Separator Style="{StaticResource Separator}" />
-            <MenuItem Header="_Save" Command="{x:Static glyphEdit:MainWindow.SaveCommand}" InputGestureText="Ctrl+S" />
-            <MenuItem Header="Save _As..." Command="{x:Static glyphEdit:MainWindow.SaveAsCommand}" InputGestureText="Ctrl+Shift+S" />
+            <MenuItem Header="_Save" Command="{x:Static glyphEdit:MainWindow.SaveCommand}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+S" />
+            <MenuItem Header="Save _As..." Command="{x:Static glyphEdit:MainWindow.SaveAsCommand}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Ctrl+Shift+S" />
             <Separator Style="{StaticResource Separator}" />
-            <MenuItem Header="_Close" Command="{x:Static glyphEdit:MainWindow.ExitCommand}" InputGestureText="Alt+F4" />
+            <MenuItem Header="_Close" Command="{x:Static glyphEdit:MainWindow.ExitCommand}" Style="{StaticResource GlyphSubMenuItemStyle}" InputGestureText="Alt+F4" />
         </MenuItem>
         <MenuItem Header="_Edit" Style="{StaticResource GlyphMenuItemStyle}">
             <MenuItem Header="_Undo" Command="{x:Static glyphEdit:MainWindow.UndoCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+Z" />
