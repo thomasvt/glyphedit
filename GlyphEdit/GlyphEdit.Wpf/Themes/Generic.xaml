@@ -1,9 +1,11 @@
 ﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:GlyphEdit.Wpf">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Theme.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ComboBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Icon.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ModernWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ToggleButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

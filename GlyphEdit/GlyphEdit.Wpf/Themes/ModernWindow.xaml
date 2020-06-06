@@ -2,7 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:wpf="clr-namespace:GlyphEdit.Wpf">
 
-    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.WPF;component/Themes/Theme.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <Style x:Key="Window.Title.Button" TargetType="ButtonBase">
         <Setter Property="Width" Value="32" />
         <Setter Property="Height" Value="24" />
@@ -31,11 +34,11 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#55E37B38" />
+                <Setter Property="Background" Value="{StaticResource BrushPrimarySoft}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#E37B38" />
-                <Setter Property="Foreground" Value="#000000" />
+                <Setter Property="Background" Value="{StaticResource BrushPrimary}" />
+                <Setter Property="Foreground" Value="#111111" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="#bbbbbb" />
