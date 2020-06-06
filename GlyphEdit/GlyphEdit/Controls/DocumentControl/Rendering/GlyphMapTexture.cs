@@ -15,6 +15,7 @@ namespace GlyphEdit.Controls.DocumentControl.Rendering
         public readonly GlyphFontViewModel GlyphFontViewModel;
         public readonly Texture2D Texture;
         public readonly int ColumnCount;
+        public readonly int RowCount;
         public readonly float GlyphWidth;
         public readonly float GlyphHeight;
         public readonly float GlyphWidthU;
@@ -27,8 +28,11 @@ namespace GlyphEdit.Controls.DocumentControl.Rendering
             Texture = texture;
             if (texture.Width % glyphWidth != 0)
                 throw new ArgumentOutOfRangeException($"Texture width ({texture.Width}) is not a multitude of GlyphWidth ({glyphWidth}).");
+            if (texture.Height % glyphHeight != 0)
+                throw new ArgumentOutOfRangeException($"Texture height ({texture.Height}) is not a multitude of GlyphHeight ({glyphHeight}).");
 
             ColumnCount = texture.Width / glyphWidth;
+            RowCount = texture.Height / glyphHeight;
             GlyphWidth = glyphWidth;
             GlyphHeight = glyphHeight;
             GlyphWidthU = GlyphWidth / texture.Width;
@@ -71,7 +75,9 @@ namespace GlyphEdit.Controls.DocumentControl.Rendering
         {
             var row = glyphIndex / ColumnCount;
             var column = glyphIndex % ColumnCount;
-            return new UvRect(column * GlyphWidthU, row * GlyphHeightV, column * GlyphWidthU + GlyphWidthU, row * GlyphHeightV + GlyphHeightV);
+            var u0 = (float) column / ColumnCount;
+            var v0 = (float) row / RowCount;
+            return new UvRect(u0, v0, u0 + GlyphWidthU, v0 + GlyphHeightV);
         }
 
         public UvRect GetUVRect(int glyphIndex)
