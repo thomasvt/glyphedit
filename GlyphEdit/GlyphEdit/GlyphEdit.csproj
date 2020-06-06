@@ -112,6 +112,7 @@
     <Compile Include="Messages\Commands\ChangeForegroundColorCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphFontCommand.cs" />
+    <Compile Include="Messages\Commands\ExitCommand.cs" />
     <Compile Include="Messages\Commands\OpenDocumentCommand.cs" />
     <Compile Include="Messages\Commands\RedoCommand.cs" />
     <Compile Include="Messages\Commands\SaveDocumentAsCommand.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Messages\Events\UndoStackStateChangedEvent.cs" />
     <Compile Include="Messages\Events\ZoomChangedEvent.cs" />
     <Compile Include="Controls\DocumentControl\EditTools\GlyphBrush.cs" />
+    <Compile Include="Messages\Events\ZoomChangeRequestedEvent.cs" />
     <Compile Include="Messaging\Subscription.cs" />
     <Compile Include="ViewModels\ColorPaletteStore.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
@@ -266,6 +268,10 @@
     <ProjectReference Include="..\GlyphEdit.Model\GlyphEdit.Model.csproj">
       <Project>{592C7013-B334-479F-B30F-7D83505A5884}</Project>
       <Name>GlyphEdit.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GlyphEdit.Wpf\GlyphEdit.Wpf.csproj">
+      <Project>{CC1A3EBE-0141-4C12-B05B-1BFE14998F6A}</Project>
+      <Name>GlyphEdit.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hellhole.WpfMonogame\Hellhole.WpfMonogame.csproj">
       <Project>{34C02FAB-F641-4705-A435-87B0452C5100}</Project>

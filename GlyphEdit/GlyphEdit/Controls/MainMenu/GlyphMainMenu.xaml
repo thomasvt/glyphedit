@@ -132,14 +132,30 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="Separator" TargetType="{x:Type Separator}">
+            <Setter Property="Background" Value="#555555"/>
+            <Setter Property="BorderBrush" Value="#555555"/>
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="MinHeight" Value="1"/>
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Separator}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="30,0,0,0"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Menu DockPanel.Dock="Top" Style="{StaticResource GlyphMainMenu}">
+    <Menu DockPanel.Dock="Top" Style="{StaticResource GlyphMainMenu}" HorizontalAlignment="Left" WindowChrome.IsHitTestVisibleInChrome="True" > <!-- align left to make it only as small as it has to, and then make it aero-clickable -->
         <MenuItem Header="_File" Style="{StaticResource GlyphMenuItemStyle}">
             <MenuItem Header="_New..." Command="{x:Static glyphEdit:MainWindow.NewCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+N" />
             <MenuItem Header="_Open..." Command="{x:Static glyphEdit:MainWindow.OpenCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+O"/>
-            <Separator />
+            <Separator Style="{StaticResource Separator}" />
             <MenuItem Header="_Save" Command="{x:Static glyphEdit:MainWindow.SaveCommand}" InputGestureText="Ctrl+S" />
             <MenuItem Header="Save _As..." Command="{x:Static glyphEdit:MainWindow.SaveAsCommand}" InputGestureText="Ctrl+Shift+S" />
+            <Separator Style="{StaticResource Separator}" />
+            <MenuItem Header="_Close" Command="{x:Static glyphEdit:MainWindow.ExitCommand}" InputGestureText="Alt+F4" />
         </MenuItem>
         <MenuItem Header="_Edit" Style="{StaticResource GlyphMenuItemStyle}">
             <MenuItem Header="_Undo" Command="{x:Static glyphEdit:MainWindow.UndoCommand}" Style="{StaticResource GlyphSubMenuItemStyle}"  InputGestureText="Ctrl+Z" />

@@ -39,7 +39,15 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
+            MessageBus.Subscribe<ExitCommand>(c => Exit());
+        }
 
+        private void Exit()
+        {
+            if (DocumentViewModel.DocumentIsModified)
+            {
+
+            }
         }
 
         /// <summary>
@@ -79,6 +87,7 @@ namespace GlyphEdit.ViewModels
         {
             DocumentViewModel?.Dispose();
             DocumentViewModel = new DocumentViewModel(document, filename);
+
             ResetUI();
             MessageBus.Publish(new DocumentOpenedEvent(DocumentViewModel));
         }

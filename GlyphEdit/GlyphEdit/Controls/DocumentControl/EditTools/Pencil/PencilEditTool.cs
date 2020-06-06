@@ -55,7 +55,7 @@ namespace GlyphEdit.Controls.DocumentControl.EditTools.Pencil
                 return; // don't know if this ever happens, but it should just continue the current manipulation.
 
             _previousDrawPosition = _documentControl.GetDocumentCoordsAt(e.MouseState.Position);
-            _manipulationScope = _documentControl.DocumentManipulator.BeginManipulation();
+            _manipulationScope = _documentControl.Document.Manipulator.BeginManipulation();
             _layerEditAccess = _manipulationScope.GetLayerEditAccess(_documentControl.ActiveLayerId);
 
             DrawGlyph(_previousDrawPosition);

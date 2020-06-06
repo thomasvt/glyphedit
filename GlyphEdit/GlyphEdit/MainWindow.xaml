@@ -1,4 +1,4 @@
-﻿<Window x:Class="GlyphEdit.MainWindow"
+﻿<wpf:ModernWindow x:Class="GlyphEdit.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,6 +9,8 @@
         xmlns:statusBar="clr-namespace:GlyphEdit.Controls.StatusBar"
         xmlns:documentControl="clr-namespace:GlyphEdit.Controls.DocumentControl"
         xmlns:local="clr-namespace:GlyphEdit"
+        xmlns:wpf="clr-namespace:GlyphEdit.Wpf;assembly=GlyphEdit.Wpf"
+        WindowCaptionHeight="32"
         mc:Ignorable="d"
         Title="GlyphEdit v0.1" Height="1000" Width="1400">
     <Window.CommandBindings>
@@ -25,6 +27,8 @@
 
         <CommandBinding Command="{x:Static local:MainWindow.UndoCommand}" Executed="UndoCommand_Executed" CanExecute="UndoCommand_CanExecute"  />
         <CommandBinding Command="{x:Static local:MainWindow.RedoCommand}" Executed="RedoCommand_Executed" CanExecute="RedoCommand_CanExecute"  />
+
+        <CommandBinding Command="{x:Static local:MainWindow.ExitCommand}" Executed="ExitCommand_Executed" />
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -41,6 +45,8 @@
 
         <KeyBinding Command="{x:Static local:MainWindow.UndoCommand}" Key="Z" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.RedoCommand}" Key="Y" Modifiers="Ctrl"/>
+
+        <KeyBinding Command="{x:Static local:MainWindow.ExitCommand}" Key="F4" Modifiers="Alt"/>
     </Window.InputBindings>
     <DockPanel LastChildFill="True">
         <mainMenu:GlyphMainMenu DockPanel.Dock="Top" />
@@ -56,4 +62,4 @@
             <panelBar:GlyphPanelsBar Grid.Column="2"/>
         </Grid>
     </DockPanel>
-</Window>
+</wpf:ModernWindow>

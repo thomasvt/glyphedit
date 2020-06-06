@@ -35,8 +35,9 @@ namespace GlyphEdit.Controls.DocumentControl
             _glyphMapTextures = new Dictionary<GlyphFontViewModel, GlyphMapTexture>();
             Brush = new GlyphBrush();
 
+            // this is a control, only subscribe to Events. All Commands must go through a ViewModel.
             MessageBus.Subscribe<DocumentOpenedEvent>(e => { OpenDocument(e.Document.Document); });
-            MessageBus.Subscribe<DocumentSavedEvent>(e => { DocumentManipulator.ResetUndoStack(); });
+            MessageBus.Subscribe<ZoomChangeRequestedEvent>(e => { _camera.ZoomSmoothTo(e.Zoom, 0.2f); });
             MessageBus.Subscribe<EditModeChangedEvent>(e => ChangeEditMode(e.EditMode));
             MessageBus.Subscribe<GlyphChangedEvent>(e => ChangeGlyph(e.NewGlyphFontViewModel, e.NewGlyphIndex));
             MessageBus.Subscribe<ForegroundColorChangedEvent>(w => ChangeForegroundColor(w.Color));
@@ -44,20 +45,6 @@ namespace GlyphEdit.Controls.DocumentControl
             MessageBus.Subscribe<BrushGlyphEnabledChangedEvent>(e => Brush.IsGlyphEnabled = e.IsEnabled);
             MessageBus.Subscribe<BrushForegroundEnabledChangedEvent>(e => Brush.IsForegroundEnabled = e.IsEnabled);
             MessageBus.Subscribe<BrushBackgroundEnabledChangedEvent>(e => Brush.IsBackgroundEnabled = e.IsEnabled);
-
-            MessageBus.Subscribe<ZoomToCommand>(c => _camera.ZoomSmoothTo(c.Percentage, 0.2f));
-            MessageBus.Subscribe<UndoCommand>(this, c => Undo());
-            MessageBus.Subscribe<RedoCommand>(this, c => Redo());
-        }
-
-        private void Undo()
-        {
-            DocumentManipulator.Undo();
-        }
-
-        private void Redo()
-        {
-            DocumentManipulator.Redo();
         }
 
         private void OpenDocument(Document document)
@@ -66,12 +53,8 @@ namespace GlyphEdit.Controls.DocumentControl
                 throw new Exception("A document must have at least one layer.");
 
             Document = document;
-            DocumentManipulator = new DocumentManipulator(document);
-            DocumentManipulator.UndoStackChanged += (sender, args) => MessageBus.Publish(new UndoStackStateChangedEvent(DocumentManipulator.CanUndo(), DocumentManipulator.CanRedo()));
             ActiveLayerId = Document.GetLayer(0).Id;
             Camera.Reset();
-
-            MessageBus.Publish(new UndoStackStateChangedEvent(DocumentManipulator.CanUndo(), DocumentManipulator.CanRedo()));
         }
 
         protected override void Initialize()
@@ -192,11 +175,7 @@ namespace GlyphEdit.Controls.DocumentControl
         /// </summary>
         public Document Document { get; private set; }
         public Guid ActiveLayerId { get; private set; }
-        /// <summary>
-        /// All changes to the document go through here.
-        /// </summary>
-        internal DocumentManipulator DocumentManipulator { get; private set; }
-
+        
         /// <summary>
         /// The camera on the document.
         /// </summary>
@@ -213,8 +192,10 @@ namespace GlyphEdit.Controls.DocumentControl
         /// In what font are we rendering the glyphs of the document?
         /// </summary>
         public GlyphMapTexture CurrentGlyphMapTexture { get; internal set; }
-
         
+        /// <summary>
+        /// Happens once when the control is ready for use.
+        /// </summary>
         public event EventHandler RenderingInitialized;
     }
 }

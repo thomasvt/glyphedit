@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Input;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
@@ -14,7 +12,7 @@ namespace GlyphEdit
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private bool _canUndo;
         private bool _canRedo;
@@ -83,6 +81,8 @@ namespace GlyphEdit
         public static readonly RoutedCommand UndoCommand = new RoutedCommand();
         public static readonly RoutedCommand RedoCommand = new RoutedCommand();
 
+        public static readonly RoutedCommand ExitCommand = new RoutedCommand();
+
         private void Zoom1Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBus.Publish(new ZoomToCommand(0.5f));
@@ -141,6 +141,11 @@ namespace GlyphEdit
         private void RedoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = _canRedo;
+        }
+
+        private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new ExitCommand());
         }
     }
 }

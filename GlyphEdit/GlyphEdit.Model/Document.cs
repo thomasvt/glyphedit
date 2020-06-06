@@ -16,6 +16,7 @@ namespace GlyphEdit.Model
             Height = height;
             Layers = layers;
             _layersById = Layers.ToDictionary(l => l.Id);
+            Manipulator = new DocumentManipulator(this);
         }
 
         public Document(int width, int height)
@@ -50,5 +51,6 @@ namespace GlyphEdit.Model
         public int LayerCount => Layers.Count;
         public readonly int Width;
         public readonly int Height;
+        public readonly DocumentManipulator Manipulator;
     }
 }

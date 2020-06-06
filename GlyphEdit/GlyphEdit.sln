@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hellhole.WpfMonogame", "Hel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlyphEdit.Model", "GlyphEdit.Model\GlyphEdit.Model.csproj", "{592C7013-B334-479F-B30F-7D83505A5884}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlyphEdit.Wpf", "GlyphEdit.Wpf\GlyphEdit.Wpf.csproj", "{CC1A3EBE-0141-4C12-B05B-1BFE14998F6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{592C7013-B334-479F-B30F-7D83505A5884}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{592C7013-B334-479F-B30F-7D83505A5884}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{592C7013-B334-479F-B30F-7D83505A5884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC1A3EBE-0141-4C12-B05B-1BFE14998F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC1A3EBE-0141-4C12-B05B-1BFE14998F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC1A3EBE-0141-4C12-B05B-1BFE14998F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC1A3EBE-0141-4C12-B05B-1BFE14998F6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
