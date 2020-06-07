@@ -88,21 +88,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ControlBar\GlyphControlBar.xaml.cs">
+      <DependentUpon>GlyphControlBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DocumentControl\EditModeChangedEventArgs.cs" />
     <Compile Include="Controls\DocumentControl\GlyphColorExtensions.cs" />
     <Compile Include="Controls\DocumentControl\GridGeometry.cs" />
     <Compile Include="Controls\DocumentControl\Input\KeyEventArgs.cs" />
     <Compile Include="Controls\GlyphColorExtensions.cs" />
-    <Compile Include="Controls\PanelsBar\GlyphPanelsBar.xaml.cs">
-      <DependentUpon>GlyphPanelsBar.xaml</DependentUpon>
+    <Compile Include="Controls\BrushBar\GlyphBrushBar.xaml.cs">
+      <DependentUpon>GlyphBrushBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphFontPickerItemTemplateSelector.cs" />
-    <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphSizeFormatter.cs" />
-    <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphButtonViewModel.cs" />
-    <Compile Include="Controls\PanelsBar\BrushState\BrushState.xaml.cs">
+    <Compile Include="Controls\BrushBar\GlyphPicker\GlyphFontPickerItemTemplateSelector.cs" />
+    <Compile Include="Controls\BrushBar\GlyphPicker\GlyphSizeFormatter.cs" />
+    <Compile Include="Controls\BrushBar\GlyphPicker\GlyphButtonViewModel.cs" />
+    <Compile Include="Controls\BrushBar\BrushState\BrushState.xaml.cs">
       <DependentUpon>BrushState.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PanelsBar\PalettePicker\ColorButtonViewModel.cs" />
-    <Compile Include="Controls\PanelsBar\PalettePicker\PalettePicker.xaml.cs">
+    <Compile Include="Controls\BrushBar\PalettePicker\ColorButtonViewModel.cs" />
+    <Compile Include="Controls\BrushBar\PalettePicker\PalettePicker.xaml.cs">
       <DependentUpon>PalettePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\StatusBar\GlyphStatusBar.xaml.cs">
@@ -165,7 +169,7 @@
     <Compile Include="Controls\DocumentControl\Rendering\Renderer.cs" />
     <Compile Include="Controls\DocumentControl\Rendering\Triangle.cs" />
     <Compile Include="Controls\DocumentControl\Rendering\UvRect.cs" />
-    <Compile Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml.cs">
+    <Compile Include="Controls\BrushBar\GlyphPicker\GlyphPicker.xaml.cs">
       <DependentUpon>GlyphPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MainMenu\GlyphMainMenu.xaml.cs">
@@ -189,7 +193,11 @@
     <Compile Include="NewDocumentDialog.xaml.cs">
       <DependentUpon>NewDocumentDialog.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\PanelsBar\GlyphPicker\GlyphPicker.xaml">
+    <Page Include="Controls\ControlBar\GlyphControlBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BrushBar\GlyphPicker\GlyphPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,15 +205,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PanelsBar\GlyphPanelsBar.xaml">
+    <Page Include="Controls\BrushBar\GlyphBrushBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PanelsBar\BrushState\BrushState.xaml">
+    <Page Include="Controls\BrushBar\BrushState\BrushState.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PanelsBar\PalettePicker\PalettePicker.xaml">
+    <Page Include="Controls\BrushBar\PalettePicker\PalettePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -308,6 +316,7 @@
   <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\glyph_background.png" />
+    <Resource Include="Images\eye-dropper.png" />
     <Content Include="Palettes\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

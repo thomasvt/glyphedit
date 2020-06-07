@@ -18,9 +18,9 @@ namespace GlyphEdit.Controls.PanelBar
     /// <summary>
     /// Interaction logic for GlyphPanelBar.xaml
     /// </summary>
-    public partial class GlyphPanelsBar : UserControl
+    public partial class GlyphBrushBar : UserControl
     {
-        public GlyphPanelsBar()
+        public GlyphBrushBar()
         {
             InitializeComponent();
         }

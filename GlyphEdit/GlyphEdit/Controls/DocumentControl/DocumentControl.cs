@@ -6,11 +6,9 @@ using GlyphEdit.Controls.DocumentControl.EditTools;
 using GlyphEdit.Controls.DocumentControl.EditTools.Pencil;
 using GlyphEdit.Controls.DocumentControl.Input;
 using GlyphEdit.Controls.DocumentControl.Rendering;
-using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
-using GlyphEdit.Model.Manipulation;
 using GlyphEdit.ViewModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -130,7 +128,7 @@ namespace GlyphEdit.Controls.DocumentControl
             _documentRenderer.Render(_renderer, Document);
         }
 
-        public void ChangeEditMode(EditMode editMode)
+        private void ChangeEditMode(EditMode editMode)
         {
             if (CurrentEditMode == editMode)
                 return;
@@ -141,6 +139,8 @@ namespace GlyphEdit.Controls.DocumentControl
                     _currentEditTool = new PencilEditTool(this, _mouse, _keyboard);
                     break;
                 case EditMode.Eraser:
+                    break;
+                case EditMode.BrushPicker:
                     break;
                 default:
                     throw new NotSupportedException($"Unsupported editmode \"{editMode}\"");

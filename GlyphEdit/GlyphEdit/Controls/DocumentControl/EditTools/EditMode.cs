@@ -4,6 +4,7 @@
     {
         None,
         Pencil,
-        Eraser
+        Eraser,
+        BrushPicker
     }
 }

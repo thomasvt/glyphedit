@@ -9,7 +9,7 @@ using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.ViewModels;
 
-namespace GlyphEdit.Controls.PanelsBar.BrushState
+namespace GlyphEdit.Controls.BrushBar.BrushState
 {
     /// <summary>
     /// Interaction logic for GlyphVisualisation.xaml

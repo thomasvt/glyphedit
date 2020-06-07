@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using GlyphEdit.ViewModels;
 
-namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
+namespace GlyphEdit.Controls.BrushBar.GlyphPicker
 {
     public class GlyphFontPickerItemTemplateSelector
     : DataTemplateSelector

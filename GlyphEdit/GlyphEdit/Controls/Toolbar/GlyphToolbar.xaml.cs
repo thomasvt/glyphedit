@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -20,11 +21,7 @@ namespace GlyphEdit.Controls.Toolbar
         {
             InitializeComponent();
 
-            ToolButtons = new[]
-            {
-                PencilToolButton,
-                EraserToolButton
-            };
+            ToolButtons = ToolStackPanel.Children.OfType<ToggleButton>().ToArray();
 
             MessageBus.Subscribe<EditModeChangedEvent>(e =>
             {

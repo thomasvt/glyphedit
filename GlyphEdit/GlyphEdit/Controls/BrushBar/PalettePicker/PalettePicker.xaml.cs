@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
-using GlyphEdit.Messages;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
 
-namespace GlyphEdit.Controls.PanelsBar.PalettePicker
+namespace GlyphEdit.Controls.BrushBar.PalettePicker
 {
     /// <summary>
     /// Interaction logic for PalettePicker.xaml

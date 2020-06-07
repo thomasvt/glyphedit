@@ -8,7 +8,7 @@ using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.ViewModels;
 
-namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
+namespace GlyphEdit.Controls.BrushBar.GlyphPicker
 {
     /// <summary>
     /// Interaction logic for GlyphPicker.xaml

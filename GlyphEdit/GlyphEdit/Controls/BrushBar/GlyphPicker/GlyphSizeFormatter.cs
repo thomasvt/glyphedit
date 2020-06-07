@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using Microsoft.Xna.Framework;
 
-namespace GlyphEdit.Controls.PanelsBar.GlyphPicker
+namespace GlyphEdit.Controls.BrushBar.GlyphPicker
 {
     public class GlyphSizeFormatter
     : IValueConverter

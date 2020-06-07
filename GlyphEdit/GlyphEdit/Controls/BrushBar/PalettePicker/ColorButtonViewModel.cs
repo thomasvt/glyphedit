@@ -2,7 +2,7 @@
 using GlyphEdit.Model;
 using GlyphEdit.ViewModels;
 
-namespace GlyphEdit.Controls.PanelsBar.PalettePicker
+namespace GlyphEdit.Controls.BrushBar.PalettePicker
 {
     public class ColorButtonViewModel
     : ViewModel
