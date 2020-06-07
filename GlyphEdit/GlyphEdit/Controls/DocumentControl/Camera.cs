@@ -1,4 +1,5 @@
-﻿using GlyphEdit.Controls.DocumentControl.Input;
+﻿using System;
+using GlyphEdit.Controls.DocumentControl.Input;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,9 @@ namespace GlyphEdit.Controls.DocumentControl
         private Point _panStartMousePosition;
         private Vector2 _viewportSize;
 
-        private float _zoomAnimationDuration;
-        private float _zoomFrom, _zoomTo, _zoomStartTime;
+        private float _transitionDuration, _transitionStartTime;
+        private float _zoomFrom, _zoomTo;
+        private Vector2 _zoomTowardsPosition;
         private bool _isAnimatingZoom;
 
         public Camera(Mouse mouse, DocumentControl documentControl)
@@ -32,11 +34,11 @@ namespace GlyphEdit.Controls.DocumentControl
             {
                 if (args.WheelValueChange > 0)
                 {
-                    ZoomIn();
+                    ZoomIn(GetDocumentPosition(args.MouseState.Position).ToVector2());
                 }
                 else
                 {
-                    ZoomOut();
+                    ZoomOut(GetDocumentPosition(args.MouseState.Position).ToVector2());
                 }
             };
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
@@ -44,9 +46,9 @@ namespace GlyphEdit.Controls.DocumentControl
                 if (e.PreviousGlyphFontViewModel != null && e.NewGlyphFontViewModel != null &&
                     e.PreviousGlyphFontViewModel.GlyphSize != e.NewGlyphFontViewModel.GlyphSize)
                 {
-                    var zoomChangeFactor = (float) e.NewGlyphFontViewModel.GlyphSize.Y / e.PreviousGlyphFontViewModel.GlyphSize.Y;
-                    MoveTo(Position * zoomChangeFactor);
-                    ZoomTo(Zoom / zoomChangeFactor);
+                    var zoomChangeFactor = (float)e.NewGlyphFontViewModel.GlyphSize.Y / e.PreviousGlyphFontViewModel.GlyphSize.Y;
+                    SetPosition(Position * zoomChangeFactor);
+                    SetZoom(Zoom / zoomChangeFactor);
                 }
             });
         }
@@ -57,61 +59,71 @@ namespace GlyphEdit.Controls.DocumentControl
 
             if (_isAnimatingZoom)
             {
-                var t = (_time - _zoomStartTime) / _zoomAnimationDuration;
+                var t = (_time - _transitionStartTime) / _transitionDuration;
+
+                var previousZoom = Zoom;
+                float newZoom;
                 if (t >= 1f)
                 {
-                    ZoomTo(_zoomTo);
+                    // end of animation reached
+                    newZoom = _zoomTo;
                     _isAnimatingZoom = false;
                 }
                 else
                 {
-                    ZoomTo((float) (_zoomFrom * (1 - t) + _zoomTo * t));
+                    newZoom = _zoomFrom * (1 - t) + _zoomTo * t;
                 }
+                SetZoom(newZoom);
+                // keep zoomTowardsPosition at the same screencoords by moving the camera proportionately
+                SetPosition(Position + (newZoom / previousZoom - 1f) * (_zoomTowardsPosition - Position));
             }
         }
 
-        public void ZoomSmoothTo(float zoom, float duration)
+        /// <param name="focusPosition">"Zoom towards" location in documentcoords</param>
+        public void ZoomSmoothTo(float zoom, float duration, Vector2? focusPosition = null)
         {
             _zoomFrom = Zoom;
             _zoomTo = zoom;
-            _zoomStartTime = _time;
-            _zoomAnimationDuration = duration;
+
+            _transitionStartTime = _time;
+            _transitionDuration = duration;
             _isAnimatingZoom = true;
+
+            _zoomTowardsPosition = focusPosition ?? Position; // for "zoom towards mouse" behavior
         }
 
         public void ZoomToFitDocument(float duration)
         {
-            
             var documentPixelSize =
                 new Vector2(_documentControl.Document.Width * _documentControl.CurrentGlyphMapTexture.GlyphWidth,
                     _documentControl.Document.Height * _documentControl.CurrentGlyphMapTexture.GlyphHeight);
             var zoomX = _viewportSize.X * 0.9f / documentPixelSize.X;
             var zoomY = _viewportSize.Y * 0.9f / documentPixelSize.Y;
+            SetPosition(documentPixelSize * 0.5f);
             ZoomSmoothTo(MathHelper.Min(zoomX, zoomY), duration);
-            MoveTo(documentPixelSize * 0.5f);
         }
 
-        public void ZoomTo(float zoom)
+        public void SetZoom(float zoom)
         {
             Zoom = zoom;
             CalculateProjectionMatrix();
             MessageBus.Publish(new ZoomChangedEvent(Zoom));
         }
 
-        private void ZoomIn()
+        private void ZoomIn(Vector2? focusPosition = null)
         {
             var zoom = _isAnimatingZoom ? _zoomTo : Zoom;
 
-            ZoomSmoothTo(zoom * 1.15f, 0.15f);
+            ZoomSmoothTo(zoom * 1.15f, 0.15f, focusPosition);
         }
 
-        private void ZoomOut()
+        private void ZoomOut(Vector2? focusPosition = null)
         {
             var zoom = _isAnimatingZoom ? _zoomTo : Zoom;
-            ZoomSmoothTo(zoom / 1.15f, 0.15f);
+            ZoomSmoothTo(zoom / 1.15f, 0.15f, focusPosition);
         }
 
-        public void MoveTo(Vector2 position)
+        public void SetPosition(Vector2 position)
         {
             Position = position;
             CalculateViewMatrices();
@@ -126,7 +138,7 @@ namespace GlyphEdit.Controls.DocumentControl
 
         public void UpdatePan(Point position)
         {
-            MoveTo(_panStartCameraPosition + (_panStartMousePosition - position).ToVector2() / Zoom);
+            SetPosition(_panStartCameraPosition + (_panStartMousePosition - position).ToVector2() / Zoom);
         }
 
         public void FinishPan()
@@ -140,14 +152,23 @@ namespace GlyphEdit.Controls.DocumentControl
             ViewMatrixInverse = Matrix.Invert(ViewMatrix);
         }
 
-        public Point GetDocumentPosition(Point screenPosition)
+        /// <summary>
+        /// Converst standard pixel coords (with topleft = 0,0) to pixel coords around with the center of the view = 0,0 instead.
+        /// </summary>
+        public Point GetScreenPositionFromCenter(Point screenPosition)
         {
             var halfScreenX = _viewportSize.X * 0.5f;
             var halfScreenY = _viewportSize.Y * 0.5f;
-            var x = (screenPosition.X - halfScreenX) / Zoom + Position.X;
-            var y = (screenPosition.Y - halfScreenY) / Zoom + Position.Y;
+            var x = screenPosition.X - halfScreenX;
+            var y = screenPosition.Y - halfScreenY;
 
             return new Point((int)x, (int)y);
+        }
+
+        public Point GetDocumentPosition(Point screenPosition)
+        {
+            var (x, y) = GetScreenPositionFromCenter(screenPosition);
+            return new Point((int)(x / Zoom + Position.X), (int)(y / Zoom + Position.Y));
         }
 
         public void SetViewport(Vector2 viewportSize)
