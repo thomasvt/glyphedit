@@ -29,14 +29,20 @@ namespace GlyphEdit.Model.Manipulation
             return _currentStateIndex > 0;
         }
 
+        /// <summary>
+        /// Returns the current RestorePoint with which you can Undo its changes, and moves back on the stack one position.
+        /// </summary>
         public T Undo()
         {
             if (CanUndo())
-                return _stack[--_currentStateIndex];
+                return _stack[_currentStateIndex--];
 
             throw new InvalidOperationException("No Undo states available.");
         }
 
+        /// <summary>
+        /// Moves forward on the stack and returns the restorepoint with which you can Redo the changes.
+        /// </summary>
         public T Redo()
         {
             if (CanRedo())

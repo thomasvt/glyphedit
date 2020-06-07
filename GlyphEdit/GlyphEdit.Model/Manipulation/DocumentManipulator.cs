@@ -11,16 +11,16 @@ namespace GlyphEdit.Model.Manipulation
         {
             _document = document;
             _undoStack = new UndoRedoStack<RestorePoint>();
-            StoreFullRestorePoint();
+            StoreFullNewState();
         }
 
-        private void StoreFullRestorePoint()
+        private void StoreFullNewState()
         {
             // stores the entire state of the document as a RestorePoint on the undoredo-stack
             var restorePoint = new RestorePoint();
             foreach (var layer in _document.Layers)
             {
-                restorePoint.StoreLayerState(layer);
+                restorePoint.StoreNewState(layer);
             }
             _undoStack.Add(restorePoint);
             UndoStackChanged?.Invoke(this, EventArgs.Empty);
@@ -28,7 +28,7 @@ namespace GlyphEdit.Model.Manipulation
 
         public DocumentManipulationScope BeginManipulation()
         {
-            return new DocumentManipulationScope(this, _document, _undoStack.Current());
+            return new DocumentManipulationScope(this, _document);
         }
 
         internal void AddRestorePoint(RestorePoint restorePoint)
@@ -40,14 +40,14 @@ namespace GlyphEdit.Model.Manipulation
         public void Undo()
         {
             var restorePoint = _undoStack.Undo();
-            restorePoint.Apply(_document);
+            restorePoint.Undo(_document);
             UndoStackChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void Redo()
         {
             var restorePoint = _undoStack.Redo();
-            restorePoint.Apply(_document);
+            restorePoint.Redo(_document);
             UndoStackChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -66,7 +66,7 @@ namespace GlyphEdit.Model.Manipulation
         public void ResetUndoStack()
         {
             _undoStack.Clear();
-            StoreFullRestorePoint();
+            StoreFullNewState();
         }
     }
 }

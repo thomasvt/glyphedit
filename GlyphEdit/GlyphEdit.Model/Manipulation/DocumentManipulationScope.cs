@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace GlyphEdit.Model.Manipulation
 {
@@ -10,33 +9,31 @@ namespace GlyphEdit.Model.Manipulation
     {
         private readonly DocumentManipulator _documentManipulator;
         private readonly Document _document;
-        private readonly RestorePoint _previousRestorePoint;
-        private readonly List<Guid> _touchedLayerIds;
+        private readonly RestorePoint _restorePoint;
 
-        internal DocumentManipulationScope(DocumentManipulator documentManipulator, Document document, RestorePoint previousRestorePoint)
+        internal DocumentManipulationScope(DocumentManipulator documentManipulator, Document document)
         {
             _documentManipulator = documentManipulator;
             _document = document;
-            _previousRestorePoint = previousRestorePoint;
-            _touchedLayerIds = new List<Guid>();
+            _restorePoint = new RestorePoint();
         }
 
         public LayerEditAccess GetLayerEditAccess(Guid layerId)
         {
             var layer = _document.GetLayer(layerId);
-            _touchedLayerIds.Add(layerId);
+            if (!_restorePoint.HasPreviousStateFor(layerId))
+                _restorePoint.StorePreviousState(layer);
             return new LayerEditAccess(layer);
         }
 
         public void Commit()
         {
-            var restorePoint = new RestorePoint();
-            foreach (var layerId in _touchedLayerIds)
+            foreach (var layerId in _restorePoint.GetAllPreviousStateLayerIds())
             {
-                restorePoint.StoreLayerState(_document.GetLayer(layerId));
+                _restorePoint.StoreNewState(_document.GetLayer(layerId));
             }
             // add a restorepoint, for the currently committed changes.
-            _documentManipulator.AddRestorePoint(restorePoint);
+            _documentManipulator.AddRestorePoint(_restorePoint);
         }
 
         /// <summary>
@@ -44,7 +41,8 @@ namespace GlyphEdit.Model.Manipulation
         /// </summary>
         public void Revert()
         {
-            _previousRestorePoint.Apply(_document);
+            _restorePoint.Undo(_document);
+            _restorePoint.Clear();
         }
     }
 }
