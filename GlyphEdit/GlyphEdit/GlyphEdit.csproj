@@ -70,6 +70,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -88,6 +90,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\BrushBar\PalettePicker\ColorGridNoPatchContextMenuViewModel.cs" />
+    <Compile Include="Controls\BrushBar\PalettePicker\ColorGridContextMenuViewModel.cs" />
     <Compile Include="Controls\BrushBar\PalettePicker\ColorPanel.xaml.cs">
       <DependentUpon>ColorPanel.xaml</DependentUpon>
     </Compile>
@@ -98,7 +102,7 @@
     <Compile Include="Controls\DocumentControl\GlyphColorExtensions.cs" />
     <Compile Include="Controls\DocumentControl\GridGeometry.cs" />
     <Compile Include="Controls\DocumentControl\Input\KeyEventArgs.cs" />
-    <Compile Include="Controls\GlyphColorExtensions.cs" />
+    <Compile Include="Controls\ColorExtensions.cs" />
     <Compile Include="Controls\BrushBar\GlyphBrushBar.xaml.cs">
       <DependentUpon>GlyphBrushBar.xaml</DependentUpon>
     </Compile>

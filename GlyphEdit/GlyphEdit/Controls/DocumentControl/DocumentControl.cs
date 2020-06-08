@@ -11,7 +11,6 @@ using GlyphEdit.Model;
 using GlyphEdit.ViewModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoGame.Framework.WpfInterop;
 using Keyboard = GlyphEdit.Controls.DocumentControl.Input.Keyboard;
 using Mouse = GlyphEdit.Controls.DocumentControl.Input.Mouse;
@@ -21,7 +20,6 @@ namespace GlyphEdit.Controls.DocumentControl
 {
     public class DocumentControl : WpfGame
     {
-        private EditMode _previousEditMode;
         private EditTool _currentEditTool;
         private IGraphicsDeviceService _graphicsDeviceManager;
         private Mouse _mouse;

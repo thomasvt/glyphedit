@@ -10,11 +10,16 @@ namespace GlyphEdit
         private static readonly Regex HexColorRegex =
             new Regex("#?(?<r>[0-9a-fA-F]{1,2})(?<g>[0-9a-fA-F]{1,2})(?<b>[0-9a-fA-F]{1,2})(?<a>[0-9a-fA-F]{1,2})?");
 
-        public static Color FromHex(string hexNotation)
+        public static bool IsHexCode(string hexCode)
         {
-            var match = HexColorRegex.Match(hexNotation);
+            return HexColorRegex.IsMatch(hexCode);
+        }
+
+        public static Color FromHex(string hexCode)
+        {
+            var match = HexColorRegex.Match(hexCode);
             if (!match.Success)
-                throw new Exception($"Could not parse color from \"{hexNotation}\".");
+                throw new Exception($"Could not parse color from \"{hexCode}\".");
             var r = int.Parse(match.Groups["r"].Value, NumberStyles.HexNumber);
             var g = int.Parse(match.Groups["g"].Value, NumberStyles.HexNumber);
             var b = int.Parse(match.Groups["b"].Value, NumberStyles.HexNumber);

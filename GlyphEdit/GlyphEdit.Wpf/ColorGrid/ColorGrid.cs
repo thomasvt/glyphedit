@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using GlyphEdit.Model;
 
 namespace GlyphEdit.Wpf.ColorGrid
 {
@@ -21,6 +23,18 @@ namespace GlyphEdit.Wpf.ColorGrid
         static ColorGrid()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorGrid), new FrameworkPropertyMetadata(typeof(ColorGrid)));
+        }
+
+        public ColorPatch GetColorPatchAt(Point positionInControl)
+        {
+            return ColorPatches.SingleOrDefault(p =>
+                p.GridLocation.X * _patchSize <= positionInControl.X && p.GridLocation.Y * _patchSize <= positionInControl.Y &&
+                (p.GridLocation.X + 1) * _patchSize > positionInControl.X && (p.GridLocation.Y + 1) * _patchSize > positionInControl.Y);
+        }
+
+        public VectorI GetGridLocationAt(Point location)
+        {
+            return new VectorI((int)(location.X / _patchSize), (int)(location.Y / _patchSize));
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -41,6 +55,8 @@ namespace GlyphEdit.Wpf.ColorGrid
 
         protected override void OnRender(DrawingContext drawingContext)
         {
+            drawingContext.DrawRectangle(Background, null, new Rect(0, 0, ActualWidth, ActualHeight));
+
             if (ColorPatches == null || ColorPatches.Count == 0)
                 return;
 
@@ -49,7 +65,7 @@ namespace GlyphEdit.Wpf.ColorGrid
                 if (colorPatch == _grabbedPatch && _isDragging)
                     continue;
                 
-                drawingContext.DrawRectangle(new SolidColorBrush(colorPatch.Color), new Pen(ColorPatchBorderBrush, 1f), new Rect(_patchSize * colorPatch.Column, _patchSize * colorPatch.Row, _patchSize, _patchSize));
+                drawingContext.DrawRectangle(new SolidColorBrush(colorPatch.Color), new Pen(ColorPatchBorderBrush, 1f), new Rect(_patchSize * colorPatch.GridLocation.X, _patchSize * colorPatch.GridLocation.Y, _patchSize, _patchSize));
             }
 
             if (_grabbedPatch != null && _isDragging)
@@ -68,7 +84,7 @@ namespace GlyphEdit.Wpf.ColorGrid
 
             _dragLocation = e.GetPosition(this);
             _mouseDownLocation = _dragLocation;
-            var patch = GetPatchAt(_dragLocation);
+            var patch = GetColorPatchAt(_dragLocation);
             if (patch != null)
             {
                 _isDragging = false; // we are not yet dragging until mouse has moved a small distance with the grabbed patch
@@ -101,6 +117,14 @@ namespace GlyphEdit.Wpf.ColorGrid
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             base.OnMouseUp(e);
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                var patch = GetColorPatchAt(e.GetPosition(this));
+                if (patch != null)
+                    RaiseEvent(new ColorPatchRoutedEventArgs(ColorPatchRightClickEvent, patch));
+                return;
+            }
+
             if (_grabbedPatch != null)
             {
                 if (_isDragging)
@@ -132,27 +156,25 @@ namespace GlyphEdit.Wpf.ColorGrid
 
         private void DropPatch(Point location)
         {
-            if (GetPatchAt(location) == null)
+            if (GetColorPatchAt(location) == null)
             {
-                _grabbedPatch.Column = (int)(location.X / _patchSize);
-                _grabbedPatch.Row = (int)(location.Y / _patchSize);
-                RaiseEvent(new RoutedEventArgs(ColorsModifiedEvent));
+                _grabbedPatch.GridLocation = new VectorI((int)(location.X / _patchSize), (int)(location.Y / _patchSize));
+                RaiseColorsModifiedEvent();
             }
             _grabbedPatch = null;
             InvalidateVisual();
         }
 
+        private void RaiseColorsModifiedEvent()
+        {
+            RaiseEvent(new RoutedEventArgs(ColorsModifiedEvent));
+        }
+
+
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
             CancelDrag();
-        }
-
-        private ColorPatch GetPatchAt(Point position)
-        {
-            return ColorPatches.SingleOrDefault(p =>
-                p.Column * _patchSize <= position.X && p.Row * _patchSize <= position.Y &&
-                (p.Column + 1) * _patchSize > position.X && (p.Row + 1) * _patchSize > position.Y);
         }
 
 
@@ -174,7 +196,7 @@ namespace GlyphEdit.Wpf.ColorGrid
                 {
                     if (o is ColorGrid colorGrid)
                     {
-                        var neededRowCount = colorGrid.ColorPatches.Max(p => p.Row) + 1;
+                        var neededRowCount = colorGrid.ColorPatches.Max(p => p.GridLocation.Y) + 1;
                         if (neededRowCount > colorGrid.RowCount)
                             colorGrid.RowCount = neededRowCount;
                     }
@@ -222,6 +244,15 @@ namespace GlyphEdit.Wpf.ColorGrid
             remove => RemoveHandler(ColorPatchLeftClickEvent, value);
         }
 
+        public static readonly RoutedEvent ColorPatchRightClickEvent = EventManager.RegisterRoutedEvent(
+            "ColorPatchRightClick", RoutingStrategy.Bubble, typeof(ColorPatchRoutedEventHandler), typeof(ColorGrid));
+
+        public event ColorPatchRoutedEventHandler ColorPatchRightClick
+        {
+            add => AddHandler(ColorPatchRightClickEvent, value);
+            remove => RemoveHandler(ColorPatchRightClickEvent, value);
+        }
+
         public static readonly RoutedEvent ColorsModifiedEvent = EventManager.RegisterRoutedEvent(
             "ColorsModified", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorGrid));
 
@@ -232,6 +263,5 @@ namespace GlyphEdit.Wpf.ColorGrid
         }
 
         #endregion
-
     }
 }

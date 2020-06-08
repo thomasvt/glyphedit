@@ -1,19 +1,18 @@
 ﻿using System.Windows.Media;
+using GlyphEdit.Model;
 
 namespace GlyphEdit.Wpf.ColorGrid
 {
     public class ColorPatch
     {
-        public Color Color { get; }
-        public int Column { get; set; }
-        public int Row { get; set; }
+        public Color Color { get; internal set; }
+        public VectorI GridLocation { get; set; }
         public object Tag { get; set; }
 
-        public ColorPatch(Color color, int column, int row)
+        public ColorPatch(Color color, VectorI gridLocation)
         {
             Color = color;
-            Column = column;
-            Row = row;
+            GridLocation = gridLocation;
         }
     }
 }

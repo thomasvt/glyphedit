@@ -77,6 +77,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ModernWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -98,6 +102,7 @@
     <Compile Include="ColorGrid\ColorGrid.cs" />
     <Compile Include="ColorGrid\ColorPatch.cs" />
     <Compile Include="ColorGrid\ColorPatchRoutedEventArgs.cs" />
+    <Compile Include="ColorPatchContextMenu.cs" />
     <Compile Include="Icon.cs" />
     <Compile Include="IconHelper.cs" />
     <Compile Include="ModernWindow.cs" />
@@ -123,6 +128,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GlyphEdit.Model\GlyphEdit.Model.csproj">
+      <Project>{592C7013-B334-479F-B30F-7D83505A5884}</Project>
+      <Name>GlyphEdit.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

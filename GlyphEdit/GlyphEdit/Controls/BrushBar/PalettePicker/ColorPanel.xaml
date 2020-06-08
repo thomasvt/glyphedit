@@ -6,7 +6,35 @@
              xmlns:colorGrid="clr-namespace:GlyphEdit.Wpf.ColorGrid;assembly=GlyphEdit.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            <colorGrid:ColorGrid x:Name="ColorGrid" ColumnCount="10" ColorPatchLeftClick="ColorGrid_OnColorPatchLeftClick" ColorsModified="ColorGrid_OnColorsModified" />
-    </Grid>
+    <UserControl.Resources>
+        <ContextMenu x:Key="ColorGridContextMenu" >
+            <MenuItem Style="{StaticResource GlyphSubMenuItemStyle}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Width="16" Height="16" StrokeThickness="1" Stroke="#111111" Fill="{Binding ColorPatchBrush}" IsEnabled="False" />
+                        <TextBlock Text="{Binding ColorHexCode}" Margin="4,0,0,0" />
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator Style="{StaticResource GlyphMenuSeparator}" />
+            <MenuItem Header="Copy hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="CopyHexCode_Click" />
+            <MenuItem Header="Paste hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="PasteHexCode_Click"/>
+            <Separator Style="{StaticResource GlyphMenuSeparator}" />
+            <MenuItem Header="Delete" Style="{StaticResource GlyphSubMenuItemStyle}" />
+            <Separator Style="{StaticResource GlyphMenuSeparator}" />
+            <MenuItem Header="Edit..." Style="{StaticResource GlyphSubMenuItemStyle}" />
+        </ContextMenu>
+        <ContextMenu x:Key="ColorGridNoPatchContextMenu" >
+            <MenuItem Header="Paste hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="PasteHexCode_Click" />
+            <Separator Style="{StaticResource GlyphMenuSeparator}" />
+            <MenuItem Header="Add color..." Style="{StaticResource GlyphSubMenuItemStyle}" />
+        </ContextMenu>
+    </UserControl.Resources>
+    <DockPanel>
+        <TextBlock Foreground="{StaticResource BrushTextDisabled}" DockPanel.Dock="Bottom">(hold RMB for menu)</TextBlock>
+        <colorGrid:ColorGrid x:Name="ColorGrid" ColumnCount="10" ColorPatchLeftClick="ColorGrid_OnColorPatchLeftClick" ColorPatchRightClick="ColorGrid_OnColorPatchRightClick" 
+                             MouseRightButtonDown="ColorGrid_OnMouseRightButtonDown" MouseMove="ColorGrid_OnMouseMove" MouseRightButtonUp="ColorGrid_OnMouseRightButtonUp"
+                             ColorsModified="ColorGrid_OnColorsModified">
+        </colorGrid:ColorGrid>
+    </DockPanel>
 </UserControl>

@@ -12,6 +12,7 @@
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ComboBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Icon.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Label.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Menu.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/TextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ToggleButton.xaml" />
 
