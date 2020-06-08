@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows;
 using GlyphEdit.Controls.DocumentControl.EditTools;
 using GlyphEdit.Controls.DocumentControl.EditTools.Pencil;
-using GlyphEdit.Controls.DocumentControl.Input;
 using GlyphEdit.Controls.DocumentControl.Rendering;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
@@ -12,13 +11,17 @@ using GlyphEdit.Model;
 using GlyphEdit.ViewModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Framework.WpfInterop;
+using Keyboard = GlyphEdit.Controls.DocumentControl.Input.Keyboard;
+using Mouse = GlyphEdit.Controls.DocumentControl.Input.Mouse;
 using Point = Microsoft.Xna.Framework.Point;
 
 namespace GlyphEdit.Controls.DocumentControl
 {
     public class DocumentControl : WpfGame
     {
+        private EditMode _previousEditMode;
         private EditTool _currentEditTool;
         private IGraphicsDeviceService _graphicsDeviceManager;
         private Mouse _mouse;
@@ -73,7 +76,7 @@ namespace GlyphEdit.Controls.DocumentControl
 
             RenderingInitialized?.Invoke(this, EventArgs.Empty);
         }
-
+        
         private void ChangeGlyph(GlyphFontViewModel glyphFontViewModel, int glyphIndex)
         {
             if (CurrentGlyphMapTexture?.GlyphFontViewModel != glyphFontViewModel)

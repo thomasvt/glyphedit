@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using GlyphEdit.Controls.DocumentControl;
 using GlyphEdit.Controls.DocumentControl.EditTools;
 using GlyphEdit.Messages;
+using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.ViewModels;
@@ -42,7 +43,7 @@ namespace GlyphEdit.Controls.Toolbar
             var button = (sender as ToggleButton);
             if (button?.Tag is EditMode editMode)
             {
-                EditorViewModel.Current.ChangeEditMode(editMode);
+                MessageBus.Publish(new ChangeEditModeCommand(editMode));
             }
             else
             {

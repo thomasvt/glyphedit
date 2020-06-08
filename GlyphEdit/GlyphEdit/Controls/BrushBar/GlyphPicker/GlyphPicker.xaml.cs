@@ -29,7 +29,7 @@ namespace GlyphEdit.Controls.BrushBar.GlyphPicker
             MessageBus.Subscribe<GlyphChangedEvent>(e =>
             {
                 GlyphFontPicker.SelectedItem = e.NewGlyphFontViewModel;
-                ChangeGlyphGridFont(e.NewGlyphFontViewModel);
+                UpdateGlyphGrid(e.NewGlyphFontViewModel);
                 SelectGlyphButton(e.NewGlyphIndex);
             });
         }
@@ -42,7 +42,7 @@ namespace GlyphEdit.Controls.BrushBar.GlyphPicker
             }
         }
 
-        private void ChangeGlyphGridFont(GlyphFontViewModel glyphFontViewModel)
+        private void UpdateGlyphGrid(GlyphFontViewModel glyphFontViewModel)
         {
             if (_currentGlyphFontViewModelOfGlyphGrid == glyphFontViewModel)
                 return;
@@ -88,7 +88,7 @@ namespace GlyphEdit.Controls.BrushBar.GlyphPicker
 
             MessageBus.Publish(new ChangeGlyphCommand((glyphButton.DataContext as GlyphButtonViewModel).GlyphIndex));
 
-            e.Handled = true;
+            e.Handled = true; // prevent the togglebutton from doing its toggle, we update the IsChecked state from UpdateGlyphGrid()
         }
     }
 }

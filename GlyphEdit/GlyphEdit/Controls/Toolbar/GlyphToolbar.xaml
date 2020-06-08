@@ -71,13 +71,13 @@
     </UserControl.Resources>
     <Grid Background="#333333">
         <StackPanel Orientation="Vertical" Margin="5" x:Name="ToolStackPanel">
-            <ToggleButton x:Name="PencilToolButton" Style="{StaticResource ToolButton}" VerticalAlignment="Top" BorderBrush="#090909" ToolTip="Glyph pencil" Margin="0,0,0,4" Click="Toolbutton_Click" Tag="{x:Static editTools:EditMode.Pencil}">
+            <ToggleButton x:Name="PencilToolButton" Style="{StaticResource ToolButton}" VerticalAlignment="Top" BorderBrush="#090909" ToolTip="Glyph pencil - P" Margin="0,0,0,4" Click="Toolbutton_Click" Tag="{x:Static editTools:EditMode.Pencil}">
                 <Image Source="pack://application:,,,/Images/pencil.png" Stretch="Uniform" Width="18" Height="18"></Image>
             </ToggleButton>
-            <ToggleButton x:Name="EraserToolButton" Style="{StaticResource ToolButton}" VerticalAlignment="Top" BorderBrush="#090909" ToolTip="Eraser" Click="Toolbutton_Click" Tag="{x:Static editTools:EditMode.Eraser}">
+            <ToggleButton x:Name="EraserToolButton" Style="{StaticResource ToolButton}" VerticalAlignment="Top" BorderBrush="#090909" ToolTip="Eraser - E" Click="Toolbutton_Click" Tag="{x:Static editTools:EditMode.Eraser}">
                 <Image Source="pack://application:,,,/Images/eraser.png" Stretch="Uniform" Width="18" Height="18"></Image>
             </ToggleButton>
-            <ToggleButton x:Name="BrushPickerToolButton" Style="{StaticResource ToolButton}" VerticalAlignment="Top" BorderBrush="#090909" ToolTip="Color+glyph picker" Click="Toolbutton_Click" Tag="{x:Static editTools:EditMode.BrushPicker}">
+            <ToggleButton x:Name="BrushPickerToolButton" Style="{StaticResource ToolButton}" VerticalAlignment="Top" BorderBrush="#090909" ToolTip="Brush picker - hold Alt" Click="Toolbutton_Click" Tag="{x:Static editTools:EditMode.BrushPicker}">
                 <Image Source="pack://application:,,,/Images/eye-dropper.png" Stretch="Uniform" Width="18" Height="18"></Image>
             </ToggleButton>
         </StackPanel>

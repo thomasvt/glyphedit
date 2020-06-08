@@ -113,6 +113,7 @@
       <DependentUpon>GlyphStatusBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Messages\Commands\ChangeBackgroundColorCommand.cs" />
+    <Compile Include="Messages\Commands\ChangeEditModeCommand.cs" />
     <Compile Include="Messages\Commands\ChangeForegroundColorCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphCommand.cs" />
     <Compile Include="Messages\Commands\ChangeGlyphFontCommand.cs" />

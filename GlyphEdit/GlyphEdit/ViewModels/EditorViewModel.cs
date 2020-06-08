@@ -30,6 +30,7 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<ShowNewDocumentDialogCommand>(command => DoNewDocumentWorkflow());
             MessageBus.Subscribe<OpenDocumentCommand>(command => OpenDocumentFromFile());
             MessageBus.Subscribe<ChangeGlyphFontCommand>(command => ChangeGlyph(command.GlyphFontViewModel));
+            MessageBus.Subscribe<ChangeEditModeCommand>(command => ChangeEditMode(command.EditMode));
             MessageBus.Subscribe<ChangeGlyphCommand>(command => ChangeGlyph(command.GlyphIndex));
             MessageBus.Subscribe<ChangeForegroundColorCommand>(c => ChangeForegroundColor(c.Color));
             MessageBus.Subscribe<ChangeBackgroundColorCommand>(c => ChangeBackgroundColor(c.Color));
@@ -217,7 +218,7 @@ namespace GlyphEdit.ViewModels
             MessageBus.Publish(new BrushBackgroundEnabledChangedEvent(isEnabled));
         }
 
-        public void ChangeEditMode(EditMode editMode)
+        private void ChangeEditMode(EditMode editMode)
         {
             if (editMode != EditMode)
             {

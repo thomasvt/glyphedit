@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using GlyphEdit.Controls.DocumentControl.EditTools;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
@@ -20,6 +22,8 @@ namespace GlyphEdit
         private bool _canUndo;
         private bool _canRedo;
         private string _documentFilename;
+        private EditMode _currentEditMode;
+        private EditMode _previousEditMode;
 
         public MainWindow()
         {
@@ -50,6 +54,7 @@ namespace GlyphEdit
                 _isExiting = true;
                 Application.Current.Shutdown(0); // healthy shutdown
             });
+            MessageBus.Subscribe<EditModeChangedEvent>(e => _currentEditMode = e.EditMode);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -90,6 +95,24 @@ namespace GlyphEdit
             Dispatcher.InvokeAsync(() => EditorViewModel.Current.OnLoaded());
         }
 
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.SystemKey == Key.LeftAlt || e.SystemKey == Key.RightAlt) && _currentEditMode != EditMode.BrushPicker)
+            {
+                _previousEditMode = _currentEditMode;
+                MessageBus.Publish(new ChangeEditModeCommand(EditMode.BrushPicker));
+            }
+        }
+
+        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if ((e.SystemKey == Key.LeftAlt || e.SystemKey == Key.RightAlt) && _currentEditMode == EditMode.BrushPicker)
+            {
+                MessageBus.Publish(new ChangeEditModeCommand(_previousEditMode));
+            }
+        }
+
         // keyboard shortcut commands
 
         public static readonly RoutedCommand Zoom1Command = new RoutedCommand();
@@ -106,9 +129,11 @@ namespace GlyphEdit
         public static readonly RoutedCommand UndoCommand = new RoutedCommand();
         public static readonly RoutedCommand RedoCommand = new RoutedCommand();
 
+        public static readonly RoutedCommand ActivatePencilCommand = new RoutedCommand();
+        public static readonly RoutedCommand ActivateEraserCommand = new RoutedCommand();
+
         public static readonly RoutedCommand ExitCommand = new RoutedCommand();
         
-
         private void Zoom1Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBus.Publish(new ZoomToCommand(1f));
@@ -172,6 +197,16 @@ namespace GlyphEdit
         private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             PostExitApplicationCommand();
+        }
+        
+        private void ActivatePencilCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new ChangeEditModeCommand(EditMode.Pencil));
+        }
+
+        private void ActivateEraserCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBus.Publish(new ChangeEditModeCommand(EditMode.Eraser));
         }
     }
 }

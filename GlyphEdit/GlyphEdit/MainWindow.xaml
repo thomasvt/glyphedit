@@ -12,7 +12,9 @@
         xmlns:controlBar="clr-namespace:GlyphEdit.Controls.ControlBar"
         xmlns:brushBar="clr-namespace:GlyphEdit.Controls.BrushBar"
         WindowCaptionHeight="32" mc:Ignorable="d"
-        Title="GlyphEdit v0.1" Height="1000" Width="1400">
+        Title="GlyphEdit v0.1" Height="1000" Width="1400"
+        KeyDown="MainWindow_OnKeyDown" KeyUp="MainWindow_OnKeyUp"
+        >
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.Zoom0Command}" Executed="Zoom0Command_Executed"  />
@@ -28,6 +30,9 @@
 
         <CommandBinding Command="{x:Static local:MainWindow.UndoCommand}" Executed="UndoCommand_Executed" CanExecute="UndoCommand_CanExecute"  />
         <CommandBinding Command="{x:Static local:MainWindow.RedoCommand}" Executed="RedoCommand_Executed" CanExecute="RedoCommand_CanExecute"  />
+
+        <CommandBinding Command="{x:Static local:MainWindow.ActivatePencilCommand}" Executed="ActivatePencilCommand_Executed" />
+        <CommandBinding Command="{x:Static local:MainWindow.ActivateEraserCommand}" Executed="ActivateEraserCommand_Executed" />
 
         <CommandBinding Command="{x:Static local:MainWindow.ExitCommand}" Executed="ExitCommand_Executed" />
     </Window.CommandBindings>
@@ -46,6 +51,9 @@
 
         <KeyBinding Command="{x:Static local:MainWindow.UndoCommand}" Key="Z" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.RedoCommand}" Key="Y" Modifiers="Ctrl"/>
+
+        <KeyBinding Command="{x:Static local:MainWindow.ActivatePencilCommand}" Key="P" />
+        <KeyBinding Command="{x:Static local:MainWindow.ActivateEraserCommand}" Key="E" />
 
         <KeyBinding Command="{x:Static local:MainWindow.ExitCommand}" Key="F4" Modifiers="Alt"/>
     </Window.InputBindings>
