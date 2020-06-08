@@ -4,7 +4,9 @@
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Theme.xaml" />
 
         <!-- custom controls -->
-        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ColorGrid.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ColorPaletteGrid.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ColorMixer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ColorChannelSlider.xaml" />
 
         <!-- standard controls restyled -->
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/Button.xaml" />
@@ -20,4 +22,5 @@
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.Wpf;component/Themes/ModernWindow.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

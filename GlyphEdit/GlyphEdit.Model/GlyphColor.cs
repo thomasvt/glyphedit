@@ -7,7 +7,7 @@
         public readonly byte B;
         public readonly byte A;
 
-        public GlyphColor(byte r, byte g, byte b, byte a)
+        public GlyphColor(byte r, byte g, byte b, byte a = byte.MaxValue)
         {
             R = r;
             G = g;
@@ -18,9 +18,9 @@
         public static GlyphColor FromPacked(uint color)
         {
             var b = color >> 24;
-            var g = (color >> 16) & 255;
-            var r = (color >> 8) & 255;
-            var a = color & 255;
+            var g = (color >> 16) & byte.MaxValue;
+            var r = (color >> 8) & byte.MaxValue;
+            var a = color & byte.MaxValue;
             return new GlyphColor((byte)r, (byte)g, (byte)b, (byte)a);
         }
 

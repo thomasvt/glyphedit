@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorPalette.cs" />
+    <Compile Include="Colors.cs" />
     <Compile Include="Manipulation\DocumentManipulationScope.cs" />
     <Compile Include="Manipulation\LayerEditAccess.cs" />
     <Compile Include="Manipulation\RestorePoint.cs" />

@@ -5,11 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using GlyphEdit.Model;
 
 namespace GlyphEdit.Wpf.ColorGrid
 {
-    public class ColorGrid : Control
+    public class ColorPaletteGrid : Control
     {
         // note on drag drop: 
         // Doing this full WPF style (ItemsControl, Databinding with ItemContainer checking and styling, drag drop + visual feedback which WPF doesn't do out of the box) is a lot of work.
@@ -20,9 +19,9 @@ namespace GlyphEdit.Wpf.ColorGrid
         private bool _isDragging; // used to see difference between clicking and dragging
         private Point _mouseDownLocation;
 
-        static ColorGrid()
+        static ColorPaletteGrid()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorGrid), new FrameworkPropertyMetadata(typeof(ColorGrid)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorPaletteGrid), new FrameworkPropertyMetadata(typeof(ColorPaletteGrid)));
         }
 
         public ColorPatch GetColorPatchAt(Point positionInControl)
@@ -32,9 +31,9 @@ namespace GlyphEdit.Wpf.ColorGrid
                 (p.GridLocation.X + 1) * _patchSize > positionInControl.X && (p.GridLocation.Y + 1) * _patchSize > positionInControl.Y);
         }
 
-        public VectorI GetGridLocationAt(Point location)
+        public PointI GetGridLocationAt(Point location)
         {
-            return new VectorI((int)(location.X / _patchSize), (int)(location.Y / _patchSize));
+            return new PointI((int)(location.X / _patchSize), (int)(location.Y / _patchSize));
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -158,7 +157,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         {
             if (GetColorPatchAt(location) == null)
             {
-                _grabbedPatch.GridLocation = new VectorI((int)(location.X / _patchSize), (int)(location.Y / _patchSize));
+                _grabbedPatch.GridLocation = new PointI((int)(location.X / _patchSize), (int)(location.Y / _patchSize));
                 RaiseColorsModifiedEvent();
             }
             _grabbedPatch = null;
@@ -181,7 +180,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         #region Dependency properties
 
         public static readonly DependencyProperty ColumnCountProperty = DependencyProperty.Register(
-            "ColumnCount", typeof(int), typeof(ColorGrid), new FrameworkPropertyMetadata(8, FrameworkPropertyMetadataOptions.AffectsMeasure));
+            "ColumnCount", typeof(int), typeof(ColorPaletteGrid), new FrameworkPropertyMetadata(8, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public int ColumnCount
         {
@@ -190,11 +189,11 @@ namespace GlyphEdit.Wpf.ColorGrid
         }
 
         public static readonly DependencyProperty ColorPatchesProperty = DependencyProperty.Register(
-            "ColorPatches", typeof(List<ColorPatch>), typeof(ColorGrid), new FrameworkPropertyMetadata(default(List<ColorPatch>), FrameworkPropertyMetadataOptions.AffectsMeasure)
+            "ColorPatches", typeof(List<ColorPatch>), typeof(ColorPaletteGrid), new FrameworkPropertyMetadata(default(List<ColorPatch>), FrameworkPropertyMetadataOptions.AffectsMeasure)
             {
                 PropertyChangedCallback = (o, args) =>
                 {
-                    if (o is ColorGrid colorGrid)
+                    if (o is ColorPaletteGrid colorGrid)
                     {
                         var neededRowCount = colorGrid.ColorPatches.Max(p => p.GridLocation.Y) + 1;
                         if (neededRowCount > colorGrid.RowCount)
@@ -210,7 +209,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         }
 
         public static readonly DependencyProperty ColorPatchBorderBrushProperty = DependencyProperty.Register(
-            "ColorPatchBorderBrush", typeof(Brush), typeof(ColorGrid), new PropertyMetadata(default(Brush)));
+            "ColorPatchBorderBrush", typeof(Brush), typeof(ColorPaletteGrid), new PropertyMetadata(default(Brush)));
 
         public Brush ColorPatchBorderBrush
         {
@@ -219,7 +218,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         }
 
         public static readonly DependencyProperty RowCountProperty = DependencyProperty.Register(
-            "RowCount", typeof(int), typeof(ColorGrid), new PropertyMetadata(default(int)));
+            "RowCount", typeof(int), typeof(ColorPaletteGrid), new PropertyMetadata(default(int)));
 
         private double _patchSize;
 
@@ -236,7 +235,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         public delegate void ColorPatchRoutedEventHandler(object sender, ColorPatchRoutedEventArgs e);
 
         public static readonly RoutedEvent ColorPatchLeftClickEvent = EventManager.RegisterRoutedEvent(
-            "ColorPatchLeftClick", RoutingStrategy.Bubble, typeof(ColorPatchRoutedEventHandler), typeof(ColorGrid));
+            "ColorPatchLeftClick", RoutingStrategy.Bubble, typeof(ColorPatchRoutedEventHandler), typeof(ColorPaletteGrid));
 
         public event ColorPatchRoutedEventHandler ColorPatchLeftClick
         {
@@ -245,7 +244,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         }
 
         public static readonly RoutedEvent ColorPatchRightClickEvent = EventManager.RegisterRoutedEvent(
-            "ColorPatchRightClick", RoutingStrategy.Bubble, typeof(ColorPatchRoutedEventHandler), typeof(ColorGrid));
+            "ColorPatchRightClick", RoutingStrategy.Bubble, typeof(ColorPatchRoutedEventHandler), typeof(ColorPaletteGrid));
 
         public event ColorPatchRoutedEventHandler ColorPatchRightClick
         {
@@ -254,7 +253,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         }
 
         public static readonly RoutedEvent ColorsModifiedEvent = EventManager.RegisterRoutedEvent(
-            "ColorsModified", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorGrid));
+            "ColorsModified", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorPaletteGrid));
 
         public event RoutedEventHandler ColorsModified
         {

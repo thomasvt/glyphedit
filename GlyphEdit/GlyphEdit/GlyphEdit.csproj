@@ -90,6 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\BrushBar\PalettePicker\ColorGridNoPatchContextMenuViewModel.cs" />
     <Compile Include="Controls\BrushBar\PalettePicker\ColorGridContextMenuViewModel.cs" />
     <Compile Include="Controls\BrushBar\PalettePicker\ColorPanel.xaml.cs">
@@ -199,6 +202,10 @@
     <Compile Include="NewDocumentDialog.xaml.cs">
       <DependentUpon>NewDocumentDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\BrushBar\PalettePicker\ColorPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,7 +242,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Colors.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -9,7 +9,9 @@ using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
+using GlyphEdit.Wpf;
 using GlyphEdit.Wpf.ColorGrid;
+using Colors = GlyphEdit.Model.Colors;
 
 namespace GlyphEdit.Controls.BrushBar.PalettePicker
 {
@@ -47,7 +49,7 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
                 {
                     var color = colorPalette.Colors[x, y];
                     if (color.A > 0)
-                        colorPatches.Add(new ColorPatch(color.ToWpfColor(), new VectorI(x, y)));
+                        colorPatches.Add(new ColorPatch(color.ToWpfColor(), new PointI(x, y)));
                 }
             }
 
@@ -188,6 +190,12 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
             UpdateColorPaletteFromGrid();
             ColorGrid.InvalidateVisual(); // this is a bit messy to update the colors in the ColorGrid by re-set-ting the property with a changed collection. Should be ObservableCollection but meh...
             MessageBus.Publish(new SaveCurrentColorPaletteCommand());
+        }
+
+        private void Edit_OnClick(object sender, RoutedEventArgs e)
+        {
+            var colorPicker = new ColorPicker();
+            colorPicker.ShowDialog();
         }
     }
 }

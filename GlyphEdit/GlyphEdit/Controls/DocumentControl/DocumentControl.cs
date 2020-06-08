@@ -119,7 +119,7 @@ namespace GlyphEdit.Controls.DocumentControl
 
         protected override void Draw(GameTime time)
         {
-            GraphicsDevice.Clear(Colors.FromHex(BackgroundColor));
+            GraphicsDevice.Clear(Colors.FromHex(BackgroundColor).ToMonogameColor());
             _camera.SetViewport(_renderer.GetViewport());
             _renderer.BeginFrame(_camera.ViewMatrix, _camera.ProjectionMatrix);
 

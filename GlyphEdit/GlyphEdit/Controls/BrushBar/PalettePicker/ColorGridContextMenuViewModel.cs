@@ -3,7 +3,7 @@
 namespace GlyphEdit.Controls.BrushBar.PalettePicker
 {
     /// <summary>
-    /// Viewmodel of the ColorGrid context menu when mouse is pointing to an existing ColorPatch on the grid.
+    /// Viewmodel of the ColorPaletteGrid context menu when mouse is pointing to an existing ColorPatch on the grid.
     /// </summary>
     public class ColorGridContextMenuViewModel
     {

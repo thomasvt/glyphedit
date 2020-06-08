@@ -57,7 +57,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ColorGrid.xaml">
+    <Page Include="Themes\ColorChannelSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorPaletteGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColorMixer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -99,13 +107,21 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorGrid\ColorGrid.cs" />
+    <Compile Include="ColorGrid\ColorPaletteGrid.cs" />
     <Compile Include="ColorGrid\ColorPatch.cs" />
     <Compile Include="ColorGrid\ColorPatchRoutedEventArgs.cs" />
+    <Compile Include="ColorMixer\ColorCanvas.cs" />
+    <Compile Include="ColorMixer\ColorChannel.cs" />
+    <Compile Include="ColorMixer\ColorChannelSlider.cs" />
+    <Compile Include="ColorMixer\ColorChannelSliderGradient.cs" />
+    <Compile Include="ColorMixer\ColorMixer.cs" />
+    <Compile Include="ColorMixer\ColorMixMode.cs" />
+    <Compile Include="ColorMixer\ColorUtils.cs" />
     <Compile Include="ColorPatchContextMenu.cs" />
     <Compile Include="Icon.cs" />
     <Compile Include="IconHelper.cs" />
     <Compile Include="ModernWindow.cs" />
+    <Compile Include="PointI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -119,6 +135,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Themes\FloatToByteConverter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -128,11 +145,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GlyphEdit.Model\GlyphEdit.Model.csproj">
-      <Project>{592C7013-B334-479F-B30F-7D83505A5884}</Project>
-      <Name>GlyphEdit.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

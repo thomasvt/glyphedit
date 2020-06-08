@@ -22,7 +22,7 @@
             <Separator Style="{StaticResource GlyphMenuSeparator}" />
             <MenuItem Header="Delete" Style="{StaticResource GlyphSubMenuItemStyle}" Click="Delete_OnClick" />
             <Separator Style="{StaticResource GlyphMenuSeparator}" />
-            <MenuItem Header="Edit..." Style="{StaticResource GlyphSubMenuItemStyle}" />
+            <MenuItem Header="Edit..." Style="{StaticResource GlyphSubMenuItemStyle}" Click="Edit_OnClick" />
         </ContextMenu>
         <ContextMenu x:Key="ColorGridNoPatchContextMenu" >
             <MenuItem Header="Paste hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="PasteHexCode_Click" />
@@ -32,9 +32,9 @@
     </UserControl.Resources>
     <DockPanel>
         <TextBlock Foreground="{StaticResource BrushTextDisabled}" DockPanel.Dock="Bottom">(hold RMB for menu)</TextBlock>
-        <colorGrid:ColorGrid x:Name="ColorGrid" ColumnCount="10" ColorPatchLeftClick="ColorGrid_OnColorPatchLeftClick" ColorPatchRightClick="ColorGrid_OnColorPatchRightClick" 
+        <colorGrid:ColorPaletteGrid x:Name="ColorGrid" ColumnCount="10" ColorPatchLeftClick="ColorGrid_OnColorPatchLeftClick" ColorPatchRightClick="ColorGrid_OnColorPatchRightClick" 
                              MouseRightButtonDown="ColorGrid_OnMouseRightButtonDown" MouseMove="ColorGrid_OnMouseMove" MouseRightButtonUp="ColorGrid_OnMouseRightButtonUp"
                              ColorsModified="ColorGrid_OnColorsModified">
-        </colorGrid:ColorGrid>
+        </colorGrid:ColorPaletteGrid>
     </DockPanel>
 </UserControl>
