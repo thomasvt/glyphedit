@@ -47,7 +47,7 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
                 {
                     var color = colorPalette.Colors[x, y];
                     if (color.A > 0)
-                        colorPatches.Add(new ColorPatch(color.ToWpfColor(), new VectorI(x, y)) { Tag = color });
+                        colorPatches.Add(new ColorPatch(color.ToWpfColor(), new VectorI(x, y)));
                 }
             }
 
@@ -58,12 +58,12 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
 
         private void ColorGrid_OnColorPatchLeftClick(object sender, ColorPatchRoutedEventArgs e)
         {
-            MessageBus.Publish(new ChangeForegroundColorCommand((GlyphColor)e.ColorPatch.Tag));
+            MessageBus.Publish(new ChangeForegroundColorCommand((GlyphColor)e.ColorPatch.Color.ToGlyphColor()));
         }
 
         private void ColorGrid_OnColorPatchRightClick(object sender, ColorPatchRoutedEventArgs e)
         {
-            MessageBus.Publish(new ChangeBackgroundColorCommand((GlyphColor)e.ColorPatch.Tag));
+            MessageBus.Publish(new ChangeBackgroundColorCommand((GlyphColor)e.ColorPatch.Color.ToGlyphColor()));
         }
 
         private void ColorGrid_OnColorsModified(object sender, RoutedEventArgs e)
@@ -94,7 +94,7 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
             _contextMenuColorPatch = ColorGrid.GetColorPatchAt(e.GetPosition(ColorGrid));
 
             _contextMenuTriggerTimer.Start();
-            
+
         }
 
         private void OpenColorPatchContextMenu()
@@ -111,7 +111,7 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
             else
             {
                 contextMenu = this.FindResource("ColorGridContextMenu") as ContextMenu;
-                contextMenu.DataContext = new ColorGridContextMenuViewModel 
+                contextMenu.DataContext = new ColorGridContextMenuViewModel
                 {
                     ColorPatchBrush = new SolidColorBrush(_contextMenuColorPatch.Color),
                     ColorHexCode = _contextMenuColorPatch.Color.ToHexString()
@@ -139,23 +139,24 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
 
         private void PasteHexCode_Click(object sender, RoutedEventArgs e)
         {
-            var control = sender as FrameworkElement;
-            if (control.DataContext is ColorGridContextMenuViewModel viewModel)
+            var text = Clipboard.GetText();
+            var color = Colors.FromHex(Clipboard.GetText()).ToWpfColor();
+            if (Colors.IsHexCode(text))
             {
-
-            }
-            else if (control.DataContext is ColorGridNoPatchContextMenuViewModel noPatchViewModel)
-            {
-                var text = Clipboard.GetText();
-                if (Colors.IsHexCode(text))
+                var control = sender as FrameworkElement;
+                if (control.DataContext is ColorGridContextMenuViewModel viewModel)
                 {
-                    var color = Colors.FromHex(Clipboard.GetText()).ToWpfColor();
+                    _contextMenuColorPatch.Color = color;
+                    SaveAndRefreshPalette();
+                }
+                else if (control.DataContext is ColorGridNoPatchContextMenuViewModel noPatchViewModel)
+                {
                     CreatePatch(noPatchViewModel.MouseLocation, color);
                 }
-                else
-                {
-                    MessageBox.Show("No color hexcode on the clipboard.", "Invalid hexcolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+            }
+            else
+            {
+                MessageBox.Show("No color hexcode on the clipboard.", "Invalid hexcolor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -164,18 +165,29 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
             if (ColorGrid.GetColorPatchAt(location) != null)
                 throw new Exception("There already is a colorpatch there.");
 
-            
             var list = ColorGrid.ColorPatches;
             var gridLocation = ColorGrid.GetGridLocationAt(location);
             list.Add(new ColorPatch(color, gridLocation));
 
-            ColorGrid.InvalidateVisual(); // this is a bit messy to update the colors in the ColorGrid by re-set-ting the property with a changed collection. Should be ObservableCollection but meh...
-            MessageBus.Publish(new SaveCurrentColorPaletteCommand());
+            SaveAndRefreshPalette();
         }
 
-        public void ChangePatch(Point location, Color color)
+        private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            if (_contextMenuColorPatch == null)
+                throw new Exception("No colorpatch selected.");
+
+            var list = ColorGrid.ColorPatches;
+            list.Remove(_contextMenuColorPatch);
+
+            SaveAndRefreshPalette();
+        }
+
+        private void SaveAndRefreshPalette()
+        {
+            UpdateColorPaletteFromGrid();
+            ColorGrid.InvalidateVisual(); // this is a bit messy to update the colors in the ColorGrid by re-set-ting the property with a changed collection. Should be ObservableCollection but meh...
+            MessageBus.Publish(new SaveCurrentColorPaletteCommand());
         }
     }
 }

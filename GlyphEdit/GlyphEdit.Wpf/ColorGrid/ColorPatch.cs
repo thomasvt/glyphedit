@@ -5,9 +5,8 @@ namespace GlyphEdit.Wpf.ColorGrid
 {
     public class ColorPatch
     {
-        public Color Color { get; internal set; }
+        public Color Color { get; set; }
         public VectorI GridLocation { get; set; }
-        public object Tag { get; set; }
 
         public ColorPatch(Color color, VectorI gridLocation)
         {

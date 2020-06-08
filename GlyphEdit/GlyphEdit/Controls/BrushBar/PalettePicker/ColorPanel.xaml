@@ -20,7 +20,7 @@
             <MenuItem Header="Copy hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="CopyHexCode_Click" />
             <MenuItem Header="Paste hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="PasteHexCode_Click"/>
             <Separator Style="{StaticResource GlyphMenuSeparator}" />
-            <MenuItem Header="Delete" Style="{StaticResource GlyphSubMenuItemStyle}" />
+            <MenuItem Header="Delete" Style="{StaticResource GlyphSubMenuItemStyle}" Click="Delete_OnClick" />
             <Separator Style="{StaticResource GlyphMenuSeparator}" />
             <MenuItem Header="Edit..." Style="{StaticResource GlyphSubMenuItemStyle}" />
         </ContextMenu>

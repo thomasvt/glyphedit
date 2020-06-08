@@ -71,7 +71,7 @@ namespace GlyphEdit.Wpf.ColorGrid
             if (_grabbedPatch != null && _isDragging)
             {
                 var halfPatchSize = _patchSize * 0.5;
-                drawingContext.DrawRectangle(new SolidColorBrush(_grabbedPatch.Color), null, new Rect(_dragLocation.X - halfPatchSize, _dragLocation.Y - halfPatchSize, _patchSize, _patchSize));
+                drawingContext.DrawRectangle(new SolidColorBrush(_grabbedPatch.Color), new Pen(new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)), 1), new Rect(_dragLocation.X - halfPatchSize, _dragLocation.Y - halfPatchSize, _patchSize, _patchSize));
             }
         }
 
