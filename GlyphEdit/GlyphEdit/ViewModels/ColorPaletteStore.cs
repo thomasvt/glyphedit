@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using GlyphEdit.Messages;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
@@ -32,6 +31,12 @@ namespace GlyphEdit.ViewModels
                 }
             }
             MessageBus.Publish(new ColorPaletteListLoadedEvent(ColorPalettes.ToArray()));
+        }
+
+        public void Save(ColorPalette colorPalette)
+        {
+            var filename = Path.Combine("Palettes", colorPalette.Name + ".png");
+            BitmapUtils.SaveGlyphColors(colorPalette.Colors, filename);
         }
     }
 }

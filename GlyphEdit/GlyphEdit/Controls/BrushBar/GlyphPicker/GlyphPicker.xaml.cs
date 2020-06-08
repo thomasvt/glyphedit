@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using GlyphEdit.Messages.Commands;
 using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
@@ -45,6 +46,7 @@ namespace GlyphEdit.Controls.BrushBar.GlyphPicker
         {
             if (_currentGlyphFontViewModelOfGlyphGrid == glyphFontViewModel)
                 return;
+
             if (glyphFontViewModel.GlyphCount > 256)
                 throw new Exception("Only fonts allowed of up to 256 characters.");
 
@@ -79,11 +81,14 @@ namespace GlyphEdit.Controls.BrushBar.GlyphPicker
             }
         }
 
-        private void GlyphButton_Click(object sender, RoutedEventArgs e)
+        private void GlyphButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!(sender is ToggleButton glyphButton))
                 throw new Exception("Bug: should be called by Glyphbuttons only.");
+
             MessageBus.Publish(new ChangeGlyphCommand((glyphButton.DataContext as GlyphButtonViewModel).GlyphIndex));
+
+            e.Handled = true;
         }
     }
 }

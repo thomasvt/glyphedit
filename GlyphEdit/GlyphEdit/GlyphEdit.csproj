@@ -88,6 +88,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\BrushBar\PalettePicker\ColorPanel.xaml.cs">
+      <DependentUpon>ColorPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ControlBar\GlyphControlBar.xaml.cs">
       <DependentUpon>GlyphControlBar.xaml</DependentUpon>
     </Compile>
@@ -106,9 +109,6 @@
       <DependentUpon>BrushState.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BrushBar\PalettePicker\ColorButtonViewModel.cs" />
-    <Compile Include="Controls\BrushBar\PalettePicker\PalettePicker.xaml.cs">
-      <DependentUpon>PalettePicker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\StatusBar\GlyphStatusBar.xaml.cs">
       <DependentUpon>GlyphStatusBar.xaml</DependentUpon>
     </Compile>
@@ -119,6 +119,7 @@
     <Compile Include="Messages\Commands\ExitApplicationCommand.cs" />
     <Compile Include="Messages\Commands\OpenDocumentCommand.cs" />
     <Compile Include="Messages\Commands\RedoCommand.cs" />
+    <Compile Include="Messages\Commands\SaveCurrentColorPaletteCommand.cs" />
     <Compile Include="Messages\Commands\SaveDocumentAsCommand.cs" />
     <Compile Include="Messages\Commands\SaveDocumentCommand.cs" />
     <Compile Include="Messages\Commands\SetBrushBackgroundEnabledCommand.cs" />
@@ -193,6 +194,10 @@
     <Compile Include="NewDocumentDialog.xaml.cs">
       <DependentUpon>NewDocumentDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\BrushBar\PalettePicker\ColorPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ControlBar\GlyphControlBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -210,10 +215,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BrushBar\BrushState\BrushState.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\BrushBar\PalettePicker\PalettePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

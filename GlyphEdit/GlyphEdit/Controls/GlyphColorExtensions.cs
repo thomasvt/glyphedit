@@ -10,5 +10,10 @@ namespace GlyphEdit.Controls
         {
             return Color.FromArgb(glyphColor.A, glyphColor.R, glyphColor.G, glyphColor.B);
         }
+
+        public static GlyphColor ToGlyphColor(this Color color)
+        {
+            return new GlyphColor(color.R, color.G, color.B, color.A);
+        }
     }
 }

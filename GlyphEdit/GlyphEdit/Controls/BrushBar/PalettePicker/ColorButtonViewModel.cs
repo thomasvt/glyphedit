@@ -9,11 +9,11 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
     {
         public ColorButtonViewModel(GlyphColor glyphColor)
         {
-            GlyphGlyphColor = glyphColor;
+            GlyphColor = glyphColor;
             Color = glyphColor.ToWpfColor();
         }
 
         public Color Color { get; }
-        public GlyphColor GlyphGlyphColor { get; }
+        public GlyphColor GlyphColor { get; }
     }
 }

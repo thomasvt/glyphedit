@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="GlyphEdit.Controls.BrushBar.PalettePicker.ColorPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:colorGrid="clr-namespace:GlyphEdit.Wpf.ColorGrid;assembly=GlyphEdit.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+            <colorGrid:ColorGrid x:Name="ColorGrid" ColumnCount="10" ColorPatchLeftClick="ColorGrid_OnColorPatchLeftClick" ColorsModified="ColorGrid_OnColorsModified" />
+    </Grid>
+</UserControl>

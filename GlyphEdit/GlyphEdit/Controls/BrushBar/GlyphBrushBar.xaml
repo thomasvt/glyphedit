@@ -11,6 +11,7 @@
     <StackPanel Orientation="Vertical" Background="#333333" MinWidth="150">
         <brushState:BrushState Background="#404040" Padding="18" />
         <glyphPicker:GlyphPicker Margin="18" />
-        <palettePicker:PalettePicker Margin="18" />
+        <palettePicker:ColorPanel Margin="18" />
+        <!--<palettePicker:PalettePicker Margin="18" />-->
     </StackPanel>
 </UserControl>

@@ -36,6 +36,7 @@ namespace GlyphEdit.ViewModels
             MessageBus.Subscribe<SetBrushGlyphEnabledCommand>(c => SetBrushGlyphEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushForegroundEnabledCommand>(c => SetBrushForegroundEnabled(c.IsEnabled));
             MessageBus.Subscribe<SetBrushBackgroundEnabledCommand>(c => SetBrushBackgroundEnabled(c.IsEnabled));
+            MessageBus.Subscribe<SaveCurrentColorPaletteCommand>(c => SaveCurrentColorPalette());
             MessageBus.Subscribe<ExitApplicationCommand>(c => DoExitApplicationWorkflow());
         }
 
@@ -182,6 +183,13 @@ namespace GlyphEdit.ViewModels
             var @event = new ColorPaletteChangedEvent(colorPalette);
             _colorPalette = colorPalette;
             MessageBus.Publish(@event);
+        }
+
+        private void SaveCurrentColorPalette()
+        {
+            if (_colorPalette == null)
+                throw new Exception("There is no color palette selected.");
+            _colorPaletteStore.Save(_colorPalette);
         }
 
         private void ChangeForegroundColor(GlyphColor color)

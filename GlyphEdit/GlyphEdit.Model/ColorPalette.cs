@@ -24,6 +24,16 @@ namespace GlyphEdit.Model
             };  
         }
 
+        /// <summary>
+        /// Replaces the colors of this palette with new ones. Changes Column- and Rowcount is allowed.
+        /// </summary>
+        public void ChangeColors(GlyphColor[,] colors)
+        {
+            ColumnCount = colors.GetLength(0);
+            RowCount = colors.GetLength(1);
+            Colors = colors;
+        }
+
         public static ColorPalette CreateInvalid(string filename, string error)
         {
             return new ColorPalette

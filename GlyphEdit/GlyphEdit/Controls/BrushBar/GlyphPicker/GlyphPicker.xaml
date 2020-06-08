@@ -70,7 +70,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type glyphPicker:GlyphButtonViewModel}">
-                    <ToggleButton Click="GlyphButton_Click" IsChecked="{Binding IsPicked}">
+                    <ToggleButton IsChecked="{Binding IsPicked}" PreviewMouseDown="GlyphButton_MouseDown">
                         <Image Stretch="{Binding Stretch}" SnapsToDevicePixels="True" Width="12" Height="12" RenderOptions.BitmapScalingMode="Fant">
                             <Image.Source>
                                 <CroppedBitmap Source="{Binding GlyphFontViewModel.BitmapSource}" SourceRect="{Binding CropInFontBitmap}" />

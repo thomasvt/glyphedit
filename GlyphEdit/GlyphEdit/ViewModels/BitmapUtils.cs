@@ -114,5 +114,32 @@ namespace GlyphEdit.ViewModels
                 return color;
             });
         }
+
+        public static void SaveGlyphColors(GlyphColor[,] colors, string filename)
+        {
+            var bitmap = new WriteableBitmap(colors.GetLength(0), colors.GetLength(1), 96, 96, PixelFormats.Bgra32, null);
+            var i = 0;
+            var pixelData = new byte[bitmap.PixelWidth * bitmap.PixelHeight * 4];
+            for (var y = 0; y < bitmap.PixelHeight; y++)
+            {
+                for (var x = 0; x < bitmap.PixelWidth; x++)
+                {
+                    var color = colors[x, y];
+                    pixelData[i++] = color.B;
+                    pixelData[i++] = color.G;
+                    pixelData[i++] = color.R;
+                    pixelData[i++] = color.A;
+                }
+            }
+            bitmap.WritePixels(new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight), pixelData, bitmap.PixelWidth * 4, 0);
+
+            // encode as png and save to file
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            using (var fileStream = new System.IO.FileStream(filename, System.IO.FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
+        }
     }
 }

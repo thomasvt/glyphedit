@@ -57,6 +57,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ColorGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,6 +95,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorGrid\ColorGrid.cs" />
+    <Compile Include="ColorGrid\ColorPatch.cs" />
+    <Compile Include="ColorGrid\ColorPatchRoutedEventArgs.cs" />
     <Compile Include="Icon.cs" />
     <Compile Include="IconHelper.cs" />
     <Compile Include="ModernWindow.cs" />
@@ -116,5 +123,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
