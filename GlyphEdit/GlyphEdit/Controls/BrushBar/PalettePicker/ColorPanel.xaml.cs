@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -189,6 +190,23 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
             {
                 CreateOrChangeColor(colorPicker.Color.ToWpfColor(), _contextMenuColorPatch, _contextMenuMouseLocation);
             }
+        }
+
+        private void ShrinkPaletteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var bottomRow = ColorGrid.RowCount - 1;
+            if (ColorGrid.RowCount < 2 || ColorGrid.ColorPatches.Any(p => p.GridLocation.Y == bottomRow))
+                return;
+            ColorGrid.RowCount--;
+            SaveAndRefreshPalette();
+        }
+
+        private void GrowPaletteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ColorGrid.RowCount == 20)
+                return;
+            ColorGrid.RowCount++;
+            SaveAndRefreshPalette();
         }
     }
 }

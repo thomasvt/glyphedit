@@ -179,15 +179,6 @@ namespace GlyphEdit.Wpf.ColorGrid
 
         #region Dependency properties
 
-        public static readonly DependencyProperty ColumnCountProperty = DependencyProperty.Register(
-            "ColumnCount", typeof(int), typeof(ColorPaletteGrid), new FrameworkPropertyMetadata(8, FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        public int ColumnCount
-        {
-            get => (int)GetValue(ColumnCountProperty);
-            set => SetValue(ColumnCountProperty, value);
-        }
-
         public static readonly DependencyProperty ColorPatchesProperty = DependencyProperty.Register(
             "ColorPatches", typeof(List<ColorPatch>), typeof(ColorPaletteGrid), new FrameworkPropertyMetadata(default(List<ColorPatch>), FrameworkPropertyMetadataOptions.AffectsMeasure)
             {
@@ -208,6 +199,8 @@ namespace GlyphEdit.Wpf.ColorGrid
             set => SetValue(ColorPatchesProperty, value);
         }
 
+        
+
         public static readonly DependencyProperty ColorPatchBorderBrushProperty = DependencyProperty.Register(
             "ColorPatchBorderBrush", typeof(Brush), typeof(ColorPaletteGrid), new PropertyMetadata(default(Brush)));
 
@@ -217,8 +210,21 @@ namespace GlyphEdit.Wpf.ColorGrid
             set => SetValue(ColorPatchBorderBrushProperty, value);
         }
 
+
+
+        public static readonly DependencyProperty ColumnCountProperty = DependencyProperty.Register(
+            "ColumnCount", typeof(int), typeof(ColorPaletteGrid), new FrameworkPropertyMetadata(8, FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        public int ColumnCount
+        {
+            get => (int)GetValue(ColumnCountProperty);
+            set => SetValue(ColumnCountProperty, value);
+        }
+
+
+
         public static readonly DependencyProperty RowCountProperty = DependencyProperty.Register(
-            "RowCount", typeof(int), typeof(ColorPaletteGrid), new PropertyMetadata(default(int)));
+            "RowCount", typeof(int), typeof(ColorPaletteGrid), new FrameworkPropertyMetadata(4, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         private double _patchSize;
 
@@ -227,6 +233,8 @@ namespace GlyphEdit.Wpf.ColorGrid
             get => (int)GetValue(RowCountProperty);
             set => SetValue(RowCountProperty, value);
         }
+
+
 
         #endregion
 

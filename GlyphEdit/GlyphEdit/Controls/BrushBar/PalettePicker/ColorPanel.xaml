@@ -31,7 +31,19 @@
         </ContextMenu>
     </UserControl.Resources>
     <DockPanel>
-        <TextBlock Foreground="{StaticResource BrushTextDisabled}" DockPanel.Dock="Bottom">(hold ALT to set background color)</TextBlock>
+        <DockPanel DockPanel.Dock="Bottom">
+            <Button DockPanel.Dock="Right" ToolTip="Shrink palette" Click="ShrinkPaletteButton_Click">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/GlyphEdit;component/Images/up.png" Width="18" Height="18" />
+                </Button.Content>
+            </Button>
+            <Button DockPanel.Dock="Right" ToolTip="Grow palette" Click="GrowPaletteButton_Click">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/GlyphEdit;component/Images/down.png" Width="18" Height="18" />
+                </Button.Content>
+            </Button>
+            <TextBlock Foreground="{StaticResource BrushTextDisabled}" VerticalAlignment="Center">(hold ALT: set background color)</TextBlock>
+        </DockPanel>
         <colorGrid:ColorPaletteGrid x:Name="ColorGrid" ColumnCount="10" ColorPatchLeftClick="ColorGrid_OnColorPatchLeftClick" ColorPatchRightClick="ColorGrid_OnColorPatchRightClick" 
                              MouseRightButtonDown="ColorGrid_OnMouseRightButtonDown" ColorsModified="ColorGrid_OnColorsModified">
         </colorGrid:ColorPaletteGrid>

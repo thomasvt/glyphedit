@@ -330,6 +330,8 @@
   <ItemGroup>
     <Resource Include="Images\glyph_background.png" />
     <Resource Include="Images\eye-dropper.png" />
+    <Resource Include="Images\down.png" />
+    <Resource Include="Images\up.png" />
     <Content Include="Palettes\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
