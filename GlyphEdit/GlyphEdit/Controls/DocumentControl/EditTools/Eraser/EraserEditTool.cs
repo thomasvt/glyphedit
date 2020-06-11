@@ -2,8 +2,8 @@
 using GlyphEdit.Model;
 using GlyphEdit.Model.Manipulation;
 using Microsoft.Xna.Framework.Input;
-using Keyboard = GlyphEdit.Controls.DocumentControl.Input.Keyboard;
-using Mouse = GlyphEdit.Controls.DocumentControl.Input.Mouse;
+using KeyEventArgs = GlyphEdit.Controls.DocumentControl.Input.KeyEventArgs;
+using MouseEventArgs = GlyphEdit.Controls.DocumentControl.Input.MouseEventArgs;
 
 namespace GlyphEdit.Controls.DocumentControl.EditTools.Eraser
 {
@@ -15,18 +15,14 @@ namespace GlyphEdit.Controls.DocumentControl.EditTools.Eraser
         private VectorI _previousDrawPosition;
         private bool _hasDrawn;
 
-        public EraserEditTool(DocumentControl documentControl, Mouse mouse, Keyboard keyboard)
+        public EraserEditTool(DocumentControl documentControl)
         : base(EditMode.Eraser)
         {
             _documentControl = documentControl;
-            mouse.LeftButtonDown += MouseOnLeftButtonDown;
-            mouse.LeftButtonUp += MouseOnLeftButtonUp;
-            mouse.MouseMove += MouseOnMouseMove;
-            keyboard.KeyDown += (sender, args) => { if (args.Key == Keys.Escape) Cancel(); };
             _manipulationScope = null;
         }
 
-        private void MouseOnMouseMove(object sender, MouseMoveEventArgs e)
+        protected internal override void OnMouseMove(object sender, MouseMoveEventArgs e)
         {
             if (_manipulationScope == null)
                 return;
@@ -36,6 +32,35 @@ namespace GlyphEdit.Controls.DocumentControl.EditTools.Eraser
 
             _previousDrawPosition = documentCoords;
         }
+
+        protected internal override void OnKeyDown(object sender, KeyEventArgs args)
+        {
+            if (args.Key == Keys.Escape) Cancel();
+        }
+
+        protected internal override void OnMouseLeftButtonDown(object sender, MouseEventArgs e)
+        {
+            if (_manipulationScope != null)
+                return; // don't know if this ever happens, but it should just continue the current manipulation.
+
+            _previousDrawPosition = _documentControl.GetDocumentCoordsAt(e.MouseState.Position);
+            _manipulationScope = _documentControl.Document.Manipulator.BeginManipulation();
+            _layerEditAccess = _manipulationScope.GetLayerEditAccess(_documentControl.ActiveLayerId);
+
+            EraseGlyph(_previousDrawPosition);
+        }
+
+        protected internal override void OnMouseLeftButtonUp(object sender, MouseEventArgs e)
+        {
+            if (_manipulationScope == null)
+                return;
+
+            if (_hasDrawn)
+                _manipulationScope.Commit();
+            _manipulationScope = null;
+            _layerEditAccess = null;
+        }
+
 
         private void EraseGlyph(VectorI coords)
         {
@@ -49,35 +74,12 @@ namespace GlyphEdit.Controls.DocumentControl.EditTools.Eraser
             if (_documentControl.Brush.IsBackgroundEnabled) element.Background = new GlyphColor(0, 0, 0, 0);
         }
 
-        private void MouseOnLeftButtonDown(object sender, MouseEventArgs e)
-        {
-            if (_manipulationScope != null)
-                return; // don't know if this ever happens, but it should just continue the current manipulation.
-
-            _previousDrawPosition = _documentControl.GetDocumentCoordsAt(e.MouseState.Position);
-            _manipulationScope = _documentControl.Document.Manipulator.BeginManipulation();
-            _layerEditAccess = _manipulationScope.GetLayerEditAccess(_documentControl.ActiveLayerId);
-
-            EraseGlyph(_previousDrawPosition);
-        }
-
         private void Cancel()
         {
             if (_manipulationScope == null)
                 return;
 
             _manipulationScope.Revert();
-            _manipulationScope = null;
-            _layerEditAccess = null;
-        }
-
-        private void MouseOnLeftButtonUp(object sender, MouseEventArgs e)
-        {
-            if (_manipulationScope == null)
-                return;
-
-            if (_hasDrawn)
-                _manipulationScope.Commit();
             _manipulationScope = null;
             _layerEditAccess = null;
         }

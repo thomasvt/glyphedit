@@ -2,8 +2,6 @@
 using GlyphEdit.Model;
 using GlyphEdit.Model.Manipulation;
 using Microsoft.Xna.Framework.Input;
-using Keyboard = GlyphEdit.Controls.DocumentControl.Input.Keyboard;
-using Mouse = GlyphEdit.Controls.DocumentControl.Input.Mouse;
 
 namespace GlyphEdit.Controls.DocumentControl.EditTools.Pencil
 {
@@ -15,18 +13,14 @@ namespace GlyphEdit.Controls.DocumentControl.EditTools.Pencil
         private VectorI _previousDrawPosition;
         private bool _hasDrawn;
 
-        public PencilEditTool(DocumentControl documentControl, Mouse mouse, Keyboard keyboard)
+        public PencilEditTool(DocumentControl documentControl)
         : base(EditMode.Pencil)
         {
             _documentControl = documentControl;
-            mouse.LeftButtonDown += MouseOnLeftButtonDown;
-            mouse.LeftButtonUp += MouseOnLeftButtonUp;
-            mouse.MouseMove += MouseOnMouseMove;
-            keyboard.KeyDown += (sender, args) => { if (args.Key == Keys.Escape) Cancel(); };
             _manipulationScope = null;
         }
 
-        private void MouseOnMouseMove(object sender, MouseMoveEventArgs e)
+        protected internal override void OnMouseMove(object sender, MouseMoveEventArgs e)
         {
             if (_manipulationScope == null)
                 return;
@@ -35,6 +29,35 @@ namespace GlyphEdit.Controls.DocumentControl.EditTools.Pencil
             GridGeometry.ForEachCellInLine(_previousDrawPosition, documentCoords, DrawGlyph);
 
             _previousDrawPosition = documentCoords;
+        }
+
+        protected internal override void OnMouseLeftButtonDown(object sender, MouseEventArgs e)
+        {
+            if (_manipulationScope != null)
+                return; // don't know if this ever happens, but it should just continue the current manipulation.
+
+            _previousDrawPosition = _documentControl.GetDocumentCoordsAt(e.MouseState.Position);
+            _manipulationScope = _documentControl.Document.Manipulator.BeginManipulation();
+            _layerEditAccess = _manipulationScope.GetLayerEditAccess(_documentControl.ActiveLayerId);
+
+            DrawGlyph(_previousDrawPosition);
+        }
+
+        protected internal override void OnKeyDown(object sender, KeyEventArgs args)
+        {
+            if (args.Key == Keys.Escape) 
+                Cancel();
+        }
+
+        protected internal override void OnMouseLeftButtonUp(object sender, MouseEventArgs e)
+        {
+            if (_manipulationScope == null)
+                return;
+
+            if (_hasDrawn)
+                _manipulationScope.Commit();
+            _manipulationScope = null;
+            _layerEditAccess = null;
         }
 
         private void DrawGlyph(VectorI coords)
@@ -49,35 +72,12 @@ namespace GlyphEdit.Controls.DocumentControl.EditTools.Pencil
             if (_documentControl.Brush.IsBackgroundEnabled) element.Background = _documentControl.Brush.BackgroundColor;
         }
 
-        private void MouseOnLeftButtonDown(object sender, MouseEventArgs e)
-        {
-            if (_manipulationScope != null)
-                return; // don't know if this ever happens, but it should just continue the current manipulation.
-
-            _previousDrawPosition = _documentControl.GetDocumentCoordsAt(e.MouseState.Position);
-            _manipulationScope = _documentControl.Document.Manipulator.BeginManipulation();
-            _layerEditAccess = _manipulationScope.GetLayerEditAccess(_documentControl.ActiveLayerId);
-
-            DrawGlyph(_previousDrawPosition);
-        }
-
         private void Cancel()
         {
             if (_manipulationScope == null)
                 return;
 
             _manipulationScope.Revert();
-            _manipulationScope = null;
-            _layerEditAccess = null;
-        }
-
-        private void MouseOnLeftButtonUp(object sender, MouseEventArgs e)
-        {
-            if (_manipulationScope == null)
-                return;
-
-            if (_hasDrawn)
-                _manipulationScope.Commit();
             _manipulationScope = null;
             _layerEditAccess = null;
         }

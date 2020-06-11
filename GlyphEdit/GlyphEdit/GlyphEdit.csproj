@@ -169,7 +169,7 @@
     <Compile Include="Controls\DocumentControl\Input\Mouse.cs" />
     <Compile Include="Controls\DocumentControl\Input\MouseEventArgs.cs" />
     <Compile Include="Controls\DocumentControl\Input\MouseMoveEventArgs.cs" />
-    <Compile Include="Controls\DocumentControl\EditTools\IEditTool.cs" />
+    <Compile Include="Controls\DocumentControl\EditTools\EditTool.cs" />
     <Compile Include="Controls\DocumentControl\LayerRenderer.cs" />
     <Compile Include="Controls\DocumentControl\EditTools\Pencil\PencilEditTool.cs" />
     <Compile Include="Controls\DocumentControl\XnaColorExtensions.cs" />

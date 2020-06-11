@@ -98,6 +98,8 @@ namespace GlyphEdit.ViewModels
 
         public void DoNewDocumentWorkflow()
         {
+            if (!DoCloseDocumentWorkflow())
+                return;
             var newDocumentDialog = new NewDocumentDialog();
             if (newDocumentDialog.ShowDialog() == true)
             {

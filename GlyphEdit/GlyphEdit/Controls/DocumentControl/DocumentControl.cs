@@ -68,6 +68,7 @@ namespace GlyphEdit.Controls.DocumentControl
 
             _mouse = new Mouse(this);
             _keyboard = new Keyboard(this);
+            ConfigureEditToolInput();
             _camera = new Camera(_mouse, this);
             _documentRenderer = new DocumentRenderer(this, _camera);
 
@@ -76,7 +77,17 @@ namespace GlyphEdit.Controls.DocumentControl
 
             RenderingInitialized?.Invoke(this, EventArgs.Empty);
         }
-        
+
+        private void ConfigureEditToolInput()
+        {
+            _keyboard.KeyDown += (sender, args) => _currentEditTool?.OnKeyDown(sender, args);
+            _keyboard.KeyUp += (sender, args) => _currentEditTool?.OnKeyUp(sender, args);
+
+            _mouse.MouseMove += (sender, args) => _currentEditTool?.OnMouseMove(sender, args);
+            _mouse.LeftButtonDown += (sender, args) => _currentEditTool?.OnMouseLeftButtonDown(sender, args);
+            _mouse.LeftButtonUp += (sender, args) => _currentEditTool?.OnMouseLeftButtonUp(sender, args);
+        }
+
         private void ChangeGlyph(GlyphFontViewModel glyphFontViewModel, int glyphIndex)
         {
             if (CurrentGlyphMapTexture?.GlyphFontViewModel != glyphFontViewModel)
@@ -139,10 +150,10 @@ namespace GlyphEdit.Controls.DocumentControl
             switch (editMode)
             {
                 case EditMode.Pencil:
-                    _currentEditTool = new PencilEditTool(this, _mouse, _keyboard);
+                    _currentEditTool = new PencilEditTool(this);
                     break;
                 case EditMode.Eraser:
-                    _currentEditTool = new EraserEditTool(this, _mouse, _keyboard);
+                    _currentEditTool = new EraserEditTool(this);
                     break;
                 case EditMode.BrushPicker:
                     break;
