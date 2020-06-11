@@ -27,7 +27,7 @@
         <ContextMenu x:Key="ColorGridNoPatchContextMenu" >
             <MenuItem Header="Paste hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="PasteHexCode_Click" />
             <Separator Style="{StaticResource GlyphMenuSeparator}" />
-            <MenuItem Header="Add color..." Style="{StaticResource GlyphSubMenuItemStyle}" Click="Edit_OnClick" />
+            <MenuItem Header="New color..." Style="{StaticResource GlyphSubMenuItemStyle}" Click="Edit_OnClick" />
         </ContextMenu>
     </UserControl.Resources>
     <DockPanel>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using GlyphEdit.Controls.DocumentControl.EditTools;
+using GlyphEdit.Controls.DocumentControl.EditTools.Eraser;
 using GlyphEdit.Controls.DocumentControl.EditTools.Pencil;
 using GlyphEdit.Controls.DocumentControl.Rendering;
 using GlyphEdit.Messages.Events;
@@ -141,6 +142,7 @@ namespace GlyphEdit.Controls.DocumentControl
                     _currentEditTool = new PencilEditTool(this, _mouse, _keyboard);
                     break;
                 case EditMode.Eraser:
+                    _currentEditTool = new EraserEditTool(this, _mouse, _keyboard);
                     break;
                 case EditMode.BrushPicker:
                     break;

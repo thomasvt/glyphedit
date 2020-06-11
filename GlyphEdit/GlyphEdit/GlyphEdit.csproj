@@ -102,6 +102,7 @@
       <DependentUpon>GlyphControlBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DocumentControl\EditModeChangedEventArgs.cs" />
+    <Compile Include="Controls\DocumentControl\EditTools\Eraser\EraserEditTool.cs" />
     <Compile Include="Controls\DocumentControl\GlyphColorExtensions.cs" />
     <Compile Include="Controls\DocumentControl\GridGeometry.cs" />
     <Compile Include="Controls\DocumentControl\Input\KeyEventArgs.cs" />
