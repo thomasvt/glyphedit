@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -16,36 +16,23 @@ namespace GlyphEdit.Wpf.ColorMixer
             return constraint; // we take what we get... 
         }
 
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            
-
-            return base.ArrangeOverride(arrangeBounds);
-        }
-
         protected override void OnRender(DrawingContext drawingContext)
         {
-            // get device dependent pixel size of control
-            var source = PresentationSource.FromVisual(this);
-            var transformToDevice = source.CompositionTarget.TransformToDevice;
-            var actualSize = (Size)transformToDevice.Transform((Vector)this.RenderSize);
-
             // calculate pixels of color canvas
-            var pixels = new byte[(int)actualSize.Width * (int)actualSize.Height * 4];
+            var pixels = new byte[(int)ActualWidth * (int)ActualHeight * 4];
             
-
             var saturation = Saturation;
 
-            var width = (int)actualSize.Width;
-            var height = (int)actualSize.Height;
+            var width = (int)ActualWidth;
+            var height = (int)ActualHeight;
             var i = 0;
             for (var y = 0; y < height; y++)
             {
                 for (var x = 0; x < width; x++)
                 {
-                    var luminance = 1f - (float)y / height;
-                    var hue = (float)x / width;
-                    var color = ColorUtils.FromHsl(hue, saturation, luminance);
+                    var luminance = 1f - (double)y / height;
+                    var hue = x * 365d / width;
+                    var color = new HslRgbColor(hue, saturation, luminance);
 
                     pixels[i++] = color.B;
                     pixels[i++] = color.G;
@@ -56,19 +43,53 @@ namespace GlyphEdit.Wpf.ColorMixer
 
             if (_bitmap == null || (_bitmap.PixelWidth == width && _bitmap.PixelHeight == height))
                 _bitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgr32, null); // heavy ctor, reuse instance
-            _bitmap.WritePixels(new Int32Rect(0, 0, (int)actualSize.Width, (int)actualSize.Height), pixels, (int)actualSize.Width * 4, 0);
+            _bitmap.WritePixels(new Int32Rect(0, 0, (int)ActualWidth, (int)ActualHeight), pixels, (int)ActualWidth * 4, 0);
             drawingContext.DrawImage(_bitmap, new Rect(RenderSize));
         }
 
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            PickColor(e.GetPosition(this));
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                PickColor(e.GetPosition(this));
+        }
+
+        private void PickColor(Point position)
+        {
+            var hue = position.X * 365d / ActualWidth;
+            var luminance = 1f - position.Y / ActualHeight;
+
+            RaiseEvent(new ColorRoutedEventArgs(ColorPickedEvent, new HslRgbColor(hue, Saturation, luminance)));
+        }
+
         public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register(
-            "Saturation", typeof(float), typeof(ColorCanvas), new FrameworkPropertyMetadata(1f, FrameworkPropertyMetadataOptions.AffectsRender));
+            "Saturation", typeof(double), typeof(ColorCanvas), new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         private WriteableBitmap _bitmap;
 
-        public float Saturation
+        public double Saturation
         {
-            get => (float)GetValue(SaturationProperty);
+            get => (double)GetValue(SaturationProperty);
             set => SetValue(SaturationProperty, value);
         }
+
+        #region Routed Events
+
+        public delegate void ColorRoutedEventHandler(object sender, ColorRoutedEventArgs e);
+
+        public static readonly RoutedEvent ColorPickedEvent = EventManager.RegisterRoutedEvent(
+            "ColorPicked", RoutingStrategy.Bubble, typeof(ColorRoutedEventHandler), typeof(ColorCanvas));
+
+        public event ColorRoutedEventHandler ColorPicked
+        {
+            add => AddHandler(ColorPickedEvent, value);
+            remove => RemoveHandler(ColorPickedEvent, value);
+        }
+
+        #endregion
     }
 }

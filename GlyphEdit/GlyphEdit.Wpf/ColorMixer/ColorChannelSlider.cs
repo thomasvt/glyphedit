@@ -1,19 +1,10 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace GlyphEdit.Wpf.ColorMixer
 {
     public class ColorChannelSlider : Slider
     {
-        public ColorChannelSlider()
-        {
-            Minimum = 0;
-            Maximum = 1;
-            SmallChange = 0.01;
-            LargeChange = 0.1;
-        }
-
         static ColorChannelSlider()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorChannelSlider), new FrameworkPropertyMetadata(typeof(ColorChannelSlider)));
@@ -32,29 +23,29 @@ namespace GlyphEdit.Wpf.ColorMixer
         }
 
         public static readonly DependencyProperty HueProperty = DependencyProperty.Register(
-            "Hue", typeof(float), typeof(ColorChannelSlider), new FrameworkPropertyMetadata(default(float)));
+            "Hue", typeof(double), typeof(ColorChannelSlider), new FrameworkPropertyMetadata(default(double)));
 
-        public float Hue
+        public double Hue
         {
-            get => (float) GetValue(HueProperty);
+            get => (double) GetValue(HueProperty);
             set => SetValue(HueProperty, value);
         }
 
         public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register(
-            "Saturation", typeof(float), typeof(ColorChannelSlider), new FrameworkPropertyMetadata(default(float)));
+            "Saturation", typeof(double), typeof(ColorChannelSlider), new FrameworkPropertyMetadata(default(double)));
 
-        public float Saturation
+        public double Saturation
         {
-            get => (float) GetValue(SaturationProperty);
+            get => (double) GetValue(SaturationProperty);
             set => SetValue(SaturationProperty, value);
         }
 
         public static readonly DependencyProperty LuminanceProperty = DependencyProperty.Register(
-            "Luminance", typeof(float), typeof(ColorChannelSlider), new FrameworkPropertyMetadata(default(float)));
+            "Luminance", typeof(double), typeof(ColorChannelSlider), new FrameworkPropertyMetadata(default(double)));
 
-        public float Luminance
+        public double Luminance
         {
-            get => (float) GetValue(LuminanceProperty);
+            get => (double) GetValue(LuminanceProperty);
             set => SetValue(LuminanceProperty, value);
         }
     }

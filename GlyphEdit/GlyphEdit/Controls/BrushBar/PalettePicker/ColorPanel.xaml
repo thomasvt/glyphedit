@@ -27,14 +27,13 @@
         <ContextMenu x:Key="ColorGridNoPatchContextMenu" >
             <MenuItem Header="Paste hexcode" Style="{StaticResource GlyphSubMenuItemStyle}" Click="PasteHexCode_Click" />
             <Separator Style="{StaticResource GlyphMenuSeparator}" />
-            <MenuItem Header="Add color..." Style="{StaticResource GlyphSubMenuItemStyle}" />
+            <MenuItem Header="Add color..." Style="{StaticResource GlyphSubMenuItemStyle}" Click="Edit_OnClick" />
         </ContextMenu>
     </UserControl.Resources>
     <DockPanel>
-        <TextBlock Foreground="{StaticResource BrushTextDisabled}" DockPanel.Dock="Bottom">(hold RMB for menu)</TextBlock>
+        <TextBlock Foreground="{StaticResource BrushTextDisabled}" DockPanel.Dock="Bottom">(hold ALT to set background color)</TextBlock>
         <colorGrid:ColorPaletteGrid x:Name="ColorGrid" ColumnCount="10" ColorPatchLeftClick="ColorGrid_OnColorPatchLeftClick" ColorPatchRightClick="ColorGrid_OnColorPatchRightClick" 
-                             MouseRightButtonDown="ColorGrid_OnMouseRightButtonDown" MouseMove="ColorGrid_OnMouseMove" MouseRightButtonUp="ColorGrid_OnMouseRightButtonUp"
-                             ColorsModified="ColorGrid_OnColorsModified">
+                             MouseRightButtonDown="ColorGrid_OnMouseRightButtonDown" ColorsModified="ColorGrid_OnColorsModified">
         </colorGrid:ColorPaletteGrid>
     </DockPanel>
 </UserControl>

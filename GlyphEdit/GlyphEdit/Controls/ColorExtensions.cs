@@ -20,14 +20,5 @@ namespace GlyphEdit.Controls
         {
             return new GlyphColor(color.R, color.G, color.B, color.A);
         }
-
-        public static string ToHexString(this Color color)
-        {
-            var r = color.R.ToString("X").PadLeft(2, '0');
-            var g = color.G.ToString("X").PadLeft(2, '0');
-            var b = color.B.ToString("X").PadLeft(2, '0');
-            var a = color.A.ToString("X").PadLeft(2, '0');
-            return $"#{r}{g}{b}{a}";
-        }
     }
 }

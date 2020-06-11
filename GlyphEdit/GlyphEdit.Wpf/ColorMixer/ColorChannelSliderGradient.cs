@@ -42,33 +42,33 @@ namespace GlyphEdit.Wpf.ColorMixer
             var i = 0;
             for (var x = 0; x < width; x++)
             {
-                var color = Colors.White;
-                var value = (float)x / width;
+                HslRgbColor color = null;
+                var value = (double)x / width;
                 switch (channel)
                 {
-                    //case ColorChannel.Red:
-                    //    color = Color.FromRgb((byte)(x * 255), color.G, color.B);
-                    //    break;
-                    //case ColorChannel.Green:
-                    //    color = Color.FromRgb(color.R, (byte)(x * 255), color.B);
-                    //    break;
-                    //case ColorChannel.Blue:
-                    //    color = Color.FromRgb(color.R, color.G, (byte)(x * 255));
-                    //    break;
+                    case ColorChannel.Red:
+                        color = new HslRgbColor((byte)(value * 255), Green, Blue);
+                        break;
+                    case ColorChannel.Green:
+                        color = new HslRgbColor(Green, (byte)(value * 255), Blue);
+                        break;
+                    case ColorChannel.Blue:
+                        color = new HslRgbColor(Green, Blue, (byte)(value * 255));
+                        break;
                     case ColorChannel.Hue:
-                        color = ColorUtils.FromHsl(value, Saturation, Luminance);
+                        color = new HslRgbColor(value * 365d, Saturation, Luminance);
                         break;
                     case ColorChannel.Saturation:
-                        color = ColorUtils.FromHsl(Hue, value, Luminance);
+                        color = new HslRgbColor(Hue, value, Luminance);
                         break;
                     case ColorChannel.Luminance:
-                        color = ColorUtils.FromHsl(Hue, Saturation, value);
+                        color = new HslRgbColor(Hue, Saturation, value);
                         break;
                 }
 
-                pixels[i++] = color.R;
-                pixels[i++] = color.G;
                 pixels[i++] = color.B;
+                pixels[i++] = color.G;
+                pixels[i++] = color.R;
                 i++;
             }
 
@@ -88,38 +88,38 @@ namespace GlyphEdit.Wpf.ColorMixer
         }
 
         public static readonly DependencyProperty HueProperty = DependencyProperty.Register(
-            "Hue", typeof(float), typeof(ColorChannelSliderGradient), new FrameworkPropertyMetadata(default(float))
+            "Hue", typeof(double), typeof(ColorChannelSliderGradient), new FrameworkPropertyMetadata(default(double))
             {
                 PropertyChangedCallback = (o, args) => (o as ColorChannelSliderGradient).CheckForGradientRedraw(ColorChannel.Hue)
             });
 
-        public float Hue
+        public double Hue
         {
-            get => (float) GetValue(HueProperty);
+            get => (double) GetValue(HueProperty);
             set => SetValue(HueProperty, value);
         }
 
         public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register(
-            "Saturation", typeof(float), typeof(ColorChannelSliderGradient), new FrameworkPropertyMetadata(default(float))
+            "Saturation", typeof(double), typeof(ColorChannelSliderGradient), new FrameworkPropertyMetadata(default(double))
             {
                 PropertyChangedCallback = (o, args) => (o as ColorChannelSliderGradient).CheckForGradientRedraw(ColorChannel.Saturation)
             });
 
-        public float Saturation
+        public double Saturation
         {
-            get => (float) GetValue(SaturationProperty);
+            get => (double) GetValue(SaturationProperty);
             set => SetValue(SaturationProperty, value);
         }
 
         public static readonly DependencyProperty LuminanceProperty = DependencyProperty.Register(
-            "Luminance", typeof(float), typeof(ColorChannelSliderGradient), new FrameworkPropertyMetadata(default(float)) 
+            "Luminance", typeof(double), typeof(ColorChannelSliderGradient), new FrameworkPropertyMetadata(default(double)) 
             {
                 PropertyChangedCallback = (o, args) => (o as ColorChannelSliderGradient).CheckForGradientRedraw(ColorChannel.Luminance)
             });
 
-        public float Luminance
+        public double Luminance
         {
-            get => (float) GetValue(LuminanceProperty);
+            get => (double) GetValue(LuminanceProperty);
             set => SetValue(LuminanceProperty, value);
         }
 
@@ -129,6 +129,34 @@ namespace GlyphEdit.Wpf.ColorMixer
             {
                 PropertyChangedCallback = (o, args) => (o as ColorChannelSliderGradient).UpdateGradient()
             });
+
+
+        public static readonly DependencyProperty RedProperty = DependencyProperty.Register(
+            "Red", typeof(byte), typeof(ColorChannelSliderGradient), new PropertyMetadata(default(byte)));
+
+        public byte Red
+        {
+            get => (byte) GetValue(RedProperty);
+            set => SetValue(RedProperty, value);
+        }
+
+        public static readonly DependencyProperty GreenProperty = DependencyProperty.Register(
+            "Green", typeof(byte), typeof(ColorChannelSliderGradient), new PropertyMetadata(default(byte)));
+
+        public byte Green
+        {
+            get => (byte) GetValue(GreenProperty);
+            set => SetValue(GreenProperty, value);
+        }
+
+        public static readonly DependencyProperty BlueProperty = DependencyProperty.Register(
+            "Blue", typeof(byte), typeof(ColorChannelSliderGradient), new PropertyMetadata(default(byte)));
+
+        public byte Blue
+        {
+            get => (byte) GetValue(BlueProperty);
+            set => SetValue(BlueProperty, value);
+        }
 
         /// <summary>
         /// Used to define which channel is controlled by (and visualized in the background of) this slider.

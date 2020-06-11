@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,7 +10,6 @@ using GlyphEdit.Messaging;
 using GlyphEdit.Model;
 using GlyphEdit.Wpf;
 using GlyphEdit.Wpf.ColorGrid;
-using Colors = GlyphEdit.Model.Colors;
 
 namespace GlyphEdit.Controls.BrushBar.PalettePicker
 {
@@ -21,7 +19,6 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
     public partial class ColorPanel : UserControl
     {
         private ColorPalette _currentColorPalette;
-        private readonly Timer _contextMenuTriggerTimer;
         private Point _contextMenuMouseLocation;
         private ColorPatch _contextMenuColorPatch;
 
@@ -29,13 +26,6 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
         {
             InitializeComponent();
 
-            _contextMenuTriggerTimer = new Timer(400);
-            _contextMenuTriggerTimer.Elapsed += (o, args) =>
-            {
-                _contextMenuTriggerTimer.Stop();
-
-                Dispatcher.Invoke(OpenColorPatchContextMenu);
-            };
             MessageBus.Subscribe<ColorPaletteChangedEvent>(e => { ShowColorPalette(e.ColorPalette); });
         }
 
@@ -60,12 +50,16 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
 
         private void ColorGrid_OnColorPatchLeftClick(object sender, ColorPatchRoutedEventArgs e)
         {
-            MessageBus.Publish(new ChangeForegroundColorCommand((GlyphColor)e.ColorPatch.Color.ToGlyphColor()));
+            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+                MessageBus.Publish(new ChangeBackgroundColorCommand(e.ColorPatch.Color.ToGlyphColor()));
+            else
+                MessageBus.Publish(new ChangeForegroundColorCommand(e.ColorPatch.Color.ToGlyphColor()));
         }
 
         private void ColorGrid_OnColorPatchRightClick(object sender, ColorPatchRoutedEventArgs e)
         {
-            MessageBus.Publish(new ChangeBackgroundColorCommand((GlyphColor)e.ColorPatch.Color.ToGlyphColor()));
+            _contextMenuColorPatch = e.ColorPatch;
+            OpenColorPatchContextMenu();
         }
 
         private void ColorGrid_OnColorsModified(object sender, RoutedEventArgs e)
@@ -94,9 +88,7 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
         {
             _contextMenuMouseLocation = e.GetPosition(ColorGrid);
             _contextMenuColorPatch = ColorGrid.GetColorPatchAt(e.GetPosition(ColorGrid));
-
-            _contextMenuTriggerTimer.Start();
-
+            OpenColorPatchContextMenu();
         }
 
         private void OpenColorPatchContextMenu()
@@ -122,17 +114,7 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
             contextMenu.PlacementTarget = ColorGrid;
             contextMenu.IsOpen = true;
         }
-
-        private void ColorGrid_OnMouseMove(object sender, MouseEventArgs e)
-        {
-            _contextMenuTriggerTimer.Stop();
-        }
-
-        private void ColorGrid_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            _contextMenuTriggerTimer.Stop();
-        }
-
+        
         private void CopyHexCode_Click(object sender, RoutedEventArgs e)
         {
             var viewModel = (sender as FrameworkElement).DataContext as ColorGridContextMenuViewModel;
@@ -142,23 +124,27 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
         private void PasteHexCode_Click(object sender, RoutedEventArgs e)
         {
             var text = Clipboard.GetText();
-            var color = Colors.FromHex(Clipboard.GetText()).ToWpfColor();
-            if (Colors.IsHexCode(text))
+            if (ColorUtils.IsHexCode(text))
             {
-                var control = sender as FrameworkElement;
-                if (control.DataContext is ColorGridContextMenuViewModel viewModel)
-                {
-                    _contextMenuColorPatch.Color = color;
-                    SaveAndRefreshPalette();
-                }
-                else if (control.DataContext is ColorGridNoPatchContextMenuViewModel noPatchViewModel)
-                {
-                    CreatePatch(noPatchViewModel.MouseLocation, color);
-                }
+                var color = ColorUtils.FromHex(Clipboard.GetText());
+                CreateOrChangeColor(color, _contextMenuColorPatch, _contextMenuMouseLocation);
             }
             else
             {
                 MessageBox.Show("No color hexcode on the clipboard.", "Invalid hexcolor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void CreateOrChangeColor(Color color, ColorPatch colorPatch, Point location)
+        {
+            if (colorPatch != null)
+            {
+                colorPatch.Color = color;
+                SaveAndRefreshPalette();
+            }
+            else
+            {
+                CreatePatch(location, color);
             }
         }
 
@@ -194,8 +180,15 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)
         {
-            var colorPicker = new ColorPicker();
-            colorPicker.ShowDialog();
+            var color = _contextMenuColorPatch?.Color ?? Colors.Black;
+            var colorPicker = new ColorPicker
+            {
+                Color = new HslRgbColor(color.R, color.G, color.B)
+            };
+            if (colorPicker.ShowDialog() == true)
+            {
+                CreateOrChangeColor(colorPicker.Color.ToWpfColor(), _contextMenuColorPatch, _contextMenuMouseLocation);
+            }
         }
     }
 }

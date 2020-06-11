@@ -9,6 +9,7 @@ using GlyphEdit.Messages.Events;
 using GlyphEdit.Messaging;
 using GlyphEdit.Model;
 using GlyphEdit.ViewModels;
+using GlyphEdit.Wpf;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework.WpfInterop;
@@ -119,7 +120,7 @@ namespace GlyphEdit.Controls.DocumentControl
 
         protected override void Draw(GameTime time)
         {
-            GraphicsDevice.Clear(Colors.FromHex(BackgroundColor).ToMonogameColor());
+            GraphicsDevice.Clear(ColorUtils.FromHex(BackgroundColor).ToXnaColor());
             _camera.SetViewport(_renderer.GetViewport());
             _renderer.BeginFrame(_camera.ViewMatrix, _camera.ProjectionMatrix);
 

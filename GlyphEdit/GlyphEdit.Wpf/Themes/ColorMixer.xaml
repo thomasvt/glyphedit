@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:colorMixer="clr-namespace:GlyphEdit.Wpf.ColorMixer"
-                    xmlns:themes="clr-namespace:GlyphEdit.Wpf.Themes">
+                    xmlns:themes="clr-namespace:GlyphEdit.Wpf.Themes"
+                    xmlns:wpf="clr-namespace:GlyphEdit.Wpf">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/GlyphEdit.WPF;component/Themes/Theme.xaml"/>
@@ -21,34 +22,48 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <DockPanel Margin="8">
-                            <Grid DockPanel.Dock="Top">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <ComboBox>
-                                    <ComboBoxItem Content="HSL" />
-                                    <ComboBoxItem Content="RGB" />
-                                </ComboBox>
-                                <TextBox Grid.Column="1" x:Name="PART_HexCodeTextBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="100" />
-                            </Grid>
+                            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                <Ellipse Width="28" Height="28" x:Name="PART_Example" StrokeThickness="1" Stroke="#111111" Margin="34,0,0,0" />
+                                <wpf:GlyphTextBox x:Name="PART_HexCodeTextBox" HorizontalAlignment="Right" VerticalAlignment="Center" Width="100" Margin="16" />
+                            </StackPanel>
+
+                            <!-- HSL -->
                             <DockPanel DockPanel.Dock="Top" Margin="0, 16, 0, 0">
                                 <Label Content="H:" DockPanel.Dock="Left" Width="30" IsTabStop="False" />
-                                <TextBox x:Name="PART_HueTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
-                                <colorMixer:ColorChannelSlider x:Name="PART_HueSlider" IsTabStop="False" Hue="{TemplateBinding Hue}" Saturation="1" Luminance="0.5" ColorChannel="Hue" Margin="0, 0, 4, 0" />
+                                <wpf:GlyphTextBox x:Name="PART_HueTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
+                                <colorMixer:ColorChannelSlider x:Name="PART_HueSlider" SmallChange="1" LargeChange="20" Minimum="0" Maximum="360" IsTabStop="False" Saturation="1" Luminance="0.5" ColorChannel="Hue" Margin="0, 0, 4, 0" />
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="0, 8, 0, 0">
                                 <Label Content="S:" DockPanel.Dock="Left" Width="30" IsTabStop="False" />
-                                <TextBox x:Name="PART_SaturationTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
-                                <colorMixer:ColorChannelSlider x:Name="PART_SaturationSlider" IsTabStop="False" Hue="{TemplateBinding Hue}" Saturation="{TemplateBinding Saturation}" Luminance="{TemplateBinding Luminance}" ColorChannel="Saturation" Margin="0, 0, 4, 0" />
+                                <wpf:GlyphTextBox x:Name="PART_SaturationTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
+                                <colorMixer:ColorChannelSlider x:Name="PART_SaturationSlider" SmallChange="0.01" LargeChange="0.1" Minimum="0" Maximum="1" IsTabStop="False" ColorChannel="Saturation" Margin="0, 0, 4, 0" />
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="0, 8, 0, 0">
                                 <Label Content="L:" DockPanel.Dock="Left" Width="30" IsTabStop="False" />
-                                <TextBox x:Name="PART_LuminanceTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
-                                <colorMixer:ColorChannelSlider x:Name="PART_LuminanceSlider" IsTabStop="False" Hue="{TemplateBinding Hue}" Saturation="{TemplateBinding Saturation}" Luminance="{TemplateBinding Luminance}" ColorChannel="Luminance" Margin="0, 0, 4, 0" />
+                                <wpf:GlyphTextBox x:Name="PART_LuminanceTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
+                                <colorMixer:ColorChannelSlider x:Name="PART_LuminanceSlider" SmallChange="0.01" LargeChange="0.1" Minimum="0" Maximum="1" IsTabStop="False" ColorChannel="Luminance" Margin="0, 0, 4, 0" />
                             </DockPanel>
+
+                            <!-- RGB -->
+                            <DockPanel DockPanel.Dock="Top" Margin="0, 24, 0, 0">
+                                <Label Content="R:" DockPanel.Dock="Left" Width="30" IsTabStop="False" />
+                                <wpf:GlyphTextBox x:Name="PART_RedTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
+                                <colorMixer:ColorChannelSlider x:Name="PART_RedSlider" SmallChange="1" LargeChange="20" Minimum="0" Maximum="255" IsTabStop="False" ColorChannel="Red" Margin="0, 0, 4, 0" />
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Margin="0, 8, 0, 0">
+                                <Label Content="G:" DockPanel.Dock="Left" Width="30" IsTabStop="False" />
+                                <wpf:GlyphTextBox x:Name="PART_GreenTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
+                                <colorMixer:ColorChannelSlider x:Name="PART_GreenSlider" SmallChange="1" LargeChange="20" Minimum="0" Maximum="255" IsTabStop="False" ColorChannel="Green" Margin="0, 0, 4, 0" />
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Margin="0, 8, 0, 0">
+                                <Label Content="B:" DockPanel.Dock="Left" Width="30" IsTabStop="False" />
+                                <wpf:GlyphTextBox x:Name="PART_BlueTextBox" DockPanel.Dock="Right" Width="60" HorizontalContentAlignment="Right" />
+                                <colorMixer:ColorChannelSlider x:Name="PART_BlueSlider" SmallChange="1" LargeChange="20" Minimum="0" Maximum="255" IsTabStop="False" ColorChannel="Blue" Margin="0, 0, 4, 0" />
+                            </DockPanel>
+
+
                             <Border BorderThickness="1" BorderBrush="#111111" Margin="0, 16, 0, 0">
-                                <colorMixer:ColorCanvas />
+                                <colorMixer:ColorCanvas x:Name="PART_ColorCanvas" />
                             </Border>
                         </DockPanel>
                     </Border>

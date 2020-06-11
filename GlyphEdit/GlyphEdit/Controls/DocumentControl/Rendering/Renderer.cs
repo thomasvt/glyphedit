@@ -78,7 +78,7 @@ namespace GlyphEdit.Controls.DocumentControl.Rendering
                 {
                     ref var element = ref elements[x, y];
 
-                    var backColor = element.Background.ToRenderColor();
+                    var backColor = element.Background.ToXnaColor();
                     if (backColor.A == 0)
                         continue;
 
@@ -116,7 +116,7 @@ namespace GlyphEdit.Controls.DocumentControl.Rendering
                 {
                     ref var element = ref elements[x, y];
 
-                    var frontColor = element.Foreground.ToRenderColor();
+                    var frontColor = element.Foreground.ToXnaColor();
 
                     var left = (int)(x * glyphMapTexture.GlyphWidth);
                     var top = (int)(y * glyphMapTexture.GlyphHeight);

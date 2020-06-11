@@ -116,8 +116,11 @@
     <Compile Include="ColorMixer\ColorChannelSliderGradient.cs" />
     <Compile Include="ColorMixer\ColorMixer.cs" />
     <Compile Include="ColorMixer\ColorMixMode.cs" />
-    <Compile Include="ColorMixer\ColorUtils.cs" />
+    <Compile Include="ColorMixer\ColorRoutedEventArgs.cs" />
+    <Compile Include="ColorUtils.cs" />
     <Compile Include="ColorPatchContextMenu.cs" />
+    <Compile Include="GlyphTextBox.cs" />
+    <Compile Include="HslRgbColor.cs" />
     <Compile Include="Icon.cs" />
     <Compile Include="IconHelper.cs" />
     <Compile Include="ModernWindow.cs" />

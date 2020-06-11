@@ -24,10 +24,10 @@
         </Grid.RowDefinitions>
         
         <Label Content="Width:" HorizontalAlignment="Right" Margin="16, 0" />
-        <TextBox x:Name="WidthTextBox" Text="80" Margin="0, 4" Grid.Column="1"  Width="80" HorizontalAlignment="Left" LostFocus="WidthTextBox_OnLostFocus" />
+        <wpf:GlyphTextBox x:Name="WidthTextBox" Text="80" Margin="0, 4" Grid.Column="1"  Width="80" HorizontalAlignment="Left" LostFocus="WidthTextBox_OnLostFocus" />
 
         <Label Content="Height:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Margin="16, 0"  />
-        <TextBox x:Name="HeightTextBox" Text="80" Margin="0, 4" Grid.Row="1" Width="80" HorizontalAlignment="Left" Grid.Column="1" LostFocus="HeightTextBox_OnLostFocus" />
+        <wpf:GlyphTextBox x:Name="HeightTextBox" Text="80" Margin="0, 4" Grid.Row="1" Width="80" HorizontalAlignment="Left" Grid.Column="1" LostFocus="HeightTextBox_OnLostFocus" />
 
         <CheckBox x:Name="EnableCompressionCheckBox" IsChecked="True" Content="Compress" Grid.Row="2" Grid.Column="1" Margin="0, 16, 0, 4" />
         <TextBlock Foreground="{StaticResource BrushTextDisabled}" Text="(Disable the default compression to simplify reading the file into your custom application.)" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" />

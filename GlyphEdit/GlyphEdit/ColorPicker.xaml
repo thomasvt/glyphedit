@@ -6,16 +6,18 @@
         xmlns:colorMixer="clr-namespace:GlyphEdit.Wpf.ColorMixer;assembly=GlyphEdit.Wpf"
         xmlns:wpf="clr-namespace:GlyphEdit.Wpf;assembly=GlyphEdit.Wpf"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Title="Color picker" Height="400" Width="350" Background="#404040">
+        Title="Color picker" Height="450" Width="350" Background="#404040"
+        x:Name="root"
+        >
 
     <wpf:ModernWindow.Resources>
     </wpf:ModernWindow.Resources>
 
     <DockPanel Margin="0, 37, 0, 0">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="8" HorizontalAlignment="Right">
-            <Button Content="OK" Margin="0, 0, 8, 0" />
-            <Button Content="CANCEL" />
+            <Button Content="OK" Margin="0, 0, 8, 0" Click="Ok_Click" />
+            <Button IsCancel="True" Content="CANCEL" Click="Cancel_Click" />
         </StackPanel>
-        <colorMixer:ColorMixer Hue="0.5" Saturation="0.5" Luminance="0.5" />
+        <colorMixer:ColorMixer Color="{Binding ElementName=root, Path=Color}" />
     </DockPanel>
 </wpf:ModernWindow>
