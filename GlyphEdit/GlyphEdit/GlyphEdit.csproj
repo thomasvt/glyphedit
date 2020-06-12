@@ -332,9 +332,11 @@
     <Resource Include="Images\eye-dropper.png" />
     <Resource Include="Images\down.png" />
     <Resource Include="Images\up.png" />
-    <Content Include="Palettes\test.png">
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Palettes\Endesga32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" />

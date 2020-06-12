@@ -175,7 +175,8 @@ namespace GlyphEdit.Controls.BrushBar.PalettePicker
         private void SaveAndRefreshPalette()
         {
             UpdateColorPaletteFromGrid();
-            ColorGrid.InvalidateVisual(); // this is a bit messy to update the colors in the ColorGrid by re-set-ting the property with a changed collection. Should be ObservableCollection but meh...
+            ColorGrid.InvalidateVisual();
+            ColorGrid.InvalidateMeasure(); // eventhough InvalidateVisual() claims to force a full layout cycle, it doesn't happen without an InvalidateMeasure()
             MessageBus.Publish(new SaveCurrentColorPaletteCommand());
         }
 

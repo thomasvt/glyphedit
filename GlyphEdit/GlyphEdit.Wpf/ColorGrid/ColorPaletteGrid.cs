@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,7 +38,7 @@ namespace GlyphEdit.Wpf.ColorGrid
         protected override Size MeasureOverride(Size constraint)
         {
             if (ColorPatches == null || ColorPatches.Count == 0)
-                return Size.Empty;
+                return new Size(constraint.Width, RowCount * 16);
 
             // calculate desired size:
             var patchSize = constraint.Width / ColumnCount;
@@ -186,6 +185,11 @@ namespace GlyphEdit.Wpf.ColorGrid
                 {
                     if (o is ColorPaletteGrid colorGrid)
                     {
+                        if (!colorGrid.ColorPatches.Any())
+                        {
+                            colorGrid.RowCount = 1;
+                            return;
+                        }
                         var neededRowCount = colorGrid.ColorPatches.Max(p => p.GridLocation.Y) + 1;
                         if (neededRowCount > colorGrid.RowCount)
                             colorGrid.RowCount = neededRowCount;
